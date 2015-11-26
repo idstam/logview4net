@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SettingsFile CurrentProfile="(Default)" GeneratedClassNamespace="logview4net" GeneratedClassName="Settings1" xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings">
+  <Profiles>
+    <Profile Name="(Default)" />
+  </Profiles>
+  <Settings>
+    <Setting Name="BaseColor" Type="System.Drawing.Color" Scope="User" Roaming="false">
+      <Value Profile="(Default)">Khaki</Value>
+    </Setting>
+    <Setting Name="DarkColor" Type="System.Drawing.Color" Scope="User" Roaming="false">
+      <Value Profile="(Default)">Goldenrod</Value>
+    </Setting>
+    <Setting Name="LightColor" Type="System.String" Scope="User" Roaming="false">
+      <Value Profile="(Default)">LemonChiffon</Value>
+    </Setting>
+    <Setting Name="Logger" Type="System.Boolean" Scope="User" Roaming="false">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="LogPort" Type="System.Int32" Scope="User" Roaming="false">
+      <Value Profile="(Default)">9899</Value>
+    </Setting>
+    <Setting Name="ManifestUrl" Type="System.String" Scope="User" Roaming="false">
+      <Value Profile="(Default)">http://logview4net.com/dlfolder/logview4net.version</Value>
+    </Setting>
+    <Setting Name="NextManifestCheck" Type="System.DateTime" Scope="User" Roaming="false">
+      <Value Profile="(Default)">2012-11-01</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

@@ -1,0 +1,31 @@
+Index: src/App/ConfigureSession.Designer.cs
+===================================================================
+--- src/App/ConfigureSession.Designer.cs	(revision 376)
++++ src/App/ConfigureSession.Designer.cs	(working copy)
+@@ -75,8 +75,10 @@
+             this.btnLoad.Image = global::logview4net.Properties.Resources.cog_go;
+             this.btnLoad.Location = new System.Drawing.Point(12, 419);
+             this.btnLoad.Name = "btnLoad";
+-            this.btnLoad.Size = new System.Drawing.Size(25, 25);
++            this.btnLoad.Size = new System.Drawing.Size(71, 25);
+             this.btnLoad.TabIndex = 4;
++            this.btnLoad.Text = "Load";
++            this.btnLoad.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+             this.btnLoad.UseVisualStyleBackColor = true;
+             this.btnLoad.Click += new System.EventHandler(this.btnLoad_Click);
+             // 
+@@ -84,10 +86,12 @@
+             // 
+             this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+             this.btnSave.Image = global::logview4net.Properties.Resources.cog_edit;
+-            this.btnSave.Location = new System.Drawing.Point(43, 419);
++            this.btnSave.Location = new System.Drawing.Point(89, 419);
+             this.btnSave.Name = "btnSave";
+-            this.btnSave.Size = new System.Drawing.Size(25, 25);
++            this.btnSave.Size = new System.Drawing.Size(71, 25);
+             this.btnSave.TabIndex = 5;
++            this.btnSave.Text = "Save";
++            this.btnSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+             this.btnSave.UseVisualStyleBackColor = true;
+             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+             // 

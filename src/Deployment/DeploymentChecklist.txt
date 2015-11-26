@@ -1,0 +1,24 @@
+
+Update version in SolutionInfo and .version and SetVersion.cmd
+
+Run NUnit tests
+Compile for Release
+
+Make MSI
+Test MSI in VPC
+Tag in SVN
+Create screenshots (Screen[1 - 4].jpg) & (SmallScreen[1-4].jpg)
+Update PAD
+Update .version
+Release on SF
+Update/upload Documentation
+Upload pad
+Upload .version http://logview4net.com/dlfolder/logview4net.version
+Update description on jsisoft.com
+Update on d/l-sites
+	Softpedia.com
+	winsite.com
+	simtel.net
+	top-shareware.net
+	(googla för fler)
+	

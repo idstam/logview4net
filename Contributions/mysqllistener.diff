@@ -1,0 +1,1109 @@
+Index: src/App/ConfigureSession.cs
+===================================================================
+--- src/App/ConfigureSession.cs	(revision 362)
++++ src/App/ConfigureSession.cs	(working copy)
+@@ -172,6 +172,9 @@
+                 case "StdOutListener":
+                     ret = new ListenerConfigurator((IConfigurableListener)new StdOutListener(), _session);
+                     break;
++                case "MySqlListener":
++                    ret = new MySqlListenerConfigurator();
++                    break;
+                 default:
+                     throw new NotImplementedException(type);
+             }
+Index: src/App/ConfigureSession.Designer.cs
+===================================================================
+--- src/App/ConfigureSession.Designer.cs	(revision 362)
++++ src/App/ConfigureSession.Designer.cs	(working copy)
+@@ -110,6 +110,7 @@
+             "EventLogListener",
+             "FileListener",
+             "FolderListener",
++            "MySqlListener",
+             "RssListener",
+             "SqlListener",
+             "StdOutListener",
+Index: src/App/logview4net.csproj
+===================================================================
+--- src/App/logview4net.csproj	(revision 362)
++++ src/App/logview4net.csproj	(working copy)
+@@ -307,6 +307,7 @@
+     </EmbeddedResource>
+     <None Include="app.config">
+       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
++      <SubType>Designer</SubType>
+     </None>
+     <Content Include="App.ico" />
+     <Content Include="DefaultSession.xml" />
+@@ -362,6 +363,10 @@
+       <Project>{89826B9C-6230-479B-9130-B0B90FF0D3AB}</Project>
+       <Name>logview4net.mslisteners</Name>
+     </ProjectReference>
++    <ProjectReference Include="..\logview4net.mysqllistener\logview4net.mysqllistener.csproj">
++      <Project>{BF77AF0C-9D8E-4C39-B275-CAAC2AFF14AF}</Project>
++      <Name>logview4net.mysqllistener</Name>
++    </ProjectReference>
+   </ItemGroup>
+   <ItemGroup>
+     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+Index: src/Lib/MySql/MySql.Data.dll
+===================================================================
+Cannot display: file marked as a binary type.
+svn:mime-type = application/octet-stream
+
+Property changes on: src\Lib\MySql\MySql.Data.dll
+___________________________________________________________________
+Added: svn:mime-type
+   + application/octet-stream
+
+Index: src/logview4net.mysqllistener/logview4net.mysqllistener.csproj
+===================================================================
+--- src/logview4net.mysqllistener/logview4net.mysqllistener.csproj	(revision 0)
++++ src/logview4net.mysqllistener/logview4net.mysqllistener.csproj	(revision 0)
+@@ -0,0 +1,74 @@
++﻿<?xml version="1.0" encoding="utf-8"?>
++<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
++  <PropertyGroup>
++    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
++    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
++    <ProductVersion>8.0.30703</ProductVersion>
++    <SchemaVersion>2.0</SchemaVersion>
++    <ProjectGuid>{BF77AF0C-9D8E-4C39-B275-CAAC2AFF14AF}</ProjectGuid>
++    <OutputType>Library</OutputType>
++    <AppDesignerFolder>Properties</AppDesignerFolder>
++    <RootNamespace>logview4net</RootNamespace>
++    <AssemblyName>logview4net.mysqllistener</AssemblyName>
++    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
++    <FileAlignment>512</FileAlignment>
++    <TargetFrameworkProfile />
++  </PropertyGroup>
++  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
++    <DebugSymbols>true</DebugSymbols>
++    <DebugType>full</DebugType>
++    <Optimize>false</Optimize>
++    <OutputPath>bin\Debug\</OutputPath>
++    <DefineConstants>DEBUG;TRACE</DefineConstants>
++    <ErrorReport>prompt</ErrorReport>
++    <WarningLevel>4</WarningLevel>
++  </PropertyGroup>
++  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
++    <DebugType>pdbonly</DebugType>
++    <Optimize>true</Optimize>
++    <OutputPath>bin\Release\</OutputPath>
++    <DefineConstants>TRACE</DefineConstants>
++    <ErrorReport>prompt</ErrorReport>
++    <WarningLevel>4</WarningLevel>
++  </PropertyGroup>
++  <ItemGroup>
++    <Compile Include="MySqlListener.cs" />
++    <Compile Include="MySqlListenerConfigurator.cs">
++      <SubType>UserControl</SubType>
++    </Compile>
++    <Compile Include="MySqlListenerConfigurator.Designer.cs">
++      <DependentUpon>MySqlListenerConfigurator.cs</DependentUpon>
++    </Compile>
++    <Compile Include="Properties\AssemblyInfo.cs" />
++  </ItemGroup>
++  <ItemGroup>
++    <EmbeddedResource Include="MySqlListenerConfigurator.resx">
++      <DependentUpon>MySqlListenerConfigurator.cs</DependentUpon>
++    </EmbeddedResource>
++  </ItemGroup>
++  <ItemGroup>
++    <Reference Include="MySql.Data, Version=6.2.4.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
++      <SpecificVersion>False</SpecificVersion>
++      <HintPath>..\Lib\MySql\MySql.Data.dll</HintPath>
++    </Reference>
++    <Reference Include="System" />
++    <Reference Include="System.Data" />
++    <Reference Include="System.Drawing" />
++    <Reference Include="System.Windows.Forms" />
++    <Reference Include="System.XML" />
++  </ItemGroup>
++  <ItemGroup>
++    <ProjectReference Include="..\logview4net.core\logview4net.core.csproj">
++      <Project>{A7341CBC-91AD-4046-BB92-5DB51F282E1A}</Project>
++      <Name>logview4net.core</Name>
++    </ProjectReference>
++  </ItemGroup>
++  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
++  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
++       Other similar extension points exist, see Microsoft.Common.targets.
++  <Target Name="BeforeBuild">
++  </Target>
++  <Target Name="AfterBuild">
++  </Target>
++  -->
++</Project>
+\ No newline at end of file
+Index: src/logview4net.mysqllistener/MySqlListener.cs
+===================================================================
+--- src/logview4net.mysqllistener/MySqlListener.cs	(revision 0)
++++ src/logview4net.mysqllistener/MySqlListener.cs	(revision 0)
+@@ -0,0 +1,290 @@
++﻿/*
++ * This file is part of logview4net (logview4net.sourceforge.net)
++ * Copyright 2011 Botond B. Balazs
++ * 
++ * 
++ * This source code is released under the Artistic License 2.0.
++ */
++
++using System;
++using System.Collections.Generic;
++using System.Text;
++using System.Threading;
++using MySql.Data.MySqlClient;
++
++namespace logview4net.Listeners
++{
++    /// <summary>
++    /// A listener for MySQL database tables
++    /// </summary>
++    public class MySqlListener : IListener
++    {
++        /// <summary>
++        /// The thread the listener function (tail()) will run on
++        /// </summary>
++        private Thread _listenerThread;
++
++        /// <summary>
++        /// The log this listener will use if logging is enabled
++        /// </summary>
++        private ILog _log = Logger.GetLogger("logview4net.Listeners.MySqlListener");
++
++        /// <summary>
++        /// Indicates whether the listener is running
++        /// </summary>
++        private bool _isRunning = false;
++
++        /// <summary>
++        /// Gets or sets the name of the MySQL host the listener connects to
++        /// </summary>        
++        public string Server { get; set; }
++
++        private uint _port = 3306;
++        /// <summary>
++        /// Gets or sets the port to use when connecting to the MySQL host
++        /// </summary>
++        public uint Port
++        {
++            get { return _port; }
++            set { _port = value; }
++        }
++
++        /// <summary>
++        /// Gets or sets the user ID to use when connecting to the MySQL host
++        /// </summary>
++        public string User { get; set; }        
++
++        /// <summary>
++        /// Gets or sets the password to use when connecting to the MySQL host
++        /// </summary>
++        public string Password { get; set; }
++
++        /// <summary>
++        /// Gets or sets the database to use when connecting to the MySQL host
++        /// </summary>
++        public string Database { get; set; }
++
++        /// <summary>
++        /// Gets or sets the table to listen on
++        /// </summary>
++        public string Table { get; set; }
++
++        private bool _startAtEnd = true;
++        /// <summary>
++        /// Gets or sets a value determining whether only new or all rows are returned
++        /// when the listener starts.
++        /// </summary>
++        public bool StartAtEnd 
++        {
++            get { return _startAtEnd; }
++            set { _startAtEnd = value; }
++        }
++
++
++        /// <summary>
++        /// Gets or sets the prefix to be attached to messages from this listener
++        /// when displaying them
++        /// </summary>
++        public string MessagePrefix { get; set; }
++
++        /// <summary>
++        /// Gets a value determining whether the listener can be restarted
++        /// </summary>
++        public bool IsRestartable 
++        {
++            get { return true; } 
++        }
++
++        private Session _session;
++        /// <summary>
++        /// Sets the <see cref="Session"/> this listener belongs to
++        /// </summary>
++        public Session Session 
++        {
++            set { _session = value; } 
++        }
++
++        /// <summary>
++        /// Gets a value indicating whether the listener is running
++        /// </summary>
++        public bool IsRunning 
++        {
++            get { return _isRunning; }
++        }
++
++        private string _hash = Guid.NewGuid().ToString();
++        /// <summary>
++        /// Gets a value that uniquely identifies this listener instance
++        /// </summary>
++        public string Hash 
++        { 
++            get { return _hash; } 
++        }
++
++        /// <summary>
++        /// Gets or sets a value determining whether the listener has been configured
++        /// </summary>
++        public bool IsConfigured { get; set; }
++
++        private int _pollInterval = 3000;
++        /// <summary>
++        /// Gets or sets the timeout, in milliseconds, after polling the database
++        /// </summary>
++        public int Interval
++        {
++            get { return _pollInterval; }
++            set { _pollInterval = value; }
++        }
++
++        /// <summary>
++        /// True if this listener has no historic data.
++        /// </summary>
++        public bool OnlyTail
++        {
++            get { return _startAtEnd; }
++            set { _startAtEnd = value; }
++        }
++
++        /// <summary>
++        /// Runs on a separate thread, queries the database for new rows, and adds the corresponding
++        /// events to the <see cref="Session"/> if needed.
++        /// </summary>
++        private void tail()
++        {
++            if (_log.Enabled) _log.Debug(GetHashCode(), "tail");
++
++            MySqlConnection conn = null;
++            MySqlCommand noLockCommand = null;
++            MySqlCommand countCommand = null;
++            MySqlCommand selectCommand = null;
++
++            try
++            {
++                conn = new MySqlConnection(GetConnectionString());
++                conn.Open();
++
++                noLockCommand = new MySqlCommand("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED", conn);
++                countCommand = new MySqlCommand(string.Format("SELECT COUNT(*) FROM `{0}`", Table), conn);
++                selectCommand = null;
++
++                noLockCommand.ExecuteNonQuery();
++                Int64 lastRow = StartAtEnd ? (Int64)countCommand.ExecuteScalar() : 0;
++
++                while (true)
++                {
++                    Int64 newLastRow = (Int64)countCommand.ExecuteScalar();
++
++                    if (newLastRow > lastRow) // check if there are new rows
++                    {
++                        selectCommand = new MySqlCommand(
++                            string.Format("SELECT * FROM `{0}` LIMIT @offset, @length", Table), conn);
++                        selectCommand.Parameters.AddWithValue("@offset", lastRow);
++                        selectCommand.Parameters.AddWithValue("@length", newLastRow - lastRow);                        
++                        MySqlDataReader reader = selectCommand.ExecuteReader();
++                        List<string> lines = new List<string>();
++                        lastRow = newLastRow;
++
++                        while (reader.Read())
++                        {
++                            StringBuilder sb = new StringBuilder();
++                            for (int i = 0; i < reader.FieldCount; i++)
++                            {
++                                sb.AppendFormat(string.Format("{0} = {1} ", reader.GetName(i), reader.GetString(i)));
++                            }
++                            lines.Add(sb.ToString());
++                        }
++
++                        reader.Close();
++                        selectCommand.Dispose();
++                        _session.AddEvent(this, lines);
++                    }
++
++                    System.Threading.Thread.Sleep(Interval);
++                }
++
++                conn.Close();
++            }
++            catch (Exception ex)
++            {
++                _log.Error(GetHashCode(), ex.Message, ex);
++            }
++            finally
++            {
++                if (noLockCommand != null) noLockCommand.Dispose();
++                if (countCommand != null) countCommand.Dispose();
++                if (selectCommand != null) selectCommand.Dispose();
++                if (conn != null) conn.Dispose();
++            }
++        }
++
++        /// <summary>
++        /// Builds a connection string from the Server, Port, User, Password and Database properties
++        /// </summary>
++        /// <returns>A MySQL connection string</returns>
++        private string GetConnectionString()
++        {
++            MySqlConnectionStringBuilder csb = new MySqlConnectionStringBuilder();
++            csb.Server = Server;
++            csb.Port = Port;
++            csb.UserID = User;
++            csb.Password = Password;
++            csb.Database = Database;
++            return csb.ConnectionString;
++        }
++
++        /// <summary>
++        /// Gets the configuration node for this listener.
++        /// </summary>
++        /// <returns></returns>
++        public string GetConfiguration()
++        {
++            if (_log.Enabled) _log.Debug(GetHashCode(), "GetConfiguration");
++            return ListenerHelper.SerializeListener(this);
++        }
++
++        /// <summary>
++        /// Stops the listener
++        /// </summary>
++        public void Stop()
++        {
++            if (_log.Enabled) _log.Debug(GetHashCode(), "Stop");
++            if (_listenerThread != null)
++            {
++                _listenerThread.Abort();
++                _log.Info(GetHashCode(), "Stopped checking " + Table + " on " + Server + "/" + Database);
++            }
++
++            _isRunning = false;
++        }
++
++        /// <summary>
++        /// Starts the listener
++        /// </summary>
++        public void Start()
++        {
++            if (_log.Enabled) _log.Debug(GetHashCode(), "Start");
++            ThreadStart ts = new ThreadStart(tail);
++            _listenerThread = new Thread(ts);
++            _listenerThread.Start();
++
++            _isRunning = true;
++        }
++
++        /// <summary>
++        /// Gets a new configurator.
++        /// </summary>
++        /// <returns></returns>
++        public IListenerConfigurator GetNewConfigurator()
++        {
++            return new MySqlListenerConfigurator(this);
++        }
++
++        /// <summary>
++        /// Disposes of the listener
++        /// </summary>
++        public void Dispose()
++        {
++            _log.Debug(GetHashCode(), "Disposing a MySQL Listener (nothing to dispose)");
++        }
++    }
++}
+Index: src/logview4net.mysqllistener/MySqlListenerConfigurator.cs
+===================================================================
+--- src/logview4net.mysqllistener/MySqlListenerConfigurator.cs	(revision 0)
++++ src/logview4net.mysqllistener/MySqlListenerConfigurator.cs	(revision 0)
+@@ -0,0 +1,222 @@
++﻿/*
++ * This file is part of logview4net (logview4net.sourceforge.net)
++ * Copyright 2011 Botond B. Balazs
++ * 
++ * 
++ * This source code is released under the Artistic License 2.0.
++ */
++
++using System;
++using System.Data;
++using System.IO;
++using System.Windows.Forms;
++using System.Xml.Serialization;
++using MySql.Data.MySqlClient;
++
++namespace logview4net.Listeners
++{
++    /// <summary>
++    /// Configurator GUI for the MySQL listener
++    /// </summary>
++    public partial class MySqlListenerConfigurator : UserControl, IListenerConfigurator
++    {
++        private ILog _log = Logger.GetLogger("logview4net.Listeners.SqlListenerConfigurator");
++        private MySqlListener _listener = new MySqlListener();
++
++        /// <summary>
++        /// Initializes a new instance of the <see cref="MySqlListenerConfigurator"/> class.
++        /// </summary>
++        public MySqlListenerConfigurator()
++        {
++            if (_log.Enabled) _log.Debug(GetHashCode(), "MySqlListenerConfigurator");
++            InitializeComponent();
++        }
++
++        /// <summary>
++        /// Initializes a new instance of the <see cref="MySqlListenerConfigurator"/> class.
++        /// </summary>
++        /// <param name="listener">The listener to configure.</param>
++        public MySqlListenerConfigurator(IListener listener)
++        {
++            if (_log.Enabled) _log.Debug(GetHashCode(), "MySqlListenerConfigurator(IListener)");
++            InitializeComponent();
++            _listener = (MySqlListener)listener;
++            UpdateControls();
++
++            txtServer.Enabled = false;
++            txtPort.Enabled = false;
++            txtUser.Enabled = false;
++            txtPassword.Enabled = false;
++            cboDatabase.Enabled = false;
++            cboTable.Enabled = false;
++            chkTail.Enabled = false;
++        }
++
++        #region IListenerConfigurator Members
++
++        public string Caption
++        {
++            get { return "MySQL listener: " + _listener.MessagePrefix; }
++        }
++
++        public string Configuration
++        {
++            get { return _listener.GetConfiguration(); }
++            set
++            {
++                if (_log.Enabled) _log.Debug(GetHashCode(), "Configuration Set");
++                XmlSerializer xs = new XmlSerializer(_listener.GetType());
++                StringReader sr = new StringReader(value);
++                _listener = (MySqlListener)xs.Deserialize(sr);
++
++                UpdateControls();
++            }
++        }
++
++        public IListener Listener
++        {
++            get { return _listener; }
++            set { _listener = (MySqlListener)value; }
++        }
++
++        public void UpdateControls()
++        {
++            txtServer.Text = _listener.Server;
++            txtUser.Text = _listener.User;
++            txtPort.Text = _listener.Port.ToString();
++            txtPassword.Text = _listener.Password;
++            txtPrefix.Text = _listener.MessagePrefix;
++            cboDatabase.Text = _listener.Database;
++            cboTable.Text = _listener.Table;
++            txtInterval.Text = _listener.Interval.ToString();
++            chkTail.Checked = _listener.StartAtEnd;
++        }
++
++        #endregion
++
++        #region Event Handlers
++
++        private void txtPrefix_TextChanged(object sender, EventArgs e)
++        {
++            _listener.MessagePrefix = txtPrefix.Text;
++            Text = txtPrefix.Text;
++        }
++
++        private void txtServer_TextChanged(object sender, EventArgs e)
++        {
++            _listener.Server = txtServer.Text;
++        }
++
++        private void txtUser_TextChanged(object sender, EventArgs e)
++        {
++            _listener.User = txtUser.Text;
++        }
++
++        private void txtPassword_TextChanged(object sender, EventArgs e)
++        {
++            _listener.Password = txtPassword.Text;
++        }
++
++        private void cboDatabase_SelectedIndexChanged(object sender, EventArgs e)
++        {
++            _listener.Database = cboDatabase.Text;
++        }
++
++        private void cboTable_SelectedIndexChanged(object sender, EventArgs e)
++        {
++            _listener.Table = cboTable.Text;
++        }
++
++        private void txtPort_TextChanged(object sender, EventArgs e)
++        {
++            uint port;
++            if (uint.TryParse(txtPort.Text, out port))
++            {
++                _listener.Port = port;
++            }
++        }
++
++        private void txtInterval_TextChanged(object sender, EventArgs e)
++        {
++            int foo;
++            if (int.TryParse(txtInterval.Text, out foo))
++            {
++                _listener.Interval = foo;
++            }
++        }
++
++        private void chkTail_CheckedChanged(object sender, EventArgs e)
++        {
++            _listener.StartAtEnd = chkTail.Checked;
++        }
++
++        private void cboDatabase_DropDown(object sender, EventArgs e)
++        {
++            Cursor = Cursors.WaitCursor;
++            fillCombo((ComboBox)sender, "SHOW DATABASES;", "Database");
++            Cursor = Cursors.Default;
++        }
++
++        private void cboTable_DropDown(object sender, EventArgs e)
++        {
++            Cursor = Cursors.WaitCursor;
++            string dbName = cboDatabase.Text;
++            string sql = string.Format("use `{0}`; SHOW TABLES;", dbName);
++            string columnName = string.Format("Tables_in_{0}", dbName);
++            fillCombo((ComboBox)sender, sql, columnName);
++            Cursor = Cursors.Default;
++        }
++
++        #endregion
++
++        #region Helpers
++
++        private void fillCombo(ComboBox cbo, string sql, string columnName)
++        {
++            if (_log.Enabled) _log.Debug(GetHashCode(), "fillCombo " + cbo.Name + " " + sql + " " + columnName);
++
++            MySqlConnection cn = getOpenConnection();
++            if (cn == null)
++            {
++                return;
++            }
++            else
++            {
++                MySqlDataAdapter da = new MySqlDataAdapter(sql, cn);
++                DataSet ds = new DataSet();
++                da.Fill(ds);
++                cbo.DataSource = ds.Tables[0];
++                cbo.DisplayMember = columnName;
++                da.Dispose();
++                cn.Dispose();
++            }
++        }
++
++        private MySqlConnection getOpenConnection()
++        {
++            if (_log.Enabled) _log.Debug(GetHashCode(), "getOpenConnection");
++            try
++            {
++                MySqlConnectionStringBuilder csb = new MySqlConnectionStringBuilder();
++                csb.UserID = txtUser.Text;
++                csb.Password = txtPassword.Text;
++                csb.Server = txtServer.Text;
++
++                uint port;
++                if (uint.TryParse(txtPort.Text, out port)) csb.Port = port;
++
++                MySqlConnection cn = new MySqlConnection(csb.ConnectionString);
++                cn.Open();
++
++                return cn;
++            }
++            catch (Exception ex)
++            {
++                _log.Debug(GetHashCode(), "Tried to open database.", ex);
++                return null;
++            }
++        }
++
++        #endregion
++    }
++}
+Index: src/logview4net.mysqllistener/MySqlListenerConfigurator.Designer.cs
+===================================================================
+--- src/logview4net.mysqllistener/MySqlListenerConfigurator.Designer.cs	(revision 0)
++++ src/logview4net.mysqllistener/MySqlListenerConfigurator.Designer.cs	(revision 0)
+@@ -0,0 +1,246 @@
++﻿namespace logview4net.Listeners
++{
++    partial class MySqlListenerConfigurator
++    {
++        /// <summary> 
++        /// Required designer variable.
++        /// </summary>
++        private System.ComponentModel.IContainer components = null;
++
++        /// <summary> 
++        /// Clean up any resources being used.
++        /// </summary>
++        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
++        protected override void Dispose(bool disposing)
++        {
++            if (disposing && (components != null))
++            {
++                components.Dispose();
++            }
++            base.Dispose(disposing);
++        }
++
++        #region Component Designer generated code
++
++        /// <summary> 
++        /// Required method for Designer support - do not modify 
++        /// the contents of this method with the code editor.
++        /// </summary>
++        private void InitializeComponent()
++        {
++            this.txtInterval = new System.Windows.Forms.TextBox();
++            this.label9 = new System.Windows.Forms.Label();
++            this.cboTable = new System.Windows.Forms.ComboBox();
++            this.label7 = new System.Windows.Forms.Label();
++            this.cboDatabase = new System.Windows.Forms.ComboBox();
++            this.label6 = new System.Windows.Forms.Label();
++            this.txtPassword = new System.Windows.Forms.TextBox();
++            this.label3 = new System.Windows.Forms.Label();
++            this.txtUser = new System.Windows.Forms.TextBox();
++            this.label1 = new System.Windows.Forms.Label();
++            this.txtServer = new System.Windows.Forms.TextBox();
++            this.label2 = new System.Windows.Forms.Label();
++            this.chkTail = new System.Windows.Forms.CheckBox();
++            this.txtPrefix = new System.Windows.Forms.TextBox();
++            this.label4 = new System.Windows.Forms.Label();
++            this.txtPort = new System.Windows.Forms.TextBox();
++            this.label5 = new System.Windows.Forms.Label();
++            this.SuspendLayout();
++            // 
++            // txtInterval
++            // 
++            this.txtInterval.Location = new System.Drawing.Point(328, 113);
++            this.txtInterval.Name = "txtInterval";
++            this.txtInterval.Size = new System.Drawing.Size(42, 20);
++            this.txtInterval.TabIndex = 35;
++            this.txtInterval.Text = "3000";
++            this.txtInterval.TextChanged += new System.EventHandler(this.txtInterval_TextChanged);
++            // 
++            // label9
++            // 
++            this.label9.Location = new System.Drawing.Point(226, 116);
++            this.label9.Name = "label9";
++            this.label9.Size = new System.Drawing.Size(96, 18);
++            this.label9.TabIndex = 34;
++            this.label9.Text = "Poll interval (ms)";
++            // 
++            // cboTable
++            // 
++            this.cboTable.FormattingEnabled = true;
++            this.cboTable.Location = new System.Drawing.Point(328, 86);
++            this.cboTable.Name = "cboTable";
++            this.cboTable.Size = new System.Drawing.Size(153, 21);
++            this.cboTable.TabIndex = 31;
++            this.cboTable.DropDown += new System.EventHandler(this.cboTable_DropDown);
++            this.cboTable.SelectedIndexChanged += new System.EventHandler(this.cboTable_SelectedIndexChanged);
++            // 
++            // label7
++            // 
++            this.label7.Location = new System.Drawing.Point(226, 89);
++            this.label7.Name = "label7";
++            this.label7.Size = new System.Drawing.Size(90, 18);
++            this.label7.TabIndex = 30;
++            this.label7.Text = "Table";
++            // 
++            // cboDatabase
++            // 
++            this.cboDatabase.FormattingEnabled = true;
++            this.cboDatabase.Location = new System.Drawing.Point(328, 60);
++            this.cboDatabase.Name = "cboDatabase";
++            this.cboDatabase.Size = new System.Drawing.Size(153, 21);
++            this.cboDatabase.TabIndex = 29;
++            this.cboDatabase.DropDown += new System.EventHandler(this.cboDatabase_DropDown);
++            this.cboDatabase.SelectedIndexChanged += new System.EventHandler(this.cboDatabase_SelectedIndexChanged);
++            // 
++            // label6
++            // 
++            this.label6.Location = new System.Drawing.Point(226, 63);
++            this.label6.Name = "label6";
++            this.label6.Size = new System.Drawing.Size(90, 18);
++            this.label6.TabIndex = 28;
++            this.label6.Text = "Database";
++            // 
++            // txtPassword
++            // 
++            this.txtPassword.Location = new System.Drawing.Point(67, 86);
++            this.txtPassword.Name = "txtPassword";
++            this.txtPassword.Size = new System.Drawing.Size(153, 20);
++            this.txtPassword.TabIndex = 26;
++            this.txtPassword.UseSystemPasswordChar = true;
++            this.txtPassword.TextChanged += new System.EventHandler(this.txtPassword_TextChanged);
++            // 
++            // label3
++            // 
++            this.label3.Location = new System.Drawing.Point(3, 89);
++            this.label3.Name = "label3";
++            this.label3.Size = new System.Drawing.Size(90, 18);
++            this.label3.TabIndex = 25;
++            this.label3.Text = "Password";
++            // 
++            // txtUser
++            // 
++            this.txtUser.Location = new System.Drawing.Point(67, 60);
++            this.txtUser.Name = "txtUser";
++            this.txtUser.Size = new System.Drawing.Size(153, 20);
++            this.txtUser.TabIndex = 24;
++            this.txtUser.TextChanged += new System.EventHandler(this.txtUser_TextChanged);
++            // 
++            // label1
++            // 
++            this.label1.Location = new System.Drawing.Point(3, 63);
++            this.label1.Name = "label1";
++            this.label1.Size = new System.Drawing.Size(90, 18);
++            this.label1.TabIndex = 23;
++            this.label1.Text = "User";
++            // 
++            // txtServer
++            // 
++            this.txtServer.Location = new System.Drawing.Point(67, 34);
++            this.txtServer.Name = "txtServer";
++            this.txtServer.Size = new System.Drawing.Size(153, 20);
++            this.txtServer.TabIndex = 22;
++            this.txtServer.TextChanged += new System.EventHandler(this.txtServer_TextChanged);
++            // 
++            // label2
++            // 
++            this.label2.Location = new System.Drawing.Point(3, 37);
++            this.label2.Name = "label2";
++            this.label2.Size = new System.Drawing.Size(90, 18);
++            this.label2.TabIndex = 21;
++            this.label2.Text = "Server";
++            // 
++            // chkTail
++            // 
++            this.chkTail.Checked = true;
++            this.chkTail.CheckState = System.Windows.Forms.CheckState.Checked;
++            this.chkTail.Location = new System.Drawing.Point(400, 114);
++            this.chkTail.Name = "chkTail";
++            this.chkTail.Size = new System.Drawing.Size(81, 18);
++            this.chkTail.TabIndex = 36;
++            this.chkTail.Text = "Start at end";
++            this.chkTail.CheckedChanged += new System.EventHandler(this.chkTail_CheckedChanged);
++            // 
++            // txtPrefix
++            // 
++            this.txtPrefix.Location = new System.Drawing.Point(67, 8);
++            this.txtPrefix.Name = "txtPrefix";
++            this.txtPrefix.Size = new System.Drawing.Size(60, 20);
++            this.txtPrefix.TabIndex = 20;
++            this.txtPrefix.Text = "MySQL";
++            this.txtPrefix.TextChanged += new System.EventHandler(this.txtPrefix_TextChanged);
++            // 
++            // label4
++            // 
++            this.label4.Location = new System.Drawing.Point(4, 11);
++            this.label4.Name = "label4";
++            this.label4.Size = new System.Drawing.Size(57, 18);
++            this.label4.TabIndex = 19;
++            this.label4.Text = "Prefix";
++            // 
++            // txtPort
++            // 
++            this.txtPort.Location = new System.Drawing.Point(328, 34);
++            this.txtPort.Name = "txtPort";
++            this.txtPort.Size = new System.Drawing.Size(153, 20);
++            this.txtPort.TabIndex = 27;
++            this.txtPort.Text = "3306";
++            this.txtPort.TextChanged += new System.EventHandler(this.txtPort_TextChanged);
++            // 
++            // label5
++            // 
++            this.label5.Location = new System.Drawing.Point(226, 37);
++            this.label5.Name = "label5";
++            this.label5.Size = new System.Drawing.Size(90, 18);
++            this.label5.TabIndex = 37;
++            this.label5.Text = "Port";
++            // 
++            // MySqlListenerConfigurator
++            // 
++            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
++            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
++            this.Controls.Add(this.txtPort);
++            this.Controls.Add(this.label5);
++            this.Controls.Add(this.txtInterval);
++            this.Controls.Add(this.label9);
++            this.Controls.Add(this.cboTable);
++            this.Controls.Add(this.label7);
++            this.Controls.Add(this.cboDatabase);
++            this.Controls.Add(this.label6);
++            this.Controls.Add(this.txtPassword);
++            this.Controls.Add(this.label3);
++            this.Controls.Add(this.txtUser);
++            this.Controls.Add(this.label1);
++            this.Controls.Add(this.txtServer);
++            this.Controls.Add(this.label2);
++            this.Controls.Add(this.chkTail);
++            this.Controls.Add(this.txtPrefix);
++            this.Controls.Add(this.label4);
++            this.Name = "MySqlListenerConfigurator";
++            this.Size = new System.Drawing.Size(532, 143);
++            this.ResumeLayout(false);
++            this.PerformLayout();
++
++        }
++
++        #endregion
++
++        private System.Windows.Forms.TextBox txtInterval;
++        private System.Windows.Forms.Label label9;
++        private System.Windows.Forms.ComboBox cboTable;
++        private System.Windows.Forms.Label label7;
++        private System.Windows.Forms.ComboBox cboDatabase;
++        private System.Windows.Forms.Label label6;
++        private System.Windows.Forms.TextBox txtPassword;
++        private System.Windows.Forms.Label label3;
++        private System.Windows.Forms.TextBox txtUser;
++        private System.Windows.Forms.Label label1;
++        private System.Windows.Forms.TextBox txtServer;
++        private System.Windows.Forms.Label label2;
++        private System.Windows.Forms.CheckBox chkTail;
++        private System.Windows.Forms.TextBox txtPrefix;
++        private System.Windows.Forms.Label label4;
++        private System.Windows.Forms.TextBox txtPort;
++        private System.Windows.Forms.Label label5;
++
++    }
++}
+Index: src/logview4net.mysqllistener/MySqlListenerConfigurator.resx
+===================================================================
+--- src/logview4net.mysqllistener/MySqlListenerConfigurator.resx	(revision 0)
++++ src/logview4net.mysqllistener/MySqlListenerConfigurator.resx	(revision 0)
+@@ -0,0 +1,120 @@
++﻿<?xml version="1.0" encoding="utf-8"?>
++<root>
++  <!-- 
++    Microsoft ResX Schema 
++    
++    Version 2.0
++    
++    The primary goals of this format is to allow a simple XML format 
++    that is mostly human readable. The generation and parsing of the 
++    various data types are done through the TypeConverter classes 
++    associated with the data types.
++    
++    Example:
++    
++    ... ado.net/XML headers & schema ...
++    <resheader name="resmimetype">text/microsoft-resx</resheader>
++    <resheader name="version">2.0</resheader>
++    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
++    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
++    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
++    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
++    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
++        <value>[base64 mime encoded serialized .NET Framework object]</value>
++    </data>
++    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
++        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
++        <comment>This is a comment</comment>
++    </data>
++                
++    There are any number of "resheader" rows that contain simple 
++    name/value pairs.
++    
++    Each data row contains a name, and value. The row also contains a 
++    type or mimetype. Type corresponds to a .NET class that support 
++    text/value conversion through the TypeConverter architecture. 
++    Classes that don't support this are serialized and stored with the 
++    mimetype set.
++    
++    The mimetype is used for serialized objects, and tells the 
++    ResXResourceReader how to depersist the object. This is currently not 
++    extensible. For a given mimetype the value must be set accordingly:
++    
++    Note - application/x-microsoft.net.object.binary.base64 is the format 
++    that the ResXResourceWriter will generate, however the reader can 
++    read any of the formats listed below.
++    
++    mimetype: application/x-microsoft.net.object.binary.base64
++    value   : The object must be serialized with 
++            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
++            : and then encoded with base64 encoding.
++    
++    mimetype: application/x-microsoft.net.object.soap.base64
++    value   : The object must be serialized with 
++            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
++            : and then encoded with base64 encoding.
++
++    mimetype: application/x-microsoft.net.object.bytearray.base64
++    value   : The object must be serialized into a byte array 
++            : using a System.ComponentModel.TypeConverter
++            : and then encoded with base64 encoding.
++    -->
++  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
++    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
++    <xsd:element name="root" msdata:IsDataSet="true">
++      <xsd:complexType>
++        <xsd:choice maxOccurs="unbounded">
++          <xsd:element name="metadata">
++            <xsd:complexType>
++              <xsd:sequence>
++                <xsd:element name="value" type="xsd:string" minOccurs="0" />
++              </xsd:sequence>
++              <xsd:attribute name="name" use="required" type="xsd:string" />
++              <xsd:attribute name="type" type="xsd:string" />
++              <xsd:attribute name="mimetype" type="xsd:string" />
++              <xsd:attribute ref="xml:space" />
++            </xsd:complexType>
++          </xsd:element>
++          <xsd:element name="assembly">
++            <xsd:complexType>
++              <xsd:attribute name="alias" type="xsd:string" />
++              <xsd:attribute name="name" type="xsd:string" />
++            </xsd:complexType>
++          </xsd:element>
++          <xsd:element name="data">
++            <xsd:complexType>
++              <xsd:sequence>
++                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
++                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
++              </xsd:sequence>
++              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
++              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
++              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
++              <xsd:attribute ref="xml:space" />
++            </xsd:complexType>
++          </xsd:element>
++          <xsd:element name="resheader">
++            <xsd:complexType>
++              <xsd:sequence>
++                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
++              </xsd:sequence>
++              <xsd:attribute name="name" type="xsd:string" use="required" />
++            </xsd:complexType>
++          </xsd:element>
++        </xsd:choice>
++      </xsd:complexType>
++    </xsd:element>
++  </xsd:schema>
++  <resheader name="resmimetype">
++    <value>text/microsoft-resx</value>
++  </resheader>
++  <resheader name="version">
++    <value>2.0</value>
++  </resheader>
++  <resheader name="reader">
++    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
++  </resheader>
++  <resheader name="writer">
++    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
++  </resheader>
++</root>
+\ No newline at end of file
+Index: src/logview4net.mysqllistener/Properties/AssemblyInfo.cs
+===================================================================
+--- src/logview4net.mysqllistener/Properties/AssemblyInfo.cs	(revision 0)
++++ src/logview4net.mysqllistener/Properties/AssemblyInfo.cs	(revision 0)
+@@ -0,0 +1,36 @@
++﻿using System.Reflection;
++using System.Runtime.CompilerServices;
++using System.Runtime.InteropServices;
++
++// General Information about an assembly is controlled through the following 
++// set of attributes. Change these attribute values to modify the information
++// associated with an assembly.
++[assembly: AssemblyTitle("logview4net.mysqllistener")]
++[assembly: AssemblyDescription("")]
++[assembly: AssemblyConfiguration("")]
++[assembly: AssemblyCompany("")]
++[assembly: AssemblyProduct("logview4net.mysqllistener")]
++[assembly: AssemblyCopyright("Copyright ©  2011")]
++[assembly: AssemblyTrademark("")]
++[assembly: AssemblyCulture("")]
++
++// Setting ComVisible to false makes the types in this assembly not visible 
++// to COM components.  If you need to access a type in this assembly from 
++// COM, set the ComVisible attribute to true on that type.
++[assembly: ComVisible(false)]
++
++// The following GUID is for the ID of the typelib if this project is exposed to COM
++[assembly: Guid("2d24b80e-f3d5-4a23-9722-8c0b708e25b1")]
++
++// Version information for an assembly consists of the following four values:
++//
++//      Major Version
++//      Minor Version 
++//      Build Number
++//      Revision
++//
++// You can specify all the values or you can default the Build and Revision Numbers 
++// by using the '*' as shown below:
++// [assembly: AssemblyVersion("1.0.*")]
++[assembly: AssemblyVersion("1.0.0.0")]
++[assembly: AssemblyFileVersion("1.0.0.0")]
+Index: src/logview4net.sln
+===================================================================
+--- src/logview4net.sln	(revision 362)
++++ src/logview4net.sln	(working copy)
+@@ -25,6 +25,8 @@
+ EndProject
+ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "logview4net.wpf", "logview4net.wpf\logview4net.wpf.csproj", "{2C52D8CB-3463-45C5-ADBE-FBED245DE383}"
+ EndProject
++Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "logview4net.mysqllistener", "logview4net.mysqllistener\logview4net.mysqllistener.csproj", "{BF77AF0C-9D8E-4C39-B275-CAAC2AFF14AF}"
++EndProject
+ Global
+ 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+ 		Debug|Any CPU = Debug|Any CPU
+@@ -93,6 +95,16 @@
+ 		{2C52D8CB-3463-45C5-ADBE-FBED245DE383}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+ 		{2C52D8CB-3463-45C5-ADBE-FBED245DE383}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+ 		{2C52D8CB-3463-45C5-ADBE-FBED245DE383}.Release|x86.ActiveCfg = Release|Any CPU
++		{BF77AF0C-9D8E-4C39-B275-CAAC2AFF14AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
++		{BF77AF0C-9D8E-4C39-B275-CAAC2AFF14AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
++		{BF77AF0C-9D8E-4C39-B275-CAAC2AFF14AF}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
++		{BF77AF0C-9D8E-4C39-B275-CAAC2AFF14AF}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
++		{BF77AF0C-9D8E-4C39-B275-CAAC2AFF14AF}.Debug|x86.ActiveCfg = Debug|Any CPU
++		{BF77AF0C-9D8E-4C39-B275-CAAC2AFF14AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
++		{BF77AF0C-9D8E-4C39-B275-CAAC2AFF14AF}.Release|Any CPU.Build.0 = Release|Any CPU
++		{BF77AF0C-9D8E-4C39-B275-CAAC2AFF14AF}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
++		{BF77AF0C-9D8E-4C39-B275-CAAC2AFF14AF}.Release|Mixed Platforms.Build.0 = Release|Any CPU
++		{BF77AF0C-9D8E-4C39-B275-CAAC2AFF14AF}.Release|x86.ActiveCfg = Release|Any CPU
+ 	EndGlobalSection
+ 	GlobalSection(SolutionProperties) = preSolution
+ 		HideSolutionNode = FALSE

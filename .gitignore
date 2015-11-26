@@ -194,3 +194,14 @@ FakesAssemblies/
 
 # Visual Studio 6 workspace options file
 *.opt
+OldBinaries/*
+Lib/*
+logview4net_setup.exe
+site_hugo/public/*
+site_hugo/themes/hyde/*
+*sync-conflict*
+src/Help/Online/*
+src/Help/*
+src/sign_log.txt
+src/sign_log_app.txt
+src/sign_log_installer.txt

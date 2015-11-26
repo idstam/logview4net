@@ -1,0 +1,88 @@
+{{ template "theme/chrome/head.html" . }}
+<body>
+    <div class="content container">
+		<div id="page">
+			<div id="header">
+				<div class="header_wrapper">
+				<div class="header_left">
+					<h1><a href="{{ .Site.BaseUrl }}">logview4net</a></h1>
+					<h2>a log viewer (tail) for multiple sources</h2>
+				</div>		
+				<div class="header_right">
+					<ul>
+						<li><a href="{{ .Site.BaseUrl }}">Home</a></li>
+						<li class="page_item"><a href="http://jsi.se">Contact Me</a></li>
+						<li class="page_item"><a href="{{ .Site.BaseUrl }}/links/">Links</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div id="container">
+		  <div id="main">
+    		<div class="post">		
+
+			<div class="title">
+				<h2>A free (open source) log monitor / log viewer</h2>
+		  </div><!-- end title -->	
+		      <div class="entry">
+					<ul>
+						<li>Files and folders</li>
+						<li>Incomming UDP traffic</li>
+						<li>EventLogs</li>
+						<li>SQL- Server tables</li>
+						<li>Atom and RSS feeds</li>
+						<li>StdOut and StdErr</li>
+						<li>Multiple actions, such as highlight, ignore and sound, based on event content.</li>
+						<li>Supports multiple simultaneous listeners in each session.</li>
+						<li>Supports several simultaneous sessions (MDI).</li>
+					</ul>
+					<p><a href="{{ .Site.BaseUrl }}/go/download/"><strong>DOWNLOAD</strong></a> (Requires the <a href="http://www.microsoft.com/downloads/details.aspx?familyid=0856eacb-4362-4b0d-8edd-aab15c5e04f5&amp;displaylang=en" target="_blank">Microsoft .NET Framework 2.0</a>)</p>
+					<p>Here is the PAD-file: <a href="{{ .Site.BaseUrl }}/dlfolder/logview4net.pad.xml">http://logview4net.com/dlfolder/logview4net.pad.xml</a></p>
+					<p>logview4net is released under the <a href="http://www.perlfoundation.org/artistic_license_2_0" target="_blank">Perl Artistic License 2.0</a></p>
+					<p class="wp-flattr-button"><a href="https://flattr.com/submit/auto?user_id=jsisoft&url=http%3A%2F%2Flogview4net.com" target="_blank"><img src="//api.flattr.com/button/flattr-badge-large.png" alt="Flattr this" title="Flattr this" border="0"></a></p>			  
+		
+				<div style="clear:both;"></div>
+
+           </div><!-- end entry -->
+    	</div><!-- end post -->
+
+    	<div class="navi">
+
+        <div class="left"></div>
+
+			  <div class="right"></div>
+
+      </div><!-- end navi -->
+
+			
+
+      </div><!-- end main -->
+
+
+{{ template "theme/chrome/sidebar.html" . }}
+
+</div><!-- end container -->
+<div id="footer">
+	<div class="footer_wrapper">
+		<div class="footer_left">
+			<a href="{{ .Site.BaseUrl }}" title="logview4net">logview4net</a> &middot; <a href="http://imotta.cn/" title="Coogee Theme">coogee theme</a> &middot; 2008
+		</div>
+		<div class="footer_right">
+			<a href="{{ .Site.BaseUrl }}/feed/" title="Subscribe logview4net">RSS Feed</a>
+		</div>
+	</div><!-- end footer_wrapper -->
+</div><!-- end footer -->
+
+<script type="text/javascript">
+	  var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-581120-14']);
+	  _gaq.push(['_trackPageview']);
+	
+	  (function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();
+	</script></div><!-- end page -->
+</body>
+</html>

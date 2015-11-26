@@ -1,0 +1,17 @@
+Index: logview4net.mslisteners/SqlListener.cs
+===================================================================
+--- logview4net.mslisteners/SqlListener.cs	(revision 402)
++++ logview4net.mslisteners/SqlListener.cs	(working copy)
+@@ -305,7 +305,11 @@
+                     }
+                     cn.Close();
+ 
+-                    _session.AddEvent(this, messages);
++                    foreach (var m in messages)
++                    {
++                        _session.AddEvent(this, m);
++                    }
++
+                     messages.Clear();
+ 
+                     Thread.Sleep(_interval);

@@ -1,0 +1,1353 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>logview4net</name>
+    </assembly>
+    <members>
+        <member name="T:logview4net.About">
+            <summary>
+            This is the About form.
+            It shows the current version and has a link to the project pages as SourceForge.
+            </summary>
+        </member>
+        <member name="F:logview4net.About.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:logview4net.About.#ctor">
+            <summary>
+            Creates a new <see cref="T:logview4net.About"/> instance.
+            </summary>
+        </member>
+        <member name="M:logview4net.About.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+        </member>
+        <member name="M:logview4net.About.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:logview4net.App">
+            <summary>
+                Main form of the application
+            </summary>
+            <summary>
+            This is the main application class. It contains the main form.
+            </summary>
+        </member>
+        <member name="M:logview4net.App.#ctor(System.String[])">
+            <summary>
+                Initializes a new instance of the <see cref="T:logview4net.App" /> class.
+            </summary>
+        </member>
+        <member name="P:logview4net.App.Sessions">
+            <summary>
+                Gets or sets the sessions.
+            </summary>
+            <value>The sessions.</value>
+        </member>
+        <member name="F:logview4net.App.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:logview4net.App.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:logview4net.App.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:logview4net.ConfigureSession">
+            <summary>
+            This form configures a session
+            </summary>
+        </member>
+        <member name="M:logview4net.ConfigureSession.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:logview4net.ConfigureSession"/> class.
+            </summary>
+        </member>
+        <member name="M:logview4net.ConfigureSession.#ctor(logview4net.Session)">
+            <summary>
+            Initializes a new instance of the <see cref="T:logview4net.ConfigureSession"/> class.
+            </summary>
+            <param name="session">The session.</param>
+        </member>
+        <member name="P:logview4net.ConfigureSession.Session">
+            <summary>
+            Gets or sets the session.
+            </summary>
+            <value>The session.</value>
+        </member>
+        <member name="F:logview4net.ConfigureSession.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:logview4net.ConfigureSession.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:logview4net.ConfigureSession.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:logview4net.Controls.IColorCollection">
+            <summary>Déclaration de l'interface IColorCollection</summary>
+        </member>
+        <member name="P:logview4net.Controls.IColorCollection.Count">
+            <summary>Obtient le nombre d'objets <see cref="T:System.Drawing.Color"/>Color de la collection</summary>
+        </member>
+        <member name="P:logview4net.Controls.IColorCollection.Item(System.Int32)">
+            <summary>Retourne l'objet couleur situé à l'emplacement spécifié dans la collection</summary>
+        </member>
+        <member name="P:logview4net.Controls.IColorCollection.Item(System.String)">
+            <summary>Retourne l'objet couleur déterminé par son nom</summary>
+        </member>
+        <member name="M:logview4net.Controls.IColorCollection.GetEnumerator">
+            <summary>Obtient l'énumérateur associé à la collection</summary>
+            <returns>Retourne un objet de type <seealso cref="T:System.Collections.IEnumerator"/>IEnumerator</returns>
+        </member>
+        <member name="M:logview4net.Controls.IColorCollection.IndexOf(System.String)">
+            <summary>Obtient l'index de la couleur spécifiée dans la collection</summary>
+        </member>
+        <member name="T:logview4net.Controls.ColorPicker">
+            <summary>Contrôle permettant de sélectionner une couleur parmi toute une collection</summary>
+        </member>
+        <member name="F:logview4net.Controls.ColorPicker._colorCollection">
+            <summary>Contient la collection de couleurs à afficher</summary>
+        </member>
+        <member name="M:logview4net.Controls.ColorPicker.#ctor">
+            <summary>Constructeur par défaut</summary>
+        </member>
+        <member name="M:logview4net.Controls.ColorPicker.Dispose(System.Boolean)">
+            <summary>Nettoyage des ressources utilisées - managées et non managées</summary>
+            <param name="disposing">Préciser false pour libérer uniquement les ressources non managées</param>
+        </member>
+        <member name="P:logview4net.Controls.ColorPicker.Items">
+            <summary>Obtient ou définit la collection de couleurs à afficher</summary>
+            <remarks>Masque la collection Items de l'objet parent ComboBox</remarks>
+        </member>
+        <member name="P:logview4net.Controls.ColorPicker.SelectedText">
+            <summary>Obtient ou définit le nom de la couleur sélectionnée</summary>
+            <remarks>Masque la propriété SelectedText de l'objet parent ComboBox</remarks>
+        </member>
+        <member name="M:logview4net.Controls.ColorPicker.OnDrawItem(System.Windows.Forms.DrawItemEventArgs)">
+            <summary>Appelée en cas de modification de l'apparence visuelle du Picker, redessine un item</summary>
+            <param name="e">Contient les paramètres de l'évènement nécessaires au dessin d'un item</param>
+        </member>
+        <member name="M:logview4net.Controls.ColorPicker.OnDropDownStyleChanged(System.EventArgs)">
+            <summary>Appelée lorsque la propriété DropDownStyle a été modifiée</summary>
+            <param name="e">Contient les paramètres de l'évènement nécessaires</param>
+            <remarks>Cette surcharge garantit que la propriété DropDownStylle restera à DropDownList</remarks>
+        </member>
+        <member name="T:logview4net.Controls.AdvRichTextBox">
+            <summary>
+            Represents a standard <see cref="T:System.Windows.Forms.RichTextBox"/> with some
+            minor added functionality.
+            </summary>
+            <remarks>
+            AdvRichTextBox provides methods to maintain performance
+            while it is being updated. Additional formatting features
+            have also been added.
+            </remarks>
+        </member>
+        <member name="M:logview4net.Controls.AdvRichTextBox.BeginUpdate">
+            <summary>
+            Maintains performance while updating.
+            </summary>
+            <remarks>
+            <para>
+            It is recommended to call this method before doing
+            any major updates that you do not wish the user to
+            see. Remember to call EndUpdate when you are finished
+            with the update. Nested calls are supported.
+            </para>
+            <para>
+            Calling this method will prevent redrawing. It will
+            also setup the event mask of the underlying richedit
+            control so that no events are sent.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:logview4net.Controls.AdvRichTextBox.EndUpdate">
+            <summary>
+            Resumes drawing and event handling.
+            </summary>
+            <remarks>
+            This method should be called every time a call is made
+            made to BeginUpdate. It resets the event mask to it's
+            original value and enables redrawing of the control.
+            </remarks>
+        </member>
+        <member name="P:logview4net.Controls.AdvRichTextBox.SelectionAlignment">
+            <summary>
+            Gets or sets the alignment to apply to the current
+            selection or insertion point.
+            </summary>
+            <remarks>
+            Replaces the SelectionAlignment from
+            <see cref="T:System.Windows.Forms.RichTextBox"/>.
+            </remarks>
+        </member>
+        <member name="M:logview4net.Controls.AdvRichTextBox.OnHandleCreated(System.EventArgs)">
+            <summary>
+            This member overrides
+            <see cref="T:System.Windows.Forms.Control"/>.OnHandleCreated.
+            </summary>
+        </member>
+        <member name="T:logview4net.Controls.TextAlign">
+            <summary>
+            Specifies how text in a <see cref="T:logview4net.Controls.AdvRichTextBox"/> is
+            horizontally aligned.
+            </summary>
+        </member>
+        <member name="F:logview4net.Controls.TextAlign.Left">
+            <summary>
+            The text is aligned to the left.
+            </summary>
+        </member>
+        <member name="F:logview4net.Controls.TextAlign.Right">
+            <summary>
+            The text is aligned to the right.
+            </summary>
+        </member>
+        <member name="F:logview4net.Controls.TextAlign.Center">
+            <summary>
+            The text is aligned in the center.
+            </summary>
+        </member>
+        <member name="F:logview4net.Controls.TextAlign.Justify">
+            <summary>
+            The text is justified.
+            </summary>
+        </member>
+        <member name="T:logview4net.Controls.HeaderPanel">
+            <summary>
+            This is a collapsible container controll with a header.
+            </summary>
+        </member>
+        <member name="F:logview4net.Controls.HeaderPanel.IsCollapsed">
+            <summary>
+            If the control is collapsed or not.
+            </summary>
+        </member>
+        <member name="F:logview4net.Controls.HeaderPanel.ExpandedHeight">
+            <summary>
+            The height of the control when is is expanded
+            </summary>
+        </member>
+        <member name="M:logview4net.Controls.HeaderPanel.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:logview4net.Controls.HeaderPanel"/> class.
+            </summary>
+        </member>
+        <member name="M:logview4net.Controls.HeaderPanel.HeaderPanel_Paint(System.Object,System.Windows.Forms.PaintEventArgs)">
+            <summary>
+            Handles the Paint event of the HeaderPanel control.
+            </summary>
+            <param name="sender">The source of the event.</param>
+            <param name="e">The <see cref="T:System.Windows.Forms.PaintEventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="M:logview4net.Controls.HeaderPanel.Expand">
+            <summary>
+            Expands this instance.
+            </summary>
+        </member>
+        <member name="M:logview4net.Controls.HeaderPanel.Collapse">
+            <summary>
+            Collapses this instance.
+            </summary>
+        </member>
+        <member name="P:logview4net.Controls.HeaderPanel.Text">
+            <summary>
+            </summary>
+            <value></value>
+        </member>
+        <member name="M:logview4net.Controls.HeaderPanel.AddControl(System.Windows.Forms.Control)">
+            <summary>
+            Adds the control.
+            </summary>
+            <param name="control">The control.</param>
+        </member>
+        <member name="P:logview4net.Controls.HeaderPanel.ChildControls">
+            <summary>
+            Gets the child controls.
+            </summary>
+            <value>The child controls.</value>
+        </member>
+        <member name="M:logview4net.Controls.HeaderPanel.ResizeHeight">
+            <summary>
+            Resizes the height.
+            </summary>
+        </member>
+        <member name="P:logview4net.Controls.HeaderPanel.DeleteIsVisible">
+            <summary>
+            Gets or sets a value indicating whether [delete is visible].
+            </summary>
+            <value><c>true</c> if [delete is visible]; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="F:logview4net.Controls.HeaderPanel.components">
+            <summary> 
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:logview4net.Controls.HeaderPanel.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:logview4net.Controls.HeaderPanel.InitializeComponent">
+            <summary> 
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:logview4net.Controls.KnownColorFilter">
+            <summary>Enumère les filtres applicables lors de la création d'une instance de la classe KnownColorCollection</summary>
+        </member>
+        <member name="F:logview4net.Controls.KnownColorFilter.System">
+            <summary>Restreint les couleurs connues à celles utilisées par le système</summary>
+        </member>
+        <member name="F:logview4net.Controls.KnownColorFilter.Web">
+            <summary>Restreint les couleurs connues à celles proposées pour le web</summary>
+        </member>
+        <member name="F:logview4net.Controls.KnownColorFilter.All">
+            <summary>Aucune restriction</summary>
+        </member>
+        <member name="T:logview4net.Controls.KnownColorCollection">
+            <summary>Classe de base qui encapsule les couleurs fournies par le Framework</summary>
+        </member>
+        <member name="F:logview4net.Controls.KnownColorCollection.COUNT">
+            <summary>Contient le nombre d'objets que contient la collection</summary>
+        </member>
+        <member name="F:logview4net.Controls.KnownColorCollection.FIRST">
+            <summary>Contient l'index du premier élément de la collection dans l'énumération KnownColor</summary>
+        </member>
+        <member name="F:logview4net.Controls.KnownColorCollection.LAST">
+            <summary>Contient l'index du dernier élément de la collection dans l'énumération KnownColor</summary>
+        </member>
+        <member name="M:logview4net.Controls.KnownColorCollection.#ctor(logview4net.Controls.KnownColorFilter)">
+            <summary>Constructeur unique</summary>
+        </member>
+        <member name="P:logview4net.Controls.KnownColorCollection.Count">
+            <summary>Obtient le nombre d'objets <see cref="T:System.Drawing.Color"/>Color de la collection</summary>
+        </member>
+        <member name="M:logview4net.Controls.KnownColorCollection.GetEnumerator">
+            <summary>Obtient l'énumérateur associé à la collection</summary>
+            <returns>Retourne un énumérateur<seealso cref="T:logview4net.Controls.KnownColorCollection.KnownColorEnumerator"/>KnownColorEnumerator</returns>
+        </member>
+        <member name="P:logview4net.Controls.KnownColorCollection.Item(System.Int32)">
+            <summary>Retourne l'objet couleur situé à l'emplacement spécifié dans la collection</summary>
+            <summary>Retourne l'objet couleur déterminé par son nom</summary>
+        </member>
+        <member name="P:logview4net.Controls.KnownColorCollection.Item(System.String)">
+            <summary>Retourne l'objet couleur déterminé par son nom</summary>
+        </member>
+        <member name="M:logview4net.Controls.KnownColorCollection.IndexOf(System.String)">
+            <summary>Obtient l'index de la couleur spécifiée dans la collection</summary>
+        </member>
+        <member name="T:logview4net.Controls.KnownColorCollection.KnownColorEnumerator">
+            <summary>Enumerateur spécifique aux collections d'objets KnownColor</summary>
+        </member>
+        <member name="F:logview4net.Controls.KnownColorCollection.KnownColorEnumerator.m_Location">
+            <summary>Contient la position du curseur dans la collection</summary>
+        </member>
+        <member name="F:logview4net.Controls.KnownColorCollection.KnownColorEnumerator.m_ColorCollection">
+            <summary>Contient une référence vers l'objet collection parent</summary>
+        </member>
+        <member name="M:logview4net.Controls.KnownColorCollection.KnownColorEnumerator.#ctor(logview4net.Controls.IColorCollection)">
+            <summary>Constructeur</summary>
+            <param name="colors">Référence sur l'objet collection parent</param>
+        </member>
+        <member name="M:logview4net.Controls.KnownColorCollection.KnownColorEnumerator.MoveNext">
+            <summary>Déplace le curseur vers l'objet suivant dans la collection</summary>
+            <returns>Renvoie true si l'opération a réussie et false sinon</returns>
+        </member>
+        <member name="P:logview4net.Controls.KnownColorCollection.KnownColorEnumerator.Current">
+            <summary>Obtient l'objet sur lequel est placé le curseur</summary>
+            <remarks>Une exception du type <see cref="T:System.InvalidOperationException"/>
+            InvalidOperationException est levée si le curseur se trouve hors de la plage</remarks>
+        </member>
+        <member name="M:logview4net.Controls.KnownColorCollection.KnownColorEnumerator.Reset">
+            <summary>Replace le curseur en position initiale</summary>
+        </member>
+        <member name="T:logview4net.Controls.StackedPanel">
+            <summary>
+            This is a panel that aligns its controls to the left and stacks them on top of each other
+            </summary>
+        </member>
+        <member name="M:logview4net.Controls.StackedPanel.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:logview4net.Controls.StackedPanel"/> class.
+            </summary>
+        </member>
+        <member name="M:logview4net.Controls.StackedPanel.RestackControls">
+            <summary>
+            Restacks the controls.
+            </summary>
+        </member>
+        <member name="M:logview4net.Controls.StackedPanel.Refresh">
+            <summary>
+            Forces the control to invalidate its client area and immediately redraw itself and any child controls.
+            </summary>
+            <PermissionSet><IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/><IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/><IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/><IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/></PermissionSet>
+        </member>
+        <member name="F:logview4net.Controls.StackedPanel.components">
+            <summary> 
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:logview4net.Controls.StackedPanel.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:logview4net.Controls.StackedPanel.InitializeComponent">
+            <summary> 
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:logview4net.Listeners.ListenerConfigurator">
+            <summary>
+            This is a dynamic configurator for all listeners.
+            </summary>
+        </member>
+        <member name="M:logview4net.Listeners.ListenerConfigurator.#ctor(logview4net.Listeners.IConfigurableListener,logview4net.Session)">
+            <summary>
+            Initializes a new instance of the <see cref="T:logview4net.Listeners.ListenerConfigurator"/> class.
+            </summary>
+            <param name="listener">The listener.</param>
+            <param name="session">The current session.</param>
+        </member>
+        <member name="M:logview4net.Listeners.ListenerConfigurator.UpdateControls">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:logview4net.Listeners.ListenerConfigurator.Caption">
+            <summary>
+            Gets the caption.
+            </summary>
+            <value>The caption.</value>
+        </member>
+        <member name="P:logview4net.Listeners.ListenerConfigurator.Configuration">
+            <summary>
+            Gets or sets the configuration data for this configurator.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:logview4net.Listeners.ListenerConfigurator.Listener">
+            <summary>
+            Gets the listener for an implementation of this interface
+            </summary>
+            <value></value>
+        </member>
+        <member name="F:logview4net.Listeners.ListenerConfigurator.components">
+            <summary> 
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:logview4net.Listeners.ListenerConfigurator.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:logview4net.Listeners.ListenerConfigurator.InitializeComponent">
+            <summary> 
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:logview4net.Program.Main(System.String[])">
+            <summary>
+            Application entry point.
+            </summary>
+            <param name="args">Command line arguments</param>
+        </member>
+        <member name="T:logview4net.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:logview4net.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:logview4net.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:logview4net.Properties.Resources.add">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:logview4net.Properties.Resources.AddTable">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:logview4net.Properties.Resources.ApplicationDouble">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:logview4net.Properties.Resources.ArrangeSideBySide">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:logview4net.Properties.Resources.ArrangeWindows">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:logview4net.Properties.Resources.arrow_in">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:logview4net.Properties.Resources.arrow_out">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:logview4net.Properties.Resources.arrow_refresh">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:logview4net.Properties.Resources.arrow_right">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:logview4net.Properties.Resources.arrow_undo">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:logview4net.Properties.Resources.cart_remove">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:logview4net.Properties.Resources.CascadeWindows">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:logview4net.Properties.Resources.cog_edit">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:logview4net.Properties.Resources.cog_go">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:logview4net.Properties.Resources.cross">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:logview4net.Properties.Resources.Document">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:logview4net.Properties.Resources.find">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:logview4net.Properties.Resources.folder">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:logview4net.Properties.Resources.gear_32">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:logview4net.Properties.Resources.help">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:logview4net.Properties.Resources.information">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:logview4net.Properties.Resources.NewDocument">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:logview4net.Properties.Resources.page_white_get">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:logview4net.Properties.Resources.page_white_put">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:logview4net.Properties.Resources.Pause">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:logview4net.Properties.Resources.Play">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:logview4net.Properties.Resources.style">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:logview4net.Properties.Resources.tick">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="T:logview4net.Viewers.ActionTypes">
+            <summary>
+            These are the types of actions that the viewers should handle.
+            New items MUST be inserted in priority order. 
+            </summary>
+        </member>
+        <member name="F:logview4net.Viewers.ActionTypes.StartIgnoreBlock">
+            <summary>
+            Ignores all events until an EndIgnoreBlock Event
+            </summary>
+        </member>
+        <member name="F:logview4net.Viewers.ActionTypes.EndIgnoreBlock">
+            <summary>
+            Ends an ignore block
+            </summary>
+        </member>
+        <member name="F:logview4net.Viewers.ActionTypes.Ignore">
+            <summary>
+            Hide an event with this action
+            </summary>
+        </member>
+        <member name="F:logview4net.Viewers.ActionTypes.Highlight">
+            <summary>
+            Highlight an event with this action. The actions should have a color if its of this type.
+            </summary>
+        </member>
+        <member name="F:logview4net.Viewers.ActionTypes.HighlightMatch">
+            <summary>
+            Changes color on matching text in the event message.
+            </summary>
+        </member>
+        <member name="F:logview4net.Viewers.ActionTypes.PopUp">
+            <summary>
+            Show a message box with the event message.
+            </summary>
+        </member>
+        <member name="F:logview4net.Viewers.ActionTypes.PlaySound">
+            <summary>
+            Plays a sound when there is a match.
+            </summary>
+        </member>
+        <member name="F:logview4net.Viewers.ActionTypes.Hide">
+            <summary>
+            Executes whatever commandline is in the action config
+            </summary>        
+        </member>
+        <member name="F:logview4net.Viewers.ActionTypes.Execute">
+            <summary>
+            Stores a message in a cache that can be shown later, but doesn't display it right away.
+            </summary>
+        </member>
+        <member name="T:logview4net.Viewers.Action">
+            <summary>
+            An Action is what the viewer should do with the event that matches 'Pattern'
+            </summary>
+        </member>
+        <member name="F:logview4net.Viewers.Action.HideCache">
+            <summary>
+            This is the cache of hidden messages.
+            </summary>
+        </member>
+        <member name="M:logview4net.Viewers.Action.#ctor(System.String,logview4net.Viewers.ActionTypes)">
+            <summary>
+            Creates a new <see cref="T:logview4net.Viewers.Action"/> instance.
+            </summary>
+        </member>
+        <member name="M:logview4net.Viewers.Action.CreateIgnoreAction(System.String)">
+            <summary>
+            Creates a ignore action.
+            </summary>
+            <param name="pattern">The pattern.</param>
+            <returns></returns>
+        </member>
+        <member name="M:logview4net.Viewers.Action.CreateHideAction(System.String)">
+            <summary>
+            Creates a hide action.
+            </summary>
+            <param name="pattern">The pattern.</param>
+            <returns></returns>
+        </member>
+        <member name="M:logview4net.Viewers.Action.CreatePopupAction(System.String)">
+            <summary>
+            Creates a popup action.
+            </summary>
+            <param name="pattern">The pattern.</param>
+            <returns></returns>
+        </member>
+        <member name="M:logview4net.Viewers.Action.CreateHighlightAction(System.String,System.Drawing.Color)">
+            <summary>
+            Creates the highlight action.
+            </summary>
+            <param name="pattern">The pattern.</param>
+            <param name="color">The color.</param>
+            <returns></returns>
+        </member>
+        <member name="M:logview4net.Viewers.Action.CreateHighlightMatchAction(System.String,System.Drawing.Color)">
+            <summary>
+            Creates the highlight match action.
+            </summary>
+            <param name="pattern">The pattern.</param>
+            <param name="color">The color.</param>
+            <returns></returns>
+        </member>
+        <member name="M:logview4net.Viewers.Action.CreateGenericEventAction(System.Xml.XmlNode)">
+            <summary>
+            Creates the generic event action.
+            </summary>
+            <param name="actionNode">The action node.</param>
+            <returns></returns>
+        </member>
+        <member name="P:logview4net.Viewers.Action.Pattern">
+            <summary>
+            Gets or sets the pattern.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:logview4net.Viewers.Action.ActionType">
+            <summary>
+            Gets or sets the action type.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:logview4net.Viewers.Action.Color">
+            <summary>
+            Gets or sets the fore color of this action in the viewer.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:logview4net.Viewers.Action.Font">
+            <summary>
+            Gets or sets the font.
+            </summary>
+            <value>The font.</value>
+        </member>
+        <member name="P:logview4net.Viewers.Action.Data">
+            <summary>
+            Gets or sets the action data.
+            </summary>
+            <value>The data.</value>
+        </member>
+        <member name="T:logview4net.Viewers.ActionConfigurator">
+            <summary>
+            Summary description for ActionConfigurator.
+            </summary>
+        </member>
+        <member name="P:logview4net.Viewers.ActionConfigurator.ActiveAction">
+            <summary>
+            Gets the active action.
+            </summary>
+            <value></value>
+        </member>
+        <member name="M:logview4net.Viewers.ActionConfigurator.#ctor(logview4net.Viewers.TextViewer)">
+            <summary>
+            Creates a new <see cref="T:logview4net.Viewers.ActionConfigurator"/> instance.
+            </summary>
+        </member>
+        <member name="M:logview4net.Viewers.ActionConfigurator.#ctor(logview4net.Viewers.Action,logview4net.Viewers.TextViewer)">
+            <summary>
+            Creates a new <see cref="T:logview4net.Viewers.ActionConfigurator"/> instance.
+            </summary>
+            <param name="action">The <see cref="T:logview4net.Viewers.Action"/> to configure.</param>
+            <param name="viewer">The <see cref="T:logview4net.Viewers.TextViewer"/> connected.</param>
+        </member>
+        <member name="P:logview4net.Viewers.ActionConfigurator.ShowHeaders">
+            <summary>
+            Toggles the visibility of headers fo the items in the control
+            </summary>
+        </member>
+        <member name="M:logview4net.Viewers.ActionConfigurator.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+        </member>
+        <member name="M:logview4net.Viewers.ActionConfigurator.InitializeComponent">
+            <summary> 
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="P:logview4net.Viewers.ActionConfigurator.Dirty">
+            <summary>
+            Dirty turns true when the pattern changes.
+            </summary>
+        </member>
+        <member name="T:logview4net.Viewers.ActionConfiguratorGetFileName">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:logview4net.Viewers.ActionConfiguratorGetFileName.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="E:logview4net.Viewers.ActionConfiguratorGetFileName.FileNameChanged">
+            <summary>
+            Occurs when [file name changed].
+            </summary>
+        </member>
+        <member name="P:logview4net.Viewers.ActionConfiguratorGetFileName.FileName">
+            <summary>
+            Gets or sets the name of the file.
+            </summary>
+            <value>The name of the file.</value>
+        </member>
+        <member name="M:logview4net.Viewers.ActionConfiguratorGetFileName.Config(System.String,System.String)">
+            <summary>
+            Sets the title and file type filter
+            </summary>
+            <param name="title"></param>
+            <param name="filter"></param>
+        </member>
+        <member name="F:logview4net.Viewers.ActionConfiguratorGetFileName.components">
+            <summary> 
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:logview4net.Viewers.ActionConfiguratorGetFileName.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:logview4net.Viewers.ActionConfiguratorGetFileName.InitializeComponent">
+            <summary> 
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:logview4net.Viewers.ActionExecutor">
+            <summary>
+            Executes a non viewer action, preferably run in a thread of its own as a popup would block the viewer.
+            </summary>
+        </member>
+        <member name="M:logview4net.Viewers.ActionExecutor.#ctor(logview4net.Viewers.Action,System.String)">
+            <summary>
+            Creates a new <see cref="T:logview4net.Viewers.ActionExecutor"/> instance.
+            </summary>
+            <param name="action">Action.</param>
+            <param name="message">Message.</param>
+        </member>
+        <member name="M:logview4net.Viewers.ActionExecutor.Execute">
+            <summary>
+            Executes this instance.
+            </summary>
+        </member>
+        <member name="T:logview4net.Viewers.ActionManager">
+            <summary>
+            Manages alla actions for a viewer in a session.
+            </summary>
+        </member>
+        <member name="M:logview4net.Viewers.ActionManager.#ctor">
+            <summary>
+            Ceates an ActionManager
+            </summary>
+        </member>
+        <member name="M:logview4net.Viewers.ActionManager.LoadConfiguration(logview4net.Viewers.TextViewer)">
+            <summary>
+            Loads the configuration for the ActionManager
+            </summary>
+            <param name="viewer"></param>
+        </member>
+        <member name="F:logview4net.Viewers.ActionManager.components">
+            <summary> 
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:logview4net.Viewers.ActionManager.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:logview4net.Viewers.ActionManager.InitializeComponent">
+            <summary> 
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:logview4net.Viewers.LogEvent">
+            <summary>
+            Represents a received event.
+            </summary>
+        </member>
+        <member name="F:logview4net.Viewers.LogEvent.Message">
+            <summary>
+            The text of the event
+            </summary>
+        </member>
+        <member name="F:logview4net.Viewers.LogEvent.Actions">
+            <summary>
+            The actions associated with the event.
+            </summary>
+        </member>
+        <member name="M:logview4net.Viewers.LogEvent.#ctor(System.String,System.Collections.Generic.List{logview4net.Viewers.Action},System.Boolean)">
+            <summary>
+            Contructor
+            </summary>
+            <param name="message"></param>
+            <param name="actions"></param>
+            <param name="getActions"></param>
+        </member>
+        <member name="M:logview4net.Viewers.LogEvent.#ctor">
+            <summary>
+            Contructor
+            </summary>
+        </member>
+        <member name="T:logview4net.Viewers.ManageActions">
+            <summary>
+            Form used to manage actions for a running session.
+            </summary>
+        </member>
+        <member name="M:logview4net.Viewers.ManageActions.#ctor(logview4net.Viewers.TextViewer)">
+            <summary>
+            Creates a <c ref="ManageActions" />
+            </summary>
+            <param name="viewer"></param>
+        </member>
+        <member name="F:logview4net.Viewers.ManageActions.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:logview4net.Viewers.ManageActions.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:logview4net.Viewers.ManageActions.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:logview4net.Viewers.SearchForm">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:logview4net.Viewers.SearchForm.#ctor(System.Windows.Forms.RichTextBox)">
+            <summary>
+            Initializes a new instance of the <see cref="T:logview4net.Viewers.SearchForm"/> class.
+            </summary>
+            <param name="txt">The TXT.</param>
+        </member>
+        <member name="F:logview4net.Viewers.SearchForm.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:logview4net.Viewers.SearchForm.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:logview4net.Viewers.SearchForm.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:logview4net.Viewers.textConfigurator">
+            <summary>
+            Summary description for rtfViewerConfigurator.
+            </summary>
+        </member>
+        <member name="M:logview4net.Viewers.textConfigurator.#ctor">
+            <summary>
+            Creates a new <see cref="T:logview4net.Viewers.textConfigurator"/> instance.
+            </summary>
+        </member>
+        <member name="M:logview4net.Viewers.textConfigurator.#ctor(logview4net.Viewers.TextViewer)">
+            <summary>
+            Creates a new <see cref="T:logview4net.Viewers.textConfigurator"/> instance.
+            </summary>
+            <param name="viewer">Viewer.</param>
+        </member>
+        <member name="M:logview4net.Viewers.textConfigurator.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+        </member>
+        <member name="M:logview4net.Viewers.textConfigurator.InitializeComponent">
+            <summary> 
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="P:logview4net.Viewers.textConfigurator.Viewer">
+            <summary>
+            Gets the viewer for this configurator.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:logview4net.Viewers.textConfigurator.Configuration">
+            <summary>
+            Gets or sets the configuration data for this configurator.
+            </summary>
+            <value></value>
+        </member>
+        <member name="M:logview4net.Viewers.textConfigurator.ValidateSettings">
+            <summary>
+            Validates the settings in the configurator.
+            </summary>
+            <returns>Trus if everything seems OK, False if there is a configuration error.</returns>
+        </member>
+        <member name="T:logview4net.Viewers.TextViewer">
+            <summary>
+                Summary description for rtfLogViewer.
+            </summary>
+        </member>
+        <member name="F:logview4net.Viewers.TextViewer.PauseCache">
+            <summary>
+                This is where all events are stored while the view is paused.
+            </summary>
+        </member>
+        <member name="F:logview4net.Viewers.TextViewer.Txt">
+            <summary>
+                The textbox containing the log events to be viewed.
+            </summary>
+        </member>
+        <member name="F:logview4net.Viewers.TextViewer._actions">
+            <summary>
+                The list of <see cref="T:logview4net.Viewers.Action" /> that are registered for the current <see cref="T:logview4net.Session" />.
+            </summary>
+        </member>
+        <member name="F:logview4net.Viewers.TextViewer._bufferSize">
+            <summary>
+                The max amount of characters to have in the textbox
+            </summary>
+        </member>
+        <member name="F:logview4net.Viewers.TextViewer._cacheOnPause">
+            <summary>
+                Whether or not to cache events when the viewer is pa
+            </summary>
+        </member>
+        <member name="F:logview4net.Viewers.TextViewer._foreColor">
+            <summary>
+                Color of the text in the textbox.
+            </summary>
+        </member>
+        <member name="F:logview4net.Viewers.TextViewer._paused">
+            <summary>
+                Whether or not the viewer is paused
+            </summary>
+        </member>
+        <member name="F:logview4net.Viewers.TextViewer._wordWrap">
+            <summary>
+                Whether or not the viewer does word wrapping
+            </summary>
+        </member>
+        <member name="M:logview4net.Viewers.TextViewer.#ctor">
+            <summary>
+                Creates a new <see cref="T:logview4net.Viewers.TextViewer" /> instance.
+            </summary>
+        </member>
+        <member name="P:logview4net.Viewers.TextViewer.TextForeColor">
+            <summary>
+                Gets or sets the fore color.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:logview4net.Viewers.TextViewer.TextBackColor">
+            <summary>
+                Gets or sets the back color.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:logview4net.Viewers.TextViewer.TextFont">
+            <summary>
+                Gets or sets the font.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:logview4net.Viewers.TextViewer.RemoveWhitespace">
+            <summary>
+                Whether or not to remove surrounding white space.
+            </summary>
+        </member>
+        <member name="P:logview4net.Viewers.TextViewer.ShowListenerPrefix">
+            <summary>
+                Whether or not to show the listener prefix
+            </summary>
+        </member>
+        <member name="P:logview4net.Viewers.TextViewer.BufferSize">
+            <summary>
+                Gets or sets the size of the buffer.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:logview4net.Viewers.TextViewer.LogFile">
+            <summary>
+                The filename for saving events to disk
+            </summary>
+        </member>
+        <member name="P:logview4net.Viewers.TextViewer.LogRolling">
+            <summary>
+                When to 'roll' the log file
+            </summary>
+        </member>
+        <member name="P:logview4net.Viewers.TextViewer.LogToFile">
+            <summary>
+                Wether or not to save events to disk.
+            </summary>
+        </member>
+        <member name="M:logview4net.Viewers.TextViewer.ShowAllHidden">
+            <summary>
+                Displays all hidden messages.
+            </summary>
+        </member>
+        <member name="E:logview4net.Viewers.TextViewer.HasHiddenMessagesEvent">
+            <summary>
+                An event used to toggle the 'Hidden' button in the toolbar
+            </summary>
+        </member>
+        <member name="M:logview4net.Viewers.TextViewer.Dispose(System.Boolean)">
+            <summary>
+                Clean up any resources being used.
+            </summary>
+        </member>
+        <member name="M:logview4net.Viewers.TextViewer.ShowFindDialog">
+            <summary>
+                Shows the find dialog.
+            </summary>
+        </member>
+        <member name="M:logview4net.Viewers.TextViewer.RaiseHasHiddenMessages(System.Boolean)">
+            <summary>
+                Rasise the HasHiddenMessagesEvent event
+            </summary>
+            <param name="hasHiddenMessages"></param>
+        </member>
+        <member name="M:logview4net.Viewers.TextViewer.InitializeComponent">
+            <summary>
+                Required method for Designer support - do not modify
+                the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="P:logview4net.Viewers.TextViewer.Actions">
+            <summary>
+                List of actions for the listener.
+            </summary>
+        </member>
+        <member name="P:logview4net.Viewers.TextViewer.CacheOnPause">
+            <summary>
+                Whether or not to cache events when the viewer is paused
+            </summary>
+        </member>
+        <member name="M:logview4net.Viewers.TextViewer.AddEvent(System.String,System.Collections.Generic.List{System.String})">
+            <summary>
+                Adds a list of events to this viewer
+            </summary>
+        </member>
+        <member name="M:logview4net.Viewers.TextViewer.AddEvent(System.String)">
+            <summary>
+                Adds an event to show
+            </summary>
+            <param name="message">The message to show.</param>
+        </member>
+        <member name="M:logview4net.Viewers.TextViewer.HasHiddenMessages">
+            <summary>
+                Indicates the existence of hidden messages.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:logview4net.Viewers.TextViewer.Clear">
+            <summary>
+                Clears this instance.
+            </summary>
+        </member>
+        <member name="P:logview4net.Viewers.TextViewer.Paused">
+            <summary>
+                Gets or sets a value indicating whether this <see cref="T:logview4net.Viewers.TextViewer" /> is paused.
+            </summary>
+            <value>
+                <c>true</c> if paused; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:logview4net.Viewers.TextViewer.WordWrap">
+            <summary>
+                Wether or not to wordwrap
+            </summary>
+        </member>
+        <member name="M:logview4net.Viewers.TextViewer.GetConfiguration">
+            <summary>
+                Gets the configuration.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:logview4net.Viewers.TextViewer.InvokedAddEvents(System.String,System.Collections.Generic.List{System.String})">
+            <summary>
+                Adds the event.
+            </summary>
+        </member>
+        <member name="M:logview4net.Viewers.TextViewer.InvokedAddEvent(logview4net.Viewers.LogEvent,System.Boolean)">
+            <summary>
+                Adds the event.
+            </summary>
+        </member>
+        <member name="M:logview4net.Viewers.TextViewer.AddAction(logview4net.Viewers.Action)">
+            <summary>
+                Adds an action to the list in this viewer.
+            </summary>
+            <param name="action">Action.</param>
+        </member>
+        <member name="M:logview4net.Viewers.TextViewer.RemoveAction(logview4net.Viewers.Action)">
+            <summary>
+                removes an action from the list in this viewer.
+            </summary>
+            <param name="action">Action.</param>
+        </member>
+        <member name="T:logview4net.Viewers.ViewerForm">
+            <summary>
+            This is the generic WinForm that hosts viewers
+            </summary>
+        </member>
+        <member name="P:logview4net.Viewers.ViewerForm.Session">
+            <summary>
+            Gets the session.
+            </summary>
+            <value>The session.</value>
+        </member>
+        <member name="M:logview4net.Viewers.ViewerForm.#ctor(logview4net.Session)">
+            <summary>
+            Initializes a new instance of the <see cref="T:logview4net.Viewers.ViewerForm"/> class.
+            </summary>
+            <param name="session">The session.</param>
+        </member>
+        <member name="F:logview4net.Viewers.ViewerForm.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:logview4net.Viewers.ViewerForm.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:logview4net.Viewers.ViewerForm.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:logview4net.Viewers.ViewerUtils">
+            <summary>
+            Some helper functions to be used by implementors of <see cref="T:logview4net.Viewers.IViewer"/>.
+            </summary>
+        </member>
+        <member name="T:logview4net.Viewers.ViewerUtils.IgnoreReasons">
+            <summary>
+            These are reasons for ignoring a message
+            </summary>
+        </member>
+        <member name="F:logview4net.Viewers.ViewerUtils.IgnoreReasons.StartedBlock">
+            <summary>
+            Beginning af an ignore block
+            </summary>
+        </member>
+        <member name="F:logview4net.Viewers.ViewerUtils.IgnoreReasons.EndedBlock">
+            <summary>
+            End of an ignore block
+            </summary>
+        </member>
+        <member name="F:logview4net.Viewers.ViewerUtils.IgnoreReasons.InBlock">
+            <summary>
+            Inside an ignore block
+            </summary>
+        </member>
+        <member name="F:logview4net.Viewers.ViewerUtils.IgnoreReasons.Ignore">
+            <summary>
+            An explicitly ignored message.
+            </summary>
+        </member>
+        <member name="F:logview4net.Viewers.ViewerUtils.IgnoreReasons.DoNotIgnore">
+            <summary>
+            The message should not be ignored.
+            </summary>
+        </member>
+        <member name="F:logview4net.Viewers.ViewerUtils.IgnoreReasons.Hide">
+            <summary>
+            The message should hidden. To be shown later.
+            </summary>
+        </member>
+        <member name="M:logview4net.Viewers.ViewerUtils.#ctor">
+            <summary>
+            Creates a new <see cref="T:logview4net.Viewers.ViewerUtils"/> instance.
+            </summary>
+        </member>
+        <member name="M:logview4net.Viewers.ViewerUtils.GetActions(System.Collections.Generic.List{logview4net.Viewers.Action},System.String)">
+            <summary>
+            Gets a List of <see cref="T:logview4net.Viewers.Action"/> that is applicable for the current message
+            </summary>
+            <param name="actions">An <see cref="T:System.Collections.ArrayList"/> with <see cref="T:logview4net.Viewers.Action"/> </param>
+            <param name="data">The pattern to match.</param>
+            <returns></returns>
+        </member>
+        <member name="M:logview4net.Viewers.ViewerUtils.ExecuteNonViewerAction(logview4net.Viewers.Action,System.String)">
+            <summary>
+            Executes the non viewer action.
+            </summary>
+        </member>
+        <member name="M:logview4net.Viewers.ViewerUtils.IgnoreEvent(logview4net.Viewers.LogEvent,logview4net.Viewers.ViewerUtils.IgnoreReasons@)">
+            <summary>
+            Decides if the event should be ignored
+            </summary>
+            <returns>True if the event should be ignored.</returns>
+        </member>
+    </members>
+</doc>

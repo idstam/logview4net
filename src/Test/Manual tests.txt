@@ -1,0 +1,7 @@
+Start a new session
+Add on of each listener.
+Change Prefix on all.
+Save settings.
+Stat new session
+Load settings
+Verify Prefixes.

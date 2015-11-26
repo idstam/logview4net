@@ -1,0 +1,7 @@
+<IfModule mod_rewrite.c>
+RewriteEngine on  
+RewriteCond %{HTTP_REFERER} !^$
+RewriteCond %{HTTP_REFERER} !^http://(www\.)?logview4net.com/.*$ [NC]
+RewriteRule \.(gif|jpg|png)$ - [F]
+
+</ifModule>

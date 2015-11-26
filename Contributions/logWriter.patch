@@ -1,0 +1,460 @@
+Index: Form1.cs
+===================================================================
+--- Form1.cs	(revision 376)
++++ Form1.cs	(working copy)
+@@ -38,17 +38,29 @@
+ 
+         private FileStream _fs = null;
+         private CheckBox chkTcp;
++        private CheckBox chkUdpAny;
++        private TextBox hostnameUdpAny;
++        private TextBox portUdpAny;
++        private GroupBox groupBoxPrefix;
++        private CheckBox checkBoxPrefixCounter;
++        private CheckBox checkBoxPrefixTime;
++        private CheckBox checkBoxPrefixType;
++        private ListBox listBoxEncoding;
++        private Label labelEncoding;
+ 
+ 	    private long ctr = 0;
+ 
+ 		public Form1()
+ 		{
+ 			InitializeComponent();
+-		}
++            listBoxEncoding.SelectedIndex = 1;  // Unicode
++            label1_Update();
++        }
+ 
+         public Form1(string msg)
+         {
+             InitializeComponent();
++            label1_Update();
+             txtForUdp8080.Text = msg;
+             chkUdp.Checked = true;
+             button1_Click(null, null);
+@@ -89,8 +101,18 @@
+             this.button2 = new System.Windows.Forms.Button();
+             this.repeatCount = new System.Windows.Forms.NumericUpDown();
+             this.chkTcp = new System.Windows.Forms.CheckBox();
++            this.chkUdpAny = new System.Windows.Forms.CheckBox();
++            this.hostnameUdpAny = new System.Windows.Forms.TextBox();
++            this.portUdpAny = new System.Windows.Forms.TextBox();
++            this.groupBoxPrefix = new System.Windows.Forms.GroupBox();
++            this.checkBoxPrefixType = new System.Windows.Forms.CheckBox();
++            this.checkBoxPrefixTime = new System.Windows.Forms.CheckBox();
++            this.checkBoxPrefixCounter = new System.Windows.Forms.CheckBox();
++            this.listBoxEncoding = new System.Windows.Forms.ListBox();
++            this.labelEncoding = new System.Windows.Forms.Label();
+             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
+             ((System.ComponentModel.ISupportInitialize)(this.repeatCount)).BeginInit();
++            this.groupBoxPrefix.SuspendLayout();
+             this.SuspendLayout();
+             // 
+             // timer1
+@@ -140,13 +162,13 @@
+             // 
+             this.label1.Location = new System.Drawing.Point(648, 16);
+             this.label1.Name = "label1";
+-            this.label1.Size = new System.Drawing.Size(128, 23);
++            this.label1.Size = new System.Drawing.Size(90, 23);
+             this.label1.TabIndex = 4;
+             this.label1.Text = "label1";
+             // 
+             // button1
+             // 
+-            this.button1.Location = new System.Drawing.Point(704, 104);
++            this.button1.Location = new System.Drawing.Point(759, 11);
+             this.button1.Name = "button1";
+             this.button1.Size = new System.Drawing.Size(75, 23);
+             this.button1.TabIndex = 5;
+@@ -173,7 +195,7 @@
+             // 
+             // button2
+             // 
+-            this.button2.Location = new System.Drawing.Point(701, 155);
++            this.button2.Location = new System.Drawing.Point(759, 53);
+             this.button2.Name = "button2";
+             this.button2.Size = new System.Drawing.Size(75, 23);
+             this.button2.TabIndex = 8;
+@@ -199,16 +221,120 @@
+             // 
+             // chkTcp
+             // 
+-            this.chkTcp.Location = new System.Drawing.Point(24, 158);
++            this.chkTcp.Location = new System.Drawing.Point(24, 152);
+             this.chkTcp.Name = "chkTcp";
+             this.chkTcp.Size = new System.Drawing.Size(200, 24);
+             this.chkTcp.TabIndex = 10;
+             this.chkTcp.Text = "Send to TCP @ 9999";
+             // 
++            // chkUdpAny
++            // 
++            this.chkUdpAny.Location = new System.Drawing.Point(24, 176);
++            this.chkUdpAny.Name = "chkUdpAny";
++            this.chkUdpAny.Size = new System.Drawing.Size(253, 24);
++            this.chkUdpAny.TabIndex = 11;
++            this.chkUdpAny.Text = "Send to UDP @";
++            // 
++            // hostnameUdpAny
++            // 
++            this.hostnameUdpAny.Location = new System.Drawing.Point(125, 178);
++            this.hostnameUdpAny.Name = "hostnameUdpAny";
++            this.hostnameUdpAny.Size = new System.Drawing.Size(90, 20);
++            this.hostnameUdpAny.TabIndex = 12;
++            this.hostnameUdpAny.Text = "127.0.0.1";
++            this.hostnameUdpAny.TextChanged += new System.EventHandler(this.hostnameUdpAny_TextChanged);
++            // 
++            // portUdpAny
++            // 
++            this.portUdpAny.Location = new System.Drawing.Point(220, 178);
++            this.portUdpAny.Name = "portUdpAny";
++            this.portUdpAny.Size = new System.Drawing.Size(50, 20);
++            this.portUdpAny.TabIndex = 13;
++            this.portUdpAny.Text = "8080";
++            this.portUdpAny.TextChanged += new System.EventHandler(this.portUdpAny_TextChanged);
++            // 
++            // groupBoxPrefix
++            // 
++            this.groupBoxPrefix.Controls.Add(this.checkBoxPrefixCounter);
++            this.groupBoxPrefix.Controls.Add(this.checkBoxPrefixTime);
++            this.groupBoxPrefix.Controls.Add(this.checkBoxPrefixType);
++            this.groupBoxPrefix.Location = new System.Drawing.Point(618, 98);
++            this.groupBoxPrefix.Name = "groupBoxPrefix";
++            this.groupBoxPrefix.Size = new System.Drawing.Size(216, 100);
++            this.groupBoxPrefix.TabIndex = 14;
++            this.groupBoxPrefix.TabStop = false;
++            this.groupBoxPrefix.Text = "Prefix";
++            // 
++            // checkBoxPrefixType
++            // 
++            this.checkBoxPrefixType.AutoSize = true;
++            this.checkBoxPrefixType.Checked = true;
++            this.checkBoxPrefixType.CheckState = System.Windows.Forms.CheckState.Checked;
++            this.checkBoxPrefixType.Location = new System.Drawing.Point(7, 20);
++            this.checkBoxPrefixType.Name = "checkBoxPrefixType";
++            this.checkBoxPrefixType.Size = new System.Drawing.Size(50, 17);
++            this.checkBoxPrefixType.TabIndex = 0;
++            this.checkBoxPrefixType.Text = "Type";
++            this.checkBoxPrefixType.UseVisualStyleBackColor = true;
++            // 
++            // checkBoxPrefixTime
++            // 
++            this.checkBoxPrefixTime.AutoSize = true;
++            this.checkBoxPrefixTime.Checked = true;
++            this.checkBoxPrefixTime.CheckState = System.Windows.Forms.CheckState.Checked;
++            this.checkBoxPrefixTime.Location = new System.Drawing.Point(7, 44);
++            this.checkBoxPrefixTime.Name = "checkBoxPrefixTime";
++            this.checkBoxPrefixTime.Size = new System.Drawing.Size(49, 17);
++            this.checkBoxPrefixTime.TabIndex = 1;
++            this.checkBoxPrefixTime.Text = "Time";
++            this.checkBoxPrefixTime.UseVisualStyleBackColor = true;
++            // 
++            // checkBoxPrefixCounter
++            // 
++            this.checkBoxPrefixCounter.AutoSize = true;
++            this.checkBoxPrefixCounter.Checked = true;
++            this.checkBoxPrefixCounter.CheckState = System.Windows.Forms.CheckState.Checked;
++            this.checkBoxPrefixCounter.Location = new System.Drawing.Point(7, 68);
++            this.checkBoxPrefixCounter.Name = "checkBoxPrefixCounter";
++            this.checkBoxPrefixCounter.Size = new System.Drawing.Size(63, 17);
++            this.checkBoxPrefixCounter.TabIndex = 2;
++            this.checkBoxPrefixCounter.Text = "Counter";
++            this.checkBoxPrefixCounter.UseVisualStyleBackColor = true;
++            // 
++            // listBoxEncoding
++            // 
++            this.listBoxEncoding.FormattingEnabled = true;
++            this.listBoxEncoding.Items.AddRange(new object[] {
++            "Ascii",
++            "Unicode (UTF16)",
++            "Unicode (UTF16) Big Endian",
++            "UTF7",
++            "UTF8",
++            "UTF32"});
++            this.listBoxEncoding.Location = new System.Drawing.Point(676, 204);
++            this.listBoxEncoding.Name = "listBoxEncoding";
++            this.listBoxEncoding.Size = new System.Drawing.Size(158, 82);
++            this.listBoxEncoding.TabIndex = 15;
++            // 
++            // labelEncoding
++            // 
++            this.labelEncoding.AutoSize = true;
++            this.labelEncoding.Location = new System.Drawing.Point(618, 204);
++            this.labelEncoding.Name = "labelEncoding";
++            this.labelEncoding.Size = new System.Drawing.Size(52, 13);
++            this.labelEncoding.TabIndex = 16;
++            this.labelEncoding.Text = "Encoding";
++            // 
+             // Form1
+             // 
+             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
+             this.ClientSize = new System.Drawing.Size(856, 409);
++            this.Controls.Add(this.labelEncoding);
++            this.Controls.Add(this.listBoxEncoding);
++            this.Controls.Add(this.groupBoxPrefix);
++            this.Controls.Add(this.portUdpAny);
++            this.Controls.Add(this.hostnameUdpAny);
++            this.Controls.Add(this.chkUdpAny);
+             this.Controls.Add(this.chkTcp);
+             this.Controls.Add(this.repeatCount);
+             this.Controls.Add(this.button2);
+@@ -224,6 +350,8 @@
+             this.Text = "Form1";
+             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
+             ((System.ComponentModel.ISupportInitialize)(this.repeatCount)).EndInit();
++            this.groupBoxPrefix.ResumeLayout(false);
++            this.groupBoxPrefix.PerformLayout();
+             this.ResumeLayout(false);
+             this.PerformLayout();
+ 
+@@ -241,9 +369,14 @@
+ 			Application.Run(new Form1());
+ 		}
+ 
+-		private void trackBar1_Scroll(object sender, System.EventArgs e)
++        private void label1_Update()
++        {
++            label1.Text = trackBar1.Value.ToString() + " ms";
++        }
++
++        private void trackBar1_Scroll(object sender, System.EventArgs e)
+ 		{
+-			label1.Text = trackBar1.Value.ToString() + " ms";
++            label1_Update();
+ 		}
+ 
+ 		private void button1_Click(object sender, System.EventArgs e)
+@@ -274,12 +407,19 @@
+ 		{
+ 			if(chkUdp.Checked)
+ 			{
+-				sendUDP(8080);
++                sendUDP(chkUdp, "127.0.0.1", 8080);
+ 			}
+ 			if(chkUDP_2.Checked)
+ 			{
+-				sendUDP(8081);
++                sendUDP(chkUDP_2, "127.0.0.1", 8081);
+ 			}
++            if ((chkUdpAny.Checked) && (udpAny_Validate()))
++            {
++                string  hostname = hostnameUdpAny.Text.Trim();
++                string  portStr = portUdpAny.Text.Trim();
++                int     port = int.Parse(portStr);
++                sendUDP(chkUdpAny, hostname, port);
++            }
+             if (chkTcp.Checked)
+             {
+                 sendTCP(9999);
+@@ -320,8 +460,9 @@
+                 // combination.
+                 TcpClient client = new TcpClient("localhost", port);
+ 
+-                // Translate the passed message into ASCII and store it as a Byte array.
+-                Byte[] data = System.Text.Encoding.Unicode.GetBytes(txtForUdp8080.Text);
++                // Translate the passed message and store it as a Byte array.
++                System.Text.Encoding encoding = getEncoding();
++                Byte[] data = encoding.GetBytes(txtForUdp8080.Text);
+ 
+                 // Get a client stream for reading and writing.
+                 //  Stream stream = client.GetStream();
+@@ -362,24 +503,83 @@
+             }
+             
+         }
+-		private void sendUDP(int port)
++        private void sendUDP(CheckBox checkBox, string hostname, int port)
+ 		{
+-				
+-			sendUDP(port, getMsg("UDP"));
++            sendUDP(checkBox, hostname, port, getMsg("UDP"));
+ 
+ 		}
+-		private void sendUDP(int port, string message)
++        private void sendUDP(CheckBox checkBox, string hostname, int port, string message)
+ 		{
+-			System.Net.Sockets.UdpClient udp = new System.Net.Sockets.UdpClient("127.0.0.1", port);
+-			byte[] foo = System.Text.Encoding.Unicode.GetBytes(message);
+-				
+-			udp.Send(foo, foo.Length);
+-		}
++            bool no_error = true;
++            try
++            {
++                System.Net.Sockets.UdpClient udp = new System.Net.Sockets.UdpClient(hostname, port);
++                byte[] foo = MsgToData(message);
+ 
++                udp.Send(foo, foo.Length);
++            }
++            catch (Exception e)
++            {
++                Console.WriteLine("Exception: {0}", e);
++                no_error = false;
++            }
++
++            checkBox.BackColor = no_error ? CheckBox.DefaultBackColor : Color.Red;
++        }
++
+ 		private string getMsg(string type)
+ 		{
+-            return type + "@" + DateTime.Now.ToLongTimeString() + DateTime.Now.Millisecond.ToString() + " {{" + ctr.ToString() + "}} " + txtForUdp8080.Text ;
+-		}
++            string msg = "";
++            if (checkBoxPrefixType.Checked)
++                msg += type + " ";
++            if (checkBoxPrefixTime.Checked)
++                msg += "@" + DateTime.Now.ToLongTimeString() + "." + DateTime.Now.Millisecond.ToString("000") + " ";
++            if (checkBoxPrefixCounter.Checked)
++                msg += "{{" + ctr.ToString() + "}} ";
++
++            msg += txtForUdp8080.Text;
++            return msg;
++        }
++
++        private System.Text.Encoding getEncoding()
++        {
++            System.Text.Encoding encoding = System.Text.Encoding.Unicode;
++            if (listBoxEncoding.SelectedItem == "Ascii")
++            {
++                encoding = System.Text.Encoding.ASCII;
++            }
++            else if (listBoxEncoding.SelectedItem == "UTF7")
++            {
++                encoding = System.Text.Encoding.UTF7;
++            }
++            else if (listBoxEncoding.SelectedItem == "UTF8")
++            {
++                encoding = System.Text.Encoding.UTF8;
++            }
++            else if (listBoxEncoding.SelectedItem == "UTF32")
++            {
++                encoding = System.Text.Encoding.UTF32;
++            }
++            else if (listBoxEncoding.SelectedItem.ToString().Contains("Big"))
++            {
++                encoding = System.Text.Encoding.BigEndianUnicode;
++            }
++            else
++            {
++                encoding = System.Text.Encoding.Unicode;
++            }
++
++            return encoding;
++        }
++
++        private byte[] MsgToData(string msg)
++        {
++            System.Text.Encoding encoding = getEncoding();
++
++            Byte[] data = encoding.GetBytes(msg);
++            return data;
++        }
++
+ 		private void sendEventLog()
+ 		{
+ 			System.Diagnostics.EventLog.WriteEntry("Application", getMsg("EventLog"));
+@@ -397,5 +597,103 @@
+                 send();
+             }
+ 		}
++
++        private static bool hostname_port_Validate(string hostname, int port)
++        {
++            bool  no_error = true;
++            try {
++                // When hostname is not recognized as an ip address,
++                //  UdpClient take it as an hostname and
++                //  try to resolve it using network.
++                // So it could take some times.
++                // So I do not use it.
++//                System.Net.Sockets.UdpClient udp = new System.Net.Sockets.UdpClient(hostname, port);
++
++                // Parse accepts many things as ip address :
++                // 127.0.0    127.0    127    6543
++                System.Net.IPAddress ipadd;
++                no_error = System.Net.IPAddress.TryParse(hostname, out ipadd);
++
++                if (no_error)
++                {
++                    System.Net.Sockets.UdpClient udp = new System.Net.Sockets.UdpClient(hostname, port);
++                }
++            }
++            catch(Exception)
++            {
++                no_error = false;
++            }
++
++            return no_error;
++        }
++
++        private static bool hostname_Validate(string hostname)
++        {
++            return  hostname_port_Validate(hostname, 8080);
++        }
++
++        private static int port_Validate(string portStr)
++        {
++            int    port = -1;
++            bool   result = int.TryParse(portStr, out port);
++            if ((result == false) || (port < 0) || (hostname_port_Validate("127.0.0.1", port) != true))
++            {
++                port = -1;
++            }
++
++            return  port;
++        }
++
++        private bool udpAny_Validate()
++        {
++            bool no_error = hostnameUdpAny_Validate();
++            no_error = portUdpAny_Validate() && no_error;
++
++            return no_error;
++        }
++
++        private bool hostnameUdpAny_Validate()
++        {
++            bool no_error = true;
++
++            if (hostname_Validate(hostnameUdpAny.Text.Trim()) == false)
++            {
++                hostnameUdpAny.BackColor = Color.Red;
++                no_error = false;
++            }
++            else
++            {
++                hostnameUdpAny.BackColor = TextBox.DefaultBackColor;
++            }
++
++            return no_error;
++        }
++
++        private void hostnameUdpAny_TextChanged(object sender, EventArgs e)
++        {
++            hostnameUdpAny_Validate();
++        }
++
++        private bool portUdpAny_Validate()
++        {
++            bool no_error = true;
++
++            if (port_Validate(portUdpAny.Text.Trim()) < 0)
++            {
++                portUdpAny.BackColor = Color.Red;
++                no_error = false;
++            }
++            else
++            {
++                portUdpAny.BackColor = TextBox.DefaultBackColor;
++            }
++
++            return no_error;
++        }
++
++        private void portUdpAny_TextChanged(object sender, EventArgs e)
++        {
++            portUdpAny_Validate();
++        }
+ 	}
+ }
