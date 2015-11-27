@@ -9,6 +9,7 @@ using System;
 using logview4net.Viewers;
 using NUnit.Framework;
 using Action = logview4net.Viewers.Action;
+using logview4net.Listeners;
 
 namespace logview4net.test
 {
@@ -39,10 +40,10 @@ namespace logview4net.test
 			Txt.Clear();
 			var bs = 10;
 			tv.BufferSize = bs;
-
+            
 			for(var i = 0; i < bs-1; i++)
 			{
-				tv.AddEvent(i.ToString());
+				tv.AddEvent(i.ToString(), new FileListener());
 				//It seems that there is an empty line att the end if the 'last' line ends with a NewLine
 				Assert.AreEqual(i +2, tv.Txt.Lines.Length, "Linecount differs from expected.");
 			}
@@ -62,7 +63,7 @@ namespace logview4net.test
 
 			for(var i = 0; i < bs; i++)
 			{
-				tv.AddEvent(i.ToString());
+				tv.AddEvent(i.ToString(), new FileListener());
 			}
 			//It seems that there is an empty line att the end if the 'last' line ends with a NewLine
 			Assert.AreEqual(bs +1 , tv.Txt.Lines.Length, "Line count differs from expected.");
@@ -79,11 +80,11 @@ namespace logview4net.test
             Actions.Clear();
             Actions.Add(Action.CreateIgnoreAction("foo"));
 
-            AddEvent("bar");
+            AddEvent("bar", new FileListener());
             Assert.AreEqual("bar\n", Txt.Text);
-            AddEvent("foo");
+            AddEvent("foo", new FileListener());
             Assert.AreEqual("bar\n", Txt.Text);
-            AddEvent("bar");
+            AddEvent("bar", new FileListener());
             Assert.AreEqual("bar\nbar\n", Txt.Text);
             
         }

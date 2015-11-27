@@ -156,16 +156,18 @@ namespace logview4net
 		{
 			if (_log.Enabled) _log.Debug(GetHashCode(), "AddEvent(Ilistener, string)");
 			WriteToLogFile(data);
-			
+            string msg;
 			try
 			{
 				if (sender.ShowTimestamp)
 				{
-					_viewer.AddEvent(getListenerPrefix(sender) + DateTime.Now.ToString(sender.TimestampFormat) + " - " + data);
+                    msg = getListenerPrefix(sender) + DateTime.Now.ToString(sender.TimestampFormat) + " - " + data;
+                    _viewer.AddEvent(msg, sender);
 				}
 				else
 				{
-					_viewer.AddEvent(getListenerPrefix(sender) + data);
+                    msg = getListenerPrefix(sender) + data;
+                    _viewer.AddEvent(msg, sender);
 				}
 			}
 			catch (Exception ex)
@@ -193,7 +195,7 @@ namespace logview4net
 						WriteToLogFile(line);
 						lst.Add(DateTime.Now.ToString(listener.TimestampFormat) + " - " + line);
 					}
-					_viewer.AddEvent(getListenerPrefix(listener), lst);
+					_viewer.AddEvent(getListenerPrefix(listener), lst, listener);
 				}
 				else
 				{
@@ -202,7 +204,7 @@ namespace logview4net
 						WriteToLogFile(line);
 					}
 
-					_viewer.AddEvent(getListenerPrefix(listener), lines);
+					_viewer.AddEvent(getListenerPrefix(listener), lines, listener);
 				}
 
 				

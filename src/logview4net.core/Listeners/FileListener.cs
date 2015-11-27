@@ -443,10 +443,10 @@ namespace logview4net.Listeners
             var ret = new List<string>();
             ret.Add("n/a");
             ret.Add("json");
-            ret.Add("xml");
-            ret.Add("csv (,)");
-            ret.Add("csv (;)");
-            ret.Add("csv (TAB)");
+            //ret.Add("xml");
+            //ret.Add("csv (,)");
+            //ret.Add("csv (;)");
+            //ret.Add("csv (TAB)");
 
             return ret;
         }

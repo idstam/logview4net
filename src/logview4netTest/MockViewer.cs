@@ -13,6 +13,7 @@ using System.Collections;
 using System.Xml;
 using System.Collections.Generic;
 using Action = logview4net.Viewers.Action;
+using logview4net.Listeners;
 
 namespace logview4net.test
 {
@@ -61,7 +62,7 @@ namespace logview4net.test
 		/// Adds an event to this viewer
 		/// </summary>
 		/// <param name="message">Message.</param>
-		public void AddEvent(string message)
+		public void AddEvent(string message, IListener listener)
 		{
             _log.Debug(GetHashCode(), message);
 
@@ -71,7 +72,7 @@ namespace logview4net.test
         /// <summary>
         /// Adds a list of events to this viewer
         /// </summary>
-        public void AddEvent(string prefix, List<string> lines)
+        public void AddEvent(string prefix, List<string> lines, IListener listener)
         {
             ReceivedData.AddRange(lines);
         }

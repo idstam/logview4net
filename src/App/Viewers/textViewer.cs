@@ -92,7 +92,6 @@ namespace logview4net.Viewers
         private ToolStripMenuItem _redToolStripMenuItem1;
         private SaveFileDialog _saveFileDialog1;
         private ToolStripMenuItem _saveToFileToolStripMenuItem;
-        private Session _session;
         private ToolStripMenuItem _showHiddenToolStripMenuItem;
         private ToolStripSeparator _toolStripSeparator1;
 
@@ -759,7 +758,7 @@ namespace logview4net.Viewers
         /// <summary>
         ///     Adds a list of events to this viewer
         /// </summary>
-        public void AddEvent(string prefix, List<string> lines)
+        public void AddEvent(string prefix, List<string> lines, IListener listener)
         {
             var a = new AddEventsAsynch(InvokedAddEvents);
             Invoke(a, new object[] {prefix, lines});
@@ -769,7 +768,8 @@ namespace logview4net.Viewers
         ///     Adds an event to show
         /// </summary>
         /// <param name="message">The message to show.</param>
-        public void AddEvent(string message)
+        /// <param name="listener">The listener that received the data</param>
+        public void AddEvent(string message, IListener listener)
         {
             var le = new LogEvent(message, _actions, true);
             try

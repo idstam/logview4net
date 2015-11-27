@@ -1002,6 +1002,24 @@
             the contents of this method with the code editor.
             </summary>
         </member>
+        <member name="T:logview4net.Viewers.StructuredMessageFormatter">
+            <summary>
+            Formats a structured message in to a more readable form.
+            </summary>
+        </member>
+        <member name="M:logview4net.Viewers.StructuredMessageFormatter.#ctor(System.String,logview4net.Listeners.IConfigurableListener)">
+            <summary>
+            Creates a message formatter.
+            </summary>
+            <param name="message"></param>
+            <param name="listener"></param>
+        </member>
+        <member name="M:logview4net.Viewers.StructuredMessageFormatter.Message">
+            <summary>
+            The formatted message if the listener is a structured listener.
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:logview4net.Viewers.textConfigurator">
             <summary>
             Summary description for rtfViewerConfigurator.
@@ -1188,16 +1206,17 @@
                 Whether or not to cache events when the viewer is paused
             </summary>
         </member>
-        <member name="M:logview4net.Viewers.TextViewer.AddEvent(System.String,System.Collections.Generic.List{System.String})">
+        <member name="M:logview4net.Viewers.TextViewer.AddEvent(System.String,System.Collections.Generic.List{System.String},logview4net.Listeners.IListener)">
             <summary>
                 Adds a list of events to this viewer
             </summary>
         </member>
-        <member name="M:logview4net.Viewers.TextViewer.AddEvent(System.String)">
+        <member name="M:logview4net.Viewers.TextViewer.AddEvent(System.String,logview4net.Listeners.IListener)">
             <summary>
                 Adds an event to show
             </summary>
             <param name="message">The message to show.</param>
+            <param name="listener">The listener that received the data</param>
         </member>
         <member name="M:logview4net.Viewers.TextViewer.HasHiddenMessages">
             <summary>
