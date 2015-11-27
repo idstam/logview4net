@@ -38,7 +38,7 @@ namespace logview4net.Listeners
         /// <summary>
         /// Indicates whether the listener has column headers that the viewer can ask for.
         /// </summary>
-        public bool HasColumnHeaders{ get{ return true;}}
+        public bool IsStructured{ get{ return true;}}
         
         /// <summary>
         /// Gets or sets the name of the MySQL host the listener connects to

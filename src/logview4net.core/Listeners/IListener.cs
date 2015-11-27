@@ -22,7 +22,7 @@ namespace logview4net.Listeners
     	/// <summary>
         /// Indicates whether the listener has column headers that the viewer can ask for.
         /// </summary>
-    	bool HasColumnHeaders {get;}
+    	bool IsStructured {get;}
     	
         bool IsRestartable{get;}
 

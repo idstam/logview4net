@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deployment", "Deployment", "{9EEC8DD1-1ECF-440C-988C-0A2E2184235A}"
 	ProjectSection(SolutionItems) = preProject
@@ -9,6 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deployment", "Deployment", 
 		Deployment\logview4net.pad.xml = Deployment\logview4net.pad.xml
 		Deployment\logview4net.version = Deployment\logview4net.version
 		Deployment\Manual tests.txt = Deployment\Manual tests.txt
+		..\README.md = ..\README.md
 		Deployment\README.txt = Deployment\README.txt
 		..\set_version.cmd = ..\set_version.cmd
 		Deployment\SolutionInfo.cs = Deployment\SolutionInfo.cs

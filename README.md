@@ -22,6 +22,7 @@ Atom and RSS feeds.
 
 ## CHANGELOG:
 XXX
+  * Using Nuget to get the correct verson of MySql.Data
   * Fix: The button to restart a listener went out of sight
 
 ### 13.34

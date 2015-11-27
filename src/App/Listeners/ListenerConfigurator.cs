@@ -124,11 +124,11 @@ namespace logview4net.Listeners
                     c.Enabled = !_listener.IsRunning;
                     c.Name = name;
                     c.Left = _nextLeft;
-                    c.Sorted = true;
                     c.DropDownStyle = ComboBoxStyle.DropDownList;
                     c.Items.Clear();
                     c.Items.AddRange(_listener.GetMultiOptions(name).ToArray());
-
+                    var selectedIndex = c.FindString(_listener.GetConfigValue(name));
+                    c.SelectedIndex = selectedIndex;
                     c.Top = _nextTop;
 
                     Controls.Add(c);

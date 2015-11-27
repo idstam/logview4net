@@ -26,7 +26,7 @@ namespace logview4net.Listeners
             get { return _hash; }
         }
 
-        public bool HasColumnHeaders{ get{ return false;}}
+        public bool IsStructured{ get{ return false;}}
         public bool IsRestartable
         {
             get { return false; }

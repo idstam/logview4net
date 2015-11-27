@@ -24,7 +24,7 @@ namespace logview4net.test
             get { return _hash; }
         }
 
-        public bool HasColumnHeaders{ get{ return true;}}
+        public bool IsStructured{ get{ return true;}}
         public bool IsRestartable
         {
             get { return true; }

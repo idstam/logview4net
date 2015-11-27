@@ -32,7 +32,7 @@ namespace logview4net.Listeners
             get { return _hash; }
         }
 
-        public bool HasColumnHeaders{ get{ return false;}}
+        public bool IsStructured{ get{ return false;}}
         public bool IsRestartable{    get { return true; }}
         
         public bool IsConfigured { get; set; }
@@ -69,6 +69,8 @@ namespace logview4net.Listeners
         protected bool _onlyTail = true;
 
         protected string _encName = "Unicode";
+
+        protected string _structured = "n/a";
         /// <summary>
         /// The <see cref="StreamReader"/> used for readig the file.
         /// </summary>
@@ -363,7 +365,7 @@ namespace logview4net.Listeners
 
 
         /// <summary>
-        /// Gets the config value fields.
+        /// Gets the config value fields to build the congif gui.
         /// </summary>
         /// <returns></returns>
         public Dictionary<string, ListenerConfigField> GetConfigValueFields()
@@ -384,6 +386,12 @@ namespace logview4net.Listeners
             f.Name = "Start at end";
             f.MultiValueType = MultiValueTypes.Check;
             ret.Add("only_tail", f);
+
+            f = new ListenerConfigField();
+            f.Name = "Structured";
+            f.MultiValueType = MultiValueTypes.Combo;
+            ret.Add("structured", f);
+
 
             f = new ListenerConfigField();
             f.Name = "BREAK";
@@ -412,29 +420,50 @@ namespace logview4net.Listeners
             f.MultiValueType = MultiValueTypes.Combo;
             ret.Add("encoding", f);
 
-
             return ret;
         }
         
         public List<string> GetMultiOptions(string name)
         {
+            switch(name.ToLowerInvariant())
+            {
+                case "encoding":
+                    return GetEncodingOptions();
+                case "structured":
+                    return GetStructuredOptions();
+                default:
+                    throw new ArgumentException("No know MultiOption named " + name);
+            }
+            
+
+        }
+
+        private static List<string> GetStructuredOptions()
+        {
+            var ret = new List<string>();
+            ret.Add("n/a");
+            ret.Add("json");
+            ret.Add("xml");
+            ret.Add("csv (,)");
+            ret.Add("csv (;)");
+            ret.Add("csv (TAB)");
+
+            return ret;
+        }
+
+        private static List<string> GetEncodingOptions()
+        {
             var ret = new List<string>();
             ret.Add(HexEncoder.EncName);
-            foreach(var t in Encoding.GetEncodings())
+            foreach (var t in Encoding.GetEncodings())
             {
                 ret.Add(t.Name);
             }
             ret.Add("Unicode");
-            //ret.Add("Unicode");
-            //ret.Add("ASCII");
-            //ret.Add("UTF7");
-            //ret.Add("UTF8");
-            //ret.Add("UTF32");
-            //ret.Add("BigEndianUnicode");
-            
+            ret.Sort();
             return ret;
-        
         }
+
         /// <summary>
         /// Gets the config value.
         /// </summary>
@@ -456,6 +485,8 @@ namespace logview4net.Listeners
                     return null;
                 case "encoding":
                     return _encName;
+                case "structured":
+                    return _structured;
                 default:
                     throw new NotImplementedException("This listener has no field named: " + name);
             }
@@ -488,6 +519,9 @@ namespace logview4net.Listeners
                     break;
                 case "encoding":
                     _encName = value;
+                    break;
+                case "structured":
+                    _structured = value;
                     break;
                 case "file_open":
                     _fileName = value;

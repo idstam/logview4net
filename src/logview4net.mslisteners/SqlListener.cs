@@ -42,7 +42,7 @@ namespace logview4net.Listeners
             }
         }
 
-        public bool HasColumnHeaders
+        public bool IsStructured
         {
             get
             {
