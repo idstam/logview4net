@@ -32,7 +32,7 @@ namespace logview4net.Listeners
             get { return _hash; }
         }
 
-        public bool IsStructured{ get{ return false;}}
+        public bool IsStructured{ get{ return _structured != "n/a";}}
         public bool IsRestartable{    get { return true; }}
         
         public bool IsConfigured { get; set; }

@@ -329,6 +329,8 @@ namespace logview4net
 		
 		private void WriteToLogFile(string msg)
 		{
+            if (!_viewer.LogToFile) return;
+
 			if(_rollingStorage == null)
 			{
 				_rollingStorage = new RollingFileAppender(_viewer.LogFile, _viewer.LogRolling, _viewer.LogToFile);

@@ -115,6 +115,7 @@
     <Compile Include="ConfigureLogSessionTest.cs" />
     <Compile Include="EventLogListenerMonitor.cs" />
     <Compile Include="EventLogListenerTest.cs" />
+    <Compile Include="StructuredFormatterTest .cs" />
     <Compile Include="JsonStructuredFileListenerTest.cs" />
     <Compile Include="FileListenerTest.cs" />
     <Compile Include="HexEncoderTest.cs" />

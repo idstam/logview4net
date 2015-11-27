@@ -21,7 +21,7 @@ namespace logview4net.Viewers
         public StructuredMessageFormatter(string message, IConfigurableListener listener)
         {
             _message = message;
-            _format = listener.IsStructured ? listener.GetConfigValue("structure") : "n/a";
+            _format = listener.IsStructured ? listener.GetConfigValue("structured") : "n/a";
         }
 
         /// <summary>
@@ -41,7 +41,54 @@ namespace logview4net.Viewers
 
         private string asJson()
         {
-            throw new NotImplementedException();
+            int curlyCount = 0;
+            bool inString = false;
+            var ret = new StringBuilder();
+            foreach(var c in _message)
+            {
+                if (!inString)
+                {
+                    if (c == '{')
+                    {
+                        curlyCount++;
+                        ret.AppendLine();
+                        ret.AppendLine("{");
+                        ret.Append(new string('\t', curlyCount));
+                        continue;
+                    }
+                    if (c == '}')
+                    {
+                        curlyCount--;
+                        ret.AppendLine();
+                        ret.Append(new string('\t', curlyCount));
+                        ret.Append("}");
+                        ret.AppendLine();
+                        ret.Append(new string('\t', curlyCount));
+                        
+                        continue;
+                    }
+                    if (c == ',')
+                    {
+                        ret.Append(",");
+                        ret.AppendLine();
+                        ret.Append(new string('\t', curlyCount));
+                        continue;
+                    }
+                    ret.Append(c);
+
+                }
+                else
+                {
+                    ret.Append(c);
+                }
+                if (c == '"')
+                {
+                    inString = !inString;
+                }
+
+            }
+
+            return ret.ToString();
         }
     }
 }
