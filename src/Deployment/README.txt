@@ -21,7 +21,9 @@ KNOWN BUGS:
 The viewer configurator is not loaded with the right settings
 
 CHANGELOG:
-XXX
+16.08
+Fix Bug: #33 Log window is not displayed
+Rewrote build pipeline in Python
 Using Nuget to get the correct verson of MySql.Data
 Fix: The button to restart a listener went out of sight
 

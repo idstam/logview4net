@@ -18,5 +18,5 @@
 // by using the '*' as shown below:
 
 using System.Reflection;
-[assembly: AssemblyVersion("15.16.0")]
+[assembly: AssemblyVersion("16.08.0")]
 

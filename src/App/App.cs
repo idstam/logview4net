@@ -270,6 +270,8 @@ namespace logview4net
 
         private void SaveFormPosition()
         {
+            if(WindowState == FormWindowState.Minimized) return;
+
             Settings1.Default.FormPos = new Point(Left, Top);
             Settings1.Default.FormSize = Size;
             Settings1.Default.FormState = WindowState;
@@ -280,8 +282,10 @@ namespace logview4net
         {
             if (Settings1.Default.FormSize.Width < 10) return;
 
+            if (Settings1.Default.FormState == FormWindowState.Minimized) return;
+            
             Left = Settings1.Default.FormPos.X;
-            Top = Settings1.Default.FormPos.Y;
+            Top = Settings1.Default.FormPos.Y;            
             Size = Settings1.Default.FormSize;
             WindowState = Settings1.Default.FormState;
         }
