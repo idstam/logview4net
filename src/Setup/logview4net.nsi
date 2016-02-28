@@ -56,7 +56,7 @@ Section "logview4net (required)"
   File "..\App\DefaultSession.xml"
   File "..\Deployment\README.TXT"
   File "..\Deployment\LICENSE.RTF"
-  File "..\..\Lib\MySql.data.dll"
+  File "..\App\bin\release\MySql.data.dll"
   
   ; Write the installation path into the registry
   WriteRegStr HKLM SOFTWARE\logview4net "Install_Dir" "$INSTDIR"

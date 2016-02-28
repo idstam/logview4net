@@ -205,3 +205,5 @@ src/Help/*
 src/sign_log.txt
 src/sign_log_app.txt
 src/sign_log_installer.txt
+/src/Deployment/logview4net.pad.xml.old
+/src/Deployment/SolutionVersionInfo.cs.old
