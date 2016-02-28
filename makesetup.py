@@ -127,6 +127,12 @@ def delete_file(file):
     except OSError:
         pass
 
+def copy_files_to_site():
+    shutil.copyfile(r".\src\setup\logview4net_setup.exe", r".\site_hugo\static\dlfolder\logview4net_setup.exe")
+    shutil.copyfile(r".\src\Deployment\logview4net.version", r".\site_hugo\static\dlfolder\logview4net.version")
+    shutil.copyfile(r".\src\Deployment\logview4net.pad.xml", r".\site_hugo\static\dlfolder\logview4net.pad.xml")
+
+
 def delete_folder(folder):
     try:
         shutil.rmtree(folder)
@@ -160,4 +166,7 @@ sign_exe(sign_tool_path, cert_path, password, version_info,  exe_file,  sign_log
 
 write_auto_update_version_file(short_version)
 update_pad()
+
+copy_files_to_site()
+
 input("Press Enter to continue...")
