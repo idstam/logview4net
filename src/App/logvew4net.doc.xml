@@ -425,58 +425,6 @@
             the contents of this method with the code editor.
             </summary>
         </member>
-        <member name="T:logview4net.Listeners.ListenerConfigurator">
-            <summary>
-            This is a dynamic configurator for all listeners.
-            </summary>
-        </member>
-        <member name="M:logview4net.Listeners.ListenerConfigurator.#ctor(logview4net.Listeners.IConfigurableListener,logview4net.Session)">
-            <summary>
-            Initializes a new instance of the <see cref="T:logview4net.Listeners.ListenerConfigurator"/> class.
-            </summary>
-            <param name="listener">The listener.</param>
-            <param name="session">The current session.</param>
-        </member>
-        <member name="M:logview4net.Listeners.ListenerConfigurator.UpdateControls">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:logview4net.Listeners.ListenerConfigurator.Caption">
-            <summary>
-            Gets the caption.
-            </summary>
-            <value>The caption.</value>
-        </member>
-        <member name="P:logview4net.Listeners.ListenerConfigurator.Configuration">
-            <summary>
-            Gets or sets the configuration data for this configurator.
-            </summary>
-            <value></value>
-        </member>
-        <member name="P:logview4net.Listeners.ListenerConfigurator.Listener">
-            <summary>
-            Gets the listener for an implementation of this interface
-            </summary>
-            <value></value>
-        </member>
-        <member name="F:logview4net.Listeners.ListenerConfigurator.components">
-            <summary> 
-            Required designer variable.
-            </summary>
-        </member>
-        <member name="M:logview4net.Listeners.ListenerConfigurator.Dispose(System.Boolean)">
-            <summary> 
-            Clean up any resources being used.
-            </summary>
-            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        </member>
-        <member name="M:logview4net.Listeners.ListenerConfigurator.InitializeComponent">
-            <summary> 
-            Required method for Designer support - do not modify 
-            the contents of this method with the code editor.
-            </summary>
-        </member>
         <member name="M:logview4net.Program.Main(System.String[])">
             <summary>
             Application entry point.
@@ -933,13 +881,14 @@
             The actions associated with the event.
             </summary>
         </member>
-        <member name="M:logview4net.Viewers.LogEvent.#ctor(System.String,System.Collections.Generic.List{logview4net.Viewers.Action},System.Boolean)">
+        <member name="M:logview4net.Viewers.LogEvent.#ctor(System.String,System.Collections.Generic.List{logview4net.Viewers.Action},System.Boolean,System.String)">
             <summary>
             Contructor
             </summary>
             <param name="message"></param>
             <param name="actions"></param>
             <param name="getActions"></param>
+            <param name="structure"></param>
         </member>
         <member name="M:logview4net.Viewers.LogEvent.#ctor">
             <summary>
@@ -1007,7 +956,7 @@
             Formats a structured message in to a more readable form.
             </summary>
         </member>
-        <member name="M:logview4net.Viewers.StructuredMessageFormatter.#ctor(System.String,logview4net.Listeners.IConfigurableListener)">
+        <member name="M:logview4net.Viewers.StructuredMessageFormatter.#ctor(System.String,logview4net.Listeners.ListenerBase)">
             <summary>
             Creates a message formatter.
             </summary>
@@ -1206,12 +1155,12 @@
                 Whether or not to cache events when the viewer is paused
             </summary>
         </member>
-        <member name="M:logview4net.Viewers.TextViewer.AddEvent(System.String,System.Collections.Generic.List{System.String},logview4net.Listeners.IListener)">
+        <member name="M:logview4net.Viewers.TextViewer.AddEvent(System.String,System.Collections.Generic.List{System.String},logview4net.Listeners.ListenerBase)">
             <summary>
                 Adds a list of events to this viewer
             </summary>
         </member>
-        <member name="M:logview4net.Viewers.TextViewer.AddEvent(System.String,logview4net.Listeners.IListener)">
+        <member name="M:logview4net.Viewers.TextViewer.AddEvent(System.String,logview4net.Listeners.ListenerBase)">
             <summary>
                 Adds an event to show
             </summary>

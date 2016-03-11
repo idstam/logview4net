@@ -28,7 +28,7 @@ namespace logview4net.Listeners
         /// <summary>
         /// Gets the listener for an implementation of this interface
         /// </summary>
-        IListener Listener { get; set; }
+        ListenerBase ListenerBase { get; set; }
 
         void UpdateControls();
     }

@@ -18,7 +18,7 @@ using logview4net.Viewers;
 namespace logview4net
 {
 	/// <summary>
-	/// This is the container for listeners (<see cref="IListener"/>) and viewers (<see cref="IViewer"/>).
+	/// This is the container for listeners (<see cref="ListenerBase"/>) and viewers (<see cref="IViewer"/>).
 	/// </summary>
 	/// <remarks>
 	/// A session can have a single viewer, multiple listeners and is represented by a tab in the current GUI implementation.
@@ -26,9 +26,9 @@ namespace logview4net
 	public class Session
 	{
 		/// <summary>
-		/// The internal list of <see cref="logview4net.Listeners.IListener"/>
+		/// The internal list of <see cref="ListenerBase"/>
 		/// </summary>
-		private List<IListener> _listeners = new List<IListener>();
+		private List<ListenerBase> _listeners = new List<ListenerBase>();
 
 
 		private IViewer _viewer;
@@ -52,7 +52,7 @@ namespace logview4net
 		/// Gets or sets the listeners.
 		/// </summary>
 		/// <value>The listeners.</value>
-		public List<IListener> Listeners
+		public List<ListenerBase> Listeners
 		{
 			get { return _listeners; }
 			set { _listeners = value; }
@@ -77,11 +77,11 @@ namespace logview4net
 		/// <summary>
 		/// Creates a new <see cref="Session"/> instance.
 		/// </summary>
-		/// <param name="listener">A listener to be used by the session.</param>
+		/// <param name="listenerBase">A listener to be used by the session.</param>
 		/// <param name="viewer">The viewer to be used by the session.</param>
-		public Session(IListener listener, IViewer viewer)
+		public Session(ListenerBase listenerBase, IViewer viewer)
 		{
-			_listeners.Add(listener);
+			_listeners.Add(listenerBase);
 			_viewer = viewer;
 		}
 
@@ -94,37 +94,37 @@ namespace logview4net
 			{
 				l.Dispose();
 			}
-			_listeners = new List<IListener>();
+			_listeners = new List<ListenerBase>();
 		}
 
 		/// <summary>
 		/// Removes the specific listener from the listener list.
 		/// </summary>
-		/// <param name="listener">Listener.</param>
-		public void RemoveListener(IListener listener)
+		/// <param name="listenerBase">Listener.</param>
+		public void RemoveListener(ListenerBase listenerBase)
 		{
-			IListener foo = null;
+			ListenerBase foo = null;
 			foreach (var l in _listeners)
 			{
-				if (l.Hash == listener.Hash) foo = l;
+				if (l.Hash == listenerBase.Hash) foo = l;
 			}
 
 			_listeners.Remove(foo);
 
-			if (listener != null)
+			if (listenerBase != null)
 			{
-				listener.Dispose();
+				listenerBase.Dispose();
 			}
 		}
 
 		/// <summary>
 		/// Adds a listener to this session..
 		/// </summary>
-		/// <param name="listener">Listener.</param>
-		public void AddListener(IListener listener)
+		/// <param name="listenerBase">Listener.</param>
+		public void AddListener(ListenerBase listenerBase)
 		{
-			listener.Session = this;
-			_listeners.Add(listener);
+			listenerBase.Session = this;
+			_listeners.Add(listenerBase);
 		}
 
 		/// <summary>
@@ -138,7 +138,7 @@ namespace logview4net
 		}
 
 
-		private string getListenerPrefix(IListener sender)
+		private string getListenerPrefix(ListenerBase sender)
 		{
 			var prefix = "";
 			if (_viewer.ShowListenerPrefix)
@@ -152,7 +152,7 @@ namespace logview4net
 		/// </summary>
 		/// <param name="sender">The listener that 'found' the event.</param>
 		/// <param name="data">The text to display.</param>
-		public virtual void AddEvent(IListener sender, string data)
+		public virtual void AddEvent(ListenerBase sender, string data)
 		{
 			if (_log.Enabled) _log.Debug(GetHashCode(), "AddEvent(Ilistener, string)");
 			WriteToLogFile(data);
@@ -179,23 +179,23 @@ namespace logview4net
 		/// <summary>
 		/// Adds an event to the session. Will be handled by the session viewer.
 		/// </summary>
-		/// <param name="listener">The listener that 'found' the event.</param>
+		/// <param name="listenerBase">The listener that 'found' the event.</param>
 		/// <param name="lines">The text to display.</param>
-		public virtual void AddEvent(IListener listener, List<string> lines)
+		public virtual void AddEvent(ListenerBase listenerBase, List<string> lines)
 		{
 			
 			try
 			{
 				
-				if (listener.ShowTimestamp)
+				if (listenerBase.ShowTimestamp)
 				{
 					var lst = new List<string>();
 					foreach (var line in lines)
 					{
 						WriteToLogFile(line);
-						lst.Add(DateTime.Now.ToString(listener.TimestampFormat) + " - " + line);
+						lst.Add(DateTime.Now.ToString(listenerBase.TimestampFormat) + " - " + line);
 					}
-					_viewer.AddEvent(getListenerPrefix(listener), lst, listener);
+					_viewer.AddEvent(getListenerPrefix(listenerBase), lst, listenerBase);
 				}
 				else
 				{
@@ -204,7 +204,7 @@ namespace logview4net
 						WriteToLogFile(line);
 					}
 
-					_viewer.AddEvent(getListenerPrefix(listener), lines, listener);
+					_viewer.AddEvent(getListenerPrefix(listenerBase), lines, listenerBase);
 				}
 
 				

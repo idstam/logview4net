@@ -73,8 +73,11 @@ namespace logview4net.test
                                 6, 6, 6, 6, 6, 6, 6, 6};
 
             var ret = he.GetHex(10, b);
-
-            Assert.AreEqual("0000000Ah: 0F 19 20 21 05 05 05 05 06 06 06 06 06 06 06 06 ; .. !............", ret);
+            string notPrintable12 = new string((char)176, 12);
+            string notPrintable2 = new string((char)176, 2);
+            string expeted = "0000000Ah: 0F 19 20 21 05 05 05 05 06 06 06 06 06 06 06 06 ; " + notPrintable2 + " !" +
+                             notPrintable12;
+            Assert.AreEqual(expeted, ret);
         }
     }
 }

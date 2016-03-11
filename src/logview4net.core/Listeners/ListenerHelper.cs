@@ -6,6 +6,8 @@
  * This source code is released under the Artistic License 2.0.
  */
 
+using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
@@ -38,5 +40,8 @@ namespace logview4net.Listeners
             int.TryParse(number, out foo);
             return foo;
         }
+
+
+
     }
 }

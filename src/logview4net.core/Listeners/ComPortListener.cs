@@ -20,36 +20,13 @@ namespace logview4net.Listeners
     /// ComPortListener a listener for COM-ports
 	/// </summary>
     [Serializable]
-	public class ComPortListener : IConfigurableListener
+	public class ComPortListener : ListenerBase
 	{
 		private Thread _listenerThread = null;
         private string _encName ="Unicode";
 
-				
-        private string _hash = Guid.NewGuid().ToString();
-        public string Hash
-        {
-            get { return _hash; }
-        }
-
-        public bool IsStructured{ get{ return false;}}
-        public bool IsRestartable
-        {
-            get { return false; }
-        }
-
-        public bool IsConfigured { get; set; }
-
         private bool _isRunning = false;        
 
-		/// <summary>
-		/// The <see cref="Session"/> this listener belongs to.
-		/// </summary>
-		protected Session _session;
-		/// <summary>
-		/// A string that will preceed this listeners messages in the viewer.
-		/// </summary>
-		protected string _messagePrefix;
 		/// <summary>
 		/// Name of the file being monitored.
 		/// </summary>
@@ -72,18 +49,17 @@ namespace logview4net.Listeners
         /// </summary>
         private bool _killOnStop = false;
 
-		private ILog  _log = Logger.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
         /// <summary>
-        /// Initializes a new instance of the <see cref="ComPortListener"/> class.
+        /// Initializes a new instance of the <see cref="ComPortListenerBase"/> class.
         /// </summary>
         public ComPortListener()
         {
             if (_log.Enabled) _log.Debug(GetHashCode(), "ComPortListener()");
+            IsRestartable = false;
         }
 
 		/// <summary>
-        /// Creates a new <see cref="ComPortListener"/> instance.
+        /// Creates a new <see cref="ComPortListenerBase"/> instance.
 		/// </summary>
 		/// <param name="fileName">Name of the executable to monitor.</param>
 		/// <param name="messagePrefix">A string that will preceed this listeners messages in the viewer.</param>
@@ -92,7 +68,7 @@ namespace logview4net.Listeners
             if (_log.Enabled) _log.Debug(GetHashCode(), "ComPortListener(string, string)");
 
 			_portName = portName;
-			_messagePrefix = messagePrefix;
+			MessagePrefix = messagePrefix;
 		    _killOnStop = killOnExit;
 		}
 
@@ -118,48 +94,11 @@ namespace logview4net.Listeners
 
 		#region IListener Members
 
-		/// <summary>
-		/// Sets the session for this listener.
-		/// </summary>
-		/// <value></value>
-		public Session Session
-		{
-			set
-			{
-                _session = value ;
-			}
-		}
-
-		/// <summary>
-		/// Gets or sets the string that will preceed this listeners messages in the viewer.
-		/// </summary>
-		/// <value></value>
-		public string MessagePrefix
-		{
-			get
-			{
-				return _messagePrefix;
-			}
-			set
-			{
-				_messagePrefix = value;
-			}
-		}
-
-		/// <summary>
-		/// Gets the configuration.
-		/// </summary>
-		/// <returns></returns>
-		public string GetConfiguration()
-		{
-            if (_log.Enabled) _log.Debug(GetHashCode(), "GetConfiguration");
-            return ListenerHelper.SerializeListener(this);
-        }
 
 		/// <summary>
 		/// Starts this instance.
 		/// </summary>
-		public void Start()
+		public override void Start()
 		{
             if (_log.Enabled) _log.Debug(GetHashCode(), "Start");
 
@@ -173,7 +112,7 @@ namespace logview4net.Listeners
 		/// <summary>
 		/// Stops this instance.
 		/// </summary>
-		public void Stop()
+		public override void Stop()
 		{
             if (_log.Enabled) _log.Debug(GetHashCode(), "Stop");
 
@@ -209,24 +148,24 @@ namespace logview4net.Listeners
 		}
         void _process_OutputDataReceived(object sender, DataReceivedEventArgs e)
         {
-            _session.AddEvent(this, e.Data);
+            Session.AddEvent(this, e.Data);
         }
 
         void _process_ErrorDataReceived(object sender, DataReceivedEventArgs e)
         {
-            _session.AddEvent(this, e.Data);
+            Session.AddEvent(this, e.Data);
         }
 
         void _process_Exited(object sender, EventArgs e)
         {
-            _session.AddEvent(this, _portName + " has exited.");
+            Session.AddEvent(this, _portName + " has exited.");
             _process.Dispose();
         }
 
 		/// <summary>
 		/// Disposes this instance.
 		/// </summary>
-		public void Dispose()
+		public override void Dispose()
 		{
             if (_log.Enabled) _log.Debug(GetHashCode(), "Dispose");
             if (_isRunning)
@@ -234,29 +173,6 @@ namespace logview4net.Listeners
                 Stop();
             }
 		}
-
-
-        /// <summary>
-        /// Gets a value indicating whether this instance is running.
-        /// </summary>
-        /// <value>
-        /// 	<c>true</c> if this instance is running; otherwise, <c>false</c>.
-        /// </value>
-        public bool IsRunning
-        {
-            get { return _isRunning; }
-        }
-
-        /// <summary>
-        /// Gets a new configurator.
-        /// </summary>
-        /// <returns></returns>
-        [Obsolete("This method is going to be removed from the IListener interface", true)]
-        public IListenerConfigurator GetNewConfigurator()
-        {
-            throw new NotImplementedException();
-        }
-
 
         /// <summary>
         /// True if this listener has no historic data.
@@ -273,7 +189,7 @@ namespace logview4net.Listeners
         /// Gets the config value fields.
         /// </summary>
         /// <returns></returns>
-        public Dictionary<string, ListenerConfigField> GetConfigValueFields()
+        public override Dictionary<string, ListenerConfigField> GetConfigValueFields()
         {
             var ret = new Dictionary<string, ListenerConfigField>();
 
@@ -310,12 +226,12 @@ namespace logview4net.Listeners
         /// </summary>
         /// <param name="name">The name.</param>
         /// <returns></returns>
-        public string GetConfigValue(string name)
+        public override string GetConfigValue(string name)
         {
             switch (name)
             {
                 case "prefix":
-                    return _messagePrefix;
+                    return MessagePrefix;
                 case "port_name":
                     return _portName;
                 case "kill_on_stop":
@@ -332,13 +248,13 @@ namespace logview4net.Listeners
         /// <param name="name">The name.</param>
         /// <param name="value">The value.</param>
         /// <returns></returns>
-        public string SetConfigValue(string name, string value)
+        public override string SetConfigValue(string name, string value)
         {
             string ret = null;
             switch (name)
             {
                 case "prefix":
-                    _messagePrefix = value;
+                    MessagePrefix = value;
                     break;
                 case "port_name":
                     _portName = value;
@@ -355,28 +271,5 @@ namespace logview4net.Listeners
 
             return ret;
         }
-
-        public List<string> GetMultiOptions(string name)
-        {
-        	var ret = new List<string>();
-        	foreach(var t in Encoding.GetEncodings())
-        	{
-        		ret.Add(t.Name);
-        	}
-        	ret.Add("Unicode");
-        	//ret.Add("Unicode");
-        	//ret.Add("ASCII");
-        	//ret.Add("UTF7");
-        	//ret.Add("UTF8");
-        	//ret.Add("UTF32");
-        	//ret.Add("BigEndianUnicode");
-        	
-        	return ret;
-        }
-
-                
-        public bool ShowTimestamp {get; set;}
-        public string TimestampFormat { get; set; }
-
     }
 }

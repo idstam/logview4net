@@ -24,8 +24,8 @@ namespace logview4net.test
 		
 		private MockViewer _viewer;
 		private Session _session;
-		private MockListener _listenerA;
-		private MockListener _listenerB;
+		private MockListener _listenerBaseA;
+		private MockListener _listenerBaseB;
 
 		/// <summary>
 		/// Creates a new <see cref="MultipleListenersTest"/> instance.
@@ -42,10 +42,10 @@ namespace logview4net.test
 		public void InitializeTest()
 		{
 			_session = new Session();
-			_listenerA = new MockListener();
-			_listenerB = new MockListener();
-			_session.AddListener(_listenerA);
-			_session.AddListener(_listenerB);
+			_listenerBaseA = new MockListener();
+			_listenerBaseB = new MockListener();
+			_session.AddListener(_listenerBaseA);
+			_session.AddListener(_listenerBaseB);
 			_viewer = new MockViewer();
 			_session.Viewer = _viewer;
 
@@ -69,10 +69,10 @@ namespace logview4net.test
 
 			_session.Start();
 			
-			_listenerA.AddEvent("a_1");
-			_listenerA.AddEvent("b_1");
-			_listenerA.AddEvent("a_2");
-			_listenerA.AddEvent("b_2");
+			_listenerBaseA.AddEvent("a_1");
+			_listenerBaseA.AddEvent("b_1");
+			_listenerBaseA.AddEvent("a_2");
+			_listenerBaseA.AddEvent("b_2");
 
 				
 			Assert.AreEqual(4, _viewer.ReceivedData.Count );

@@ -63,15 +63,14 @@ namespace logview4net.Listeners
         /// <summary>
         /// Creates a new <see cref="EventLogListenerConfigurator"/> instance.
         /// </summary>
-        public EventLogListenerConfigurator(IListener listener)
+        public EventLogListenerConfigurator(EventLogListener listener)
         {
+            _listener = listener;
             if (_log.Enabled) _log.Debug(GetHashCode(), "Create EventLogListenerConfigurator(IListener)");
 
             // This call is required by the Windows.Forms Form Designer.
             InitializeComponent();
 
-            // TODO: Add any initialization after the InitializeComponent call
-            _listener = (EventLogListener) listener;
             UpdateControls();
 
             cboLogName.Enabled = false;
@@ -258,7 +257,7 @@ namespace logview4net.Listeners
 
         #endregion
 
-        private IListener getCurrentListener()
+        private ListenerBase getCurrentListener()
         {
             if (_log.Enabled) _log.Debug(GetHashCode(), "getCurrentListener");
             return _listener;
@@ -374,7 +373,7 @@ namespace logview4net.Listeners
         /// Gets the listener that has been configured.
         /// </summary>
         /// <value></value>
-        public IListener Listener
+        public ListenerBase ListenerBase
         {
             get { return getCurrentListener(); }
             set { _listener = (EventLogListener) value; }

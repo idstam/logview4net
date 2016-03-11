@@ -37,7 +37,7 @@ namespace logview4net.Listeners
         /// Initializes a new instance of the <see cref="SqlListenerConfigurator"/> class.
         /// </summary>
         /// <param name="listner">The listner.</param>
-        public SqlListenerConfigurator(IListener listner)
+        public SqlListenerConfigurator(ListenerBase listner)
         {
             if (_log.Enabled) _log.Debug(GetHashCode(), "SqlListenerConfigurator(IListener)");
             InitializeComponent();
@@ -105,7 +105,7 @@ namespace logview4net.Listeners
         /// Gets the listener for an implementation of this interface
         /// </summary>
         /// <value></value>
-        public IListener Listener
+        public ListenerBase ListenerBase
         {
             get { return _listener; }
             set { _listener = (SqlListener) value; }

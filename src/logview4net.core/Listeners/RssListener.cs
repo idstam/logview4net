@@ -22,33 +22,9 @@ namespace logview4net.Listeners
     /// RssListener monitors RSS feeds
     /// </summary>
     [Serializable]
-    public class RssListener : IConfigurableListener
+    public class RssListener : ListenerBase
     {
         private bool _isRunning = false;
-
-        private string _hash = Guid.NewGuid().ToString();
-        public string Hash
-        {
-            get { return _hash; }
-        }
-		
-        public bool IsStructured{ get{ return false;}}
-        public bool IsRestartable
-        {
-            get { return true; }
-        }
-
-        public bool IsConfigured { get; set; }
-
-        /// <summary>
-        /// The <see cref="Session"/> this listener belongs to.
-        /// </summary>
-        protected Session _session;
-
-        /// <summary>
-        /// A string that will preceed this listeners messages in the viewer.
-        /// </summary>
-        protected string _messagePrefix;
 
         /// <summary>
         /// Name of the file being monitored.
@@ -90,24 +66,20 @@ namespace logview4net.Listeners
         private static string _feedDataFile = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
                                               "logview4net.rss.txt";
 
-        /// <summary>
-        /// The last time the current feed was checked. This is used to filter out old articles.
-        /// </summary>
-        private ILog _log = Logger.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
         private List<string> _newEvents = new List<string>();
         private DateTime _lastPubDate = new DateTime(1970, 3, 1);
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FileListener"/> class.
+        /// Initializes a new instance of the <see cref="FileListenerBase"/> class.
         /// </summary>
         public RssListener()
         {
             if (_log.Enabled) _log.Debug(GetHashCode(), "RssListener()");
+            IsRestartable = true;
         }
 
         /// <summary>
-        /// Creates a new <see cref="FileListener"/> instance.
+        /// Creates a new <see cref="FileListenerBase"/> instance.
         /// </summary>
         /// <param name="address">URL for the feed to monitor.</param>
         /// <param name="pollInterval">Time, in milliseconds, to pause between checking the file.</param>
@@ -119,8 +91,9 @@ namespace logview4net.Listeners
 
             _address = address;
             _pollInterval = pollInterval;
-            _messagePrefix = messagePrefix;
+            MessagePrefix = messagePrefix;
             _onlyTail = onlyTail;
+            IsRestartable = true;
         }
 
         private DateTime getLastFeedCheck(string url)
@@ -238,7 +211,7 @@ namespace logview4net.Listeners
             }
             catch (Exception ex)
             {
-                _session.AddEvent(this, ex.Message);
+                Session.AddEvent(this, ex.Message);
             }
         }
 
@@ -343,11 +316,11 @@ namespace logview4net.Listeners
 
         private void flushEvents()
         {
-            lock (_session)
+            lock (Session)
             {
                 foreach (var s in _newEvents)
                 {
-                    _session.AddEvent(this, s);
+                    Session.AddEvent(this, s);
                 }
                 _newEvents.Clear();
             }
@@ -361,41 +334,9 @@ namespace logview4net.Listeners
         #region IListener Members
 
         /// <summary>
-        /// Sets the session for this listener.
-        /// </summary>
-        /// <value></value>
-        public Session Session
-        {
-            set { _session = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets the string that will preceed this listeners messages in the viewer.
-        /// </summary>
-        /// <value></value>
-        public string MessagePrefix
-        {
-            get { return _messagePrefix; }
-            set
-            {
-                _messagePrefix = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets the configuration.
-        /// </summary>
-        /// <returns></returns>
-        public string GetConfiguration()
-        {
-            if (_log.Enabled) _log.Debug(GetHashCode(), "GetConfiguration");
-            return ListenerHelper.SerializeListener(this);
-        }
-
-        /// <summary>
         /// Stops this instance.
         /// </summary>
-        public void Stop()
+        public override void Stop()
         {
             if (_log.Enabled) _log.Debug(GetHashCode(), "Stop");
 
@@ -416,9 +357,9 @@ namespace logview4net.Listeners
         /// <summary>
         /// Starts this instance.
         /// </summary>
-        public void Start()
+        public override void Start()
         {
-            _log.Info(GetHashCode(), "Started polling log entries in " + _address + " using prefix: " + _messagePrefix);
+            _log.Info(GetHashCode(), "Started polling log entries in " + _address + " using prefix: " + MessagePrefix);
 
 
             var ts = new ThreadStart(tail);
@@ -432,35 +373,13 @@ namespace logview4net.Listeners
         /// <summary>
         /// Disposes this instance.
         /// </summary>
-        public void Dispose()
+        public override void Dispose()
         {
             if (_log.Enabled) _log.Debug(GetHashCode(), "Dispose");
             if (_isRunning)
             {
                 Stop();
             }
-        }
-
-
-        /// <summary>
-        /// Gets a value indicating whether this instance is running.
-        /// </summary>
-        /// <value>
-        /// 	<c>true</c> if this instance is running; otherwise, <c>false</c>.
-        /// </value>
-        public bool IsRunning
-        {
-            get { return _isRunning; }
-        }
-
-        /// <summary>
-        /// Gets a new configurator.
-        /// </summary>
-        /// <returns></returns>
-        [Obsolete("This method is going to be removed from the IListener interface", true)]
-        public IListenerConfigurator GetNewConfigurator()
-        {
-            throw new NotImplementedException();
         }
 
         #endregion
@@ -470,7 +389,7 @@ namespace logview4net.Listeners
         /// Gets the config value fields.
         /// </summary>
         /// <returns></returns>
-        public Dictionary<string, ListenerConfigField> GetConfigValueFields()
+        public override Dictionary<string, ListenerConfigField> GetConfigValueFields()
         {
             var ret = new Dictionary<string, ListenerConfigField>();
 
@@ -521,21 +440,17 @@ namespace logview4net.Listeners
 
             return ret;
         }
-        public List<string> GetMultiOptions(string name)
-        {
-            throw new NotImplementedException();
-        }
         /// <summary>
         /// Gets the config value.
         /// </summary>
         /// <param name="name">The name.</param>
         /// <returns></returns>
-        public string GetConfigValue(string name)
+        public override string GetConfigValue(string name)
         {
             switch (name)
             {
                 case "prefix":
-                    return _messagePrefix;
+                    return MessagePrefix;
                 case "poll_intervall":
                     return _pollInterval.ToString();
                 case "only_tail":
@@ -556,13 +471,13 @@ namespace logview4net.Listeners
         /// <param name="name">The name.</param>
         /// <param name="value">The value.</param>
         /// <returns></returns>
-        public string SetConfigValue(string name, string value)
+        public override string SetConfigValue(string name, string value)
         {
             string ret = null;
             switch (name)
             {
                 case "prefix":
-                    _messagePrefix = value;
+                    MessagePrefix = value;
                     break;
                 case "poll_intervall":
                     _pollInterval = ListenerHelper.GetSafeInt(value);
@@ -588,8 +503,5 @@ namespace logview4net.Listeners
 
             return ret;
         }
-
-        public bool ShowTimestamp { get; set; }
-        public string TimestampFormat { get; set; }
     }
 }

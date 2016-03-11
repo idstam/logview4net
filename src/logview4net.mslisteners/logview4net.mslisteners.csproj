@@ -124,12 +124,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\logview4net.core\logview4net.core.csproj">
-      <Project>{A7341CBC-91AD-4046-BB92-5DB51F282E1A}</Project>
-      <Name>logview4net.core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
@@ -143,6 +137,12 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\logview4net.core\logview4net.core.csproj">
+      <Project>{a7341cbc-91ad-4046-bb92-5db51f282e1a}</Project>
+      <Name>logview4net.core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

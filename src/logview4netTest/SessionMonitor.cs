@@ -20,9 +20,9 @@ namespace logview4net.test
 		/// <summary>
 		/// Creates a new <see cref="SessionMonitor"/> instance.
 		/// </summary>
-		/// <param name="listener">Listener.</param>
+		/// <param name="listenerBase">Listener.</param>
 		/// <param name="viewer">Viewer.</param>
-		public SessionMonitor(IListener listener, IViewer viewer):base(listener, viewer)
+		public SessionMonitor(ListenerBase listenerBase, IViewer viewer):base(listenerBase, viewer)
 		{
 		}
 

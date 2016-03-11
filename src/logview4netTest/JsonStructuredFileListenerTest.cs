@@ -182,31 +182,7 @@ namespace logview4net.test
 
             s.Stop();
         }
-
-        /// <summary>
-        /// Serializes the listener.
-        /// </summary>
-        [Test]
-        public void SerializeTheListener()
-        {
-            var original = new FileListener(@"c:\finns_inte.foo", 10, "foo", true);
-            var xs = new XmlSerializer(original.GetType());
-            var sb = new StringBuilder();
-            var sw = new StringWriter(sb);
-            xs.Serialize(sw, original);
-
-            var sr = new StringReader(sb.ToString());
-
-            var copy = (FileListener)xs.Deserialize(sr);
-
-            Assert.AreEqual(original.FileName, copy.FileName);
-            Assert.AreEqual(original.MessagePrefix, copy.MessagePrefix);
-            Assert.AreEqual(original.OnlyTail, copy.OnlyTail);
-            Assert.AreEqual(original.PollInterval, copy.PollInterval);
-
-            original.Dispose();
-            copy.Dispose();
-        }		
+        
     }
     
 }

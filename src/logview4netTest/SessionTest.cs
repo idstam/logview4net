@@ -49,8 +49,8 @@ namespace logview4net.test
 		public void Contructor_bTest()
 		{
 			IViewer viewer = new MockViewer();
-			IListener listener = new MockListener();
-			var s = new Session(listener, viewer);
+			ListenerBase listenerBase = new MockListener();
+			var s = new Session(listenerBase, viewer);
 			
 			Assert.AreEqual("", s.Title);
 			Assert.AreSame(viewer, s.Viewer);
@@ -87,10 +87,10 @@ namespace logview4net.test
 		[Test]
 		public void ListenerTest()
 		{
-			IListener listener = new MockListener();
+			ListenerBase listenerBase = new MockListener();
 			var s = new Session();
 			
-			s.AddListener(listener);
+			s.AddListener(listenerBase);
 			Assert.AreEqual(1, s.Listeners.Count);
 		}
 
@@ -102,7 +102,7 @@ namespace logview4net.test
 		[Test]
 		public void TestToXML()
 		{
-			IListener l = new UdpListener("127.0.0.1", 8080, "");
+			ListenerBase l = new UdpListener("127.0.0.1", 8080, "");
 			IViewer v = new TextViewer();
 			var a = new SessionMonitor(l, v);
 

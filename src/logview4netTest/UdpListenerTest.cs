@@ -59,7 +59,7 @@ namespace logview4net.test
 		}	
 
 		/// <summary>
-		/// Tests if the <see cref="Listeners.UdpListener"/> receives the data sent.
+		/// Tests if the <see cref="UdpListenerBase"/> receives the data sent.
 		/// </summary>
 		[Test]
 		public void ListenTest()
@@ -68,6 +68,7 @@ namespace logview4net.test
 			
 			_session.Start();
 			//Thread.Sleep(1000);
+		    _viewer.ShowListenerPrefix = true;
 
 			var messages = new string[] {"johan", "testar"};
 			var us = new UdpSender(_testEndpoint, _testPort,  messages, 200);

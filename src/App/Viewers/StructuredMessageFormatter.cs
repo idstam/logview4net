@@ -1,6 +1,4 @@
 ﻿using logview4net.Listeners;
-using System;
-using System.Collections.Generic;
 using System.Text;
 
 namespace logview4net.Viewers
@@ -18,7 +16,7 @@ namespace logview4net.Viewers
         /// </summary>
         /// <param name="message"></param>
         /// <param name="listener"></param>
-        public StructuredMessageFormatter(string message, IConfigurableListener listener)
+        public StructuredMessageFormatter(string message, ListenerBase listener)
         {
             _message = message;
             _format = listener.IsStructured ? listener.GetConfigValue("structured") : "n/a";

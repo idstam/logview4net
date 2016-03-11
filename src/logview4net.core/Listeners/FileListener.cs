@@ -19,35 +19,12 @@ namespace logview4net.Listeners
     /// FileListener monitors log files.
     /// </summary>
     [Serializable]
-    public class FileListener : IConfigurableListener
+    public class FileListener : ListenerBase
     {
-        private bool _isRunning = false;
+        private bool _isRunning;
         
         private HexEncoder _hexEncoder = new HexEncoder();
-        private ulong _address = 0;
-
-        private string _hash = Guid.NewGuid().ToString();
-        public string Hash
-        {
-            get { return _hash; }
-        }
-
-        public bool IsStructured{ get{ return _structured != "n/a";}}
-        public bool IsRestartable{    get { return true; }}
-        
-        public bool IsConfigured { get; set; }
-
-        /// <summary>
-        /// The IReceiver that receives this listeners messages. Normally it's a <see cref="Session"/>
-        /// but it might be the folder listener
-        /// </summary>
-        protected Session _session;
-
-        /// <summary>
-        /// A string that will preceed this listeners messages in the viewer.
-        /// </summary>
-        protected string _messagePrefix;
-
+        private ulong _address;
         /// <summary>
         /// Name of the file being monitored.
         /// </summary>
@@ -70,24 +47,24 @@ namespace logview4net.Listeners
 
         protected string _encName = "Unicode";
 
-        protected string _structured = "n/a";
         /// <summary>
         /// The <see cref="StreamReader"/> used for readig the file.
         /// </summary>
         protected StreamReader _reader;
 
-        private ILog _log = Logger.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FileListener"/> class.
+        /// Initializes a new instance of the <see cref="FileListenerBase"/> class.
         /// </summary>
         public FileListener()
         {
             if (_log.Enabled) _log.Debug(GetHashCode(), "FileListener()");
+            IsRestartable = true;
+
         }
 
         /// <summary>
-        /// Creates a new <see cref="FileListener"/> instance.
+        /// Creates a new <see cref="FileListenerBase"/> instance.
         /// </summary>
         /// <param name="fileName">Name of the file to monitor.</param>
         /// <param name="pollInterval">Time, in milliseconds, to pause between checking the file.</param>
@@ -99,8 +76,9 @@ namespace logview4net.Listeners
 
             _fileName = fileName;
             _pollInterval = pollInterval;
-            _messagePrefix = messagePrefix;
+            MessagePrefix = messagePrefix;
             _onlyTail = onlyTail;
+            IsRestartable = true;
         }
 
         /// <summary>
@@ -145,7 +123,7 @@ namespace logview4net.Listeners
         /// This listeners working method. Does the tail checking of the file.
         /// Most of this code it taken from http://www.codeproject.com/csharp/tail.asp. Written by Taylor Wood
         /// </summary>
-        protected void tail()
+        private void tail()
         {
             
             if (_log.Enabled) _log.Debug(GetHashCode(), "tail");
@@ -184,7 +162,7 @@ namespace logview4net.Listeners
 
 
         //_log.Debug(GetHashCode(), "Breaking the tail loop");
-        void tailLoop(long startAt)
+        private void tailLoop(long startAt)
         {
             var lastMaxOffset = startAt;
             
@@ -220,11 +198,10 @@ namespace logview4net.Listeners
         private long readLines(long lastMaxOffset)
         {
             _reader.BaseStream.Seek(lastMaxOffset, SeekOrigin.Begin);
-            var line = "";
-            var lines = new List<string>();
+            string line;
             while ((line = _reader.ReadLine()) != null)
             {
-                _session.AddEvent(this, line);
+                Session.AddEvent(this, line);
             }
             
             lastMaxOffset = _reader.BaseStream.Position;
@@ -237,7 +214,7 @@ namespace logview4net.Listeners
             
             var buffer = new byte[_hexEncoder.BlockLength];
             var buffPos = 0;
-            int i = 0;
+            int i;
 
             i = _reader.BaseStream.ReadByte();
             while (i != -1)
@@ -247,7 +224,7 @@ namespace logview4net.Listeners
                 if(buffPos == _hexEncoder.BlockLength)
                 {
                     var l = _hexEncoder.GetHex(_address, buffer);
-                    _session.AddEvent(this, l);
+                    Session.AddEvent(this, l);
                     _address += (ulong)buffPos;
                     buffPos = 0;
                 }
@@ -260,40 +237,9 @@ namespace logview4net.Listeners
         #region IListener Members
 
         /// <summary>
-        /// Sets the session for this listener.
-        /// </summary>
-        /// <value></value>
-        public Session Session
-        {
-            set { _session = value as Session; }
-        }
-
-        /// <summary>
-        /// Gets or sets the string that will preceed this listeners messages in the viewer.
-        /// </summary>
-        /// <value></value>
-        public string MessagePrefix
-        {
-            get { return _messagePrefix; }
-            set {
-                _messagePrefix = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets the configuration.
-        /// </summary>
-        /// <returns></returns>
-        public string GetConfiguration()
-        {
-            if (_log.Enabled) _log.Debug(GetHashCode(), "GetConfiguration");
-            return ListenerHelper.SerializeListener(this);
-        }
-
-        /// <summary>
         /// Stops this instance.
         /// </summary>
-        public void Stop()
+        public override void Stop()
         {
             if (_log.Enabled) _log.Debug(GetHashCode(), "Stop");
 
@@ -316,9 +262,9 @@ namespace logview4net.Listeners
         /// <summary>
         /// Starts this instance.
         /// </summary>
-        public void Start()
+        public override void Start()
         {
-            _log.Info(GetHashCode(), "Started polling log entries in " + _fileName + " using prefix: " + _messagePrefix);
+            _log.Info(GetHashCode(), "Started polling log entries in " + _fileName + " using prefix: " + MessagePrefix);
             var ts = new ThreadStart(tail);
             _listenerThread = new Thread(ts);
             //_listenerThread.Priority = ThreadPriority.BelowNormal;
@@ -330,35 +276,13 @@ namespace logview4net.Listeners
         /// <summary>
         /// Disposes this instance.
         /// </summary>
-        public void Dispose()
+        public override void Dispose()
         {
             if (_log.Enabled) _log.Debug(GetHashCode(), "Dispose");
             if (_isRunning )
             {
                 Stop();
             }
-        }
-
-
-        /// <summary>
-        /// Gets a value indicating whether this instance is running.
-        /// </summary>
-        /// <value>
-        /// 	<c>true</c> if this instance is running; otherwise, <c>false</c>.
-        /// </value>
-        public bool IsRunning
-        {
-            get { return _isRunning; }
-        }
-
-        /// <summary>
-        /// Gets a new configurator.
-        /// </summary>
-        /// <returns></returns>
-        [Obsolete("This method is going to be removed from the IListener interface", true)]
-        public IListenerConfigurator GetNewConfigurator()
-        {
-            throw new NotImplementedException();
         }
 
         #endregion
@@ -368,7 +292,7 @@ namespace logview4net.Listeners
         /// Gets the config value fields to build the congif gui.
         /// </summary>
         /// <returns></returns>
-        public Dictionary<string, ListenerConfigField> GetConfigValueFields()
+        public override Dictionary<string, ListenerConfigField> GetConfigValueFields()
         {
             var ret = new Dictionary<string, ListenerConfigField>();
 
@@ -422,59 +346,19 @@ namespace logview4net.Listeners
 
             return ret;
         }
-        
-        public List<string> GetMultiOptions(string name)
-        {
-            switch(name.ToLowerInvariant())
-            {
-                case "encoding":
-                    return GetEncodingOptions();
-                case "structured":
-                    return GetStructuredOptions();
-                default:
-                    throw new ArgumentException("No know MultiOption named " + name);
-            }
-            
 
-        }
-
-        private static List<string> GetStructuredOptions()
-        {
-            var ret = new List<string>();
-            ret.Add("n/a");
-            ret.Add("json");
-            //ret.Add("xml");
-            //ret.Add("csv (,)");
-            //ret.Add("csv (;)");
-            //ret.Add("csv (TAB)");
-
-            return ret;
-        }
-
-        private static List<string> GetEncodingOptions()
-        {
-            var ret = new List<string>();
-            ret.Add(HexEncoder.EncName);
-            foreach (var t in Encoding.GetEncodings())
-            {
-                ret.Add(t.Name);
-            }
-            ret.Add("Unicode");
-            ret.Sort();
-            return ret;
-        }
 
         /// <summary>
         /// Gets the config value.
         /// </summary>
         /// <param name="name">The name.</param>
         /// <returns></returns>
-        public string GetConfigValue(string name)
+        public override string GetConfigValue(string name)
         {
             switch (name)
             {
                 case "prefix":
-                    return _messagePrefix;
+                    return MessagePrefix;
                 case "poll_intervall":
                     return _pollInterval.ToString();
                 case "only_tail":
@@ -497,13 +381,13 @@ namespace logview4net.Listeners
         /// <param name="name">The name.</param>
         /// <param name="value">The value.</param>
         /// <returns></returns>
-        public string SetConfigValue(string name, string value)
+        public override string SetConfigValue(string name, string value)
         {
             string ret = null;
             switch (name)
             {
                 case "prefix":
-                    _messagePrefix = value;
+                    MessagePrefix = value;
                     break;
                 case "poll_intervall":
                     _pollInterval = ListenerHelper.GetSafeInt(value);
@@ -532,9 +416,6 @@ namespace logview4net.Listeners
             
             return ret;
         }
-
-        public bool ShowTimestamp { get; set; }
-        public string TimestampFormat { get; set; }
 
     }
 }

@@ -35,12 +35,12 @@ namespace logview4net.Listeners
         /// <summary>
         /// Initializes a new instance of the <see cref="MySqlListenerConfigurator"/> class.
         /// </summary>
-        /// <param name="listener">The listener to configure.</param>
-        public MySqlListenerConfigurator(IListener listener)
+        /// <param name="listenerBase">The listener to configure.</param>
+        public MySqlListenerConfigurator(ListenerBase listenerBase)
         {
             if (_log.Enabled) _log.Debug(GetHashCode(), "MySqlListenerConfigurator(IListener)");
             InitializeComponent();
-            _listener = (MySqlListener)listener;
+            _listener = (MySqlListener)listenerBase;
             UpdateControls();
 
             txtServer.Enabled = false;
@@ -73,7 +73,7 @@ namespace logview4net.Listeners
             }
         }
 
-        public IListener Listener
+        public ListenerBase ListenerBase
         {
             get { return _listener; }
             set { _listener = (MySqlListener)value; }

@@ -26,13 +26,13 @@ namespace logview4net.Viewers
 		/// Adds an event to the implemented viewer.
 		/// </summary>
 		/// <param name="message">The text to display</param>
-		void AddEvent(string message, IListener listener);
+		void AddEvent(string message, ListenerBase listenerBase);
 
         /// <summary>
         /// Adds a list of events to the implemented viewer.
         /// </summary>
         /// <param name="message">The text to display</param>
-        void AddEvent(string prefix, List<string> message, IListener listener);
+        void AddEvent(string prefix, List<string> message, ListenerBase listenerBase);
 
 		void Clear();
 

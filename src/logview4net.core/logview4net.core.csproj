@@ -103,6 +103,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -119,12 +120,16 @@
     <Compile Include="Listeners\ComPortListener.cs" />
     <Compile Include="Listeners\HexEncoder.cs" />
     <Compile Include="Listeners\IrcListener.cs" />
-    <Compile Include="Listeners\StructuredFileListener.cs" />
+    <Compile Include="Listeners\ListenerConfigurator.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Listeners\ListenerConfigurator.Designer.cs">
+      <DependentUpon>ListenerConfigurator.cs</DependentUpon>
+    </Compile>
     <Compile Include="Listeners\TcpListener.cs" />
     <Compile Include="Listeners\FileListener.cs" />
     <Compile Include="Listeners\FolderListener.cs" />
-    <Compile Include="Listeners\IConfigurableListener.cs" />
-    <Compile Include="Listeners\IListener.cs" />
+    <Compile Include="Listeners\ListenerBase.cs" />
     <Compile Include="Listeners\IListenerConfigurator.cs" />
     <Compile Include="Listeners\ListenerConfigField.cs" />
     <Compile Include="Listeners\ListenerHelper.cs" />
@@ -133,6 +138,11 @@
     <Compile Include="Listeners\UdpListener.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="RegisterFiletype.cs" />
     <Compile Include="RollingFileAppender.cs" />
     <Compile Include="Session.cs" />
@@ -156,6 +166,19 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Listeners\ListenerConfigurator.resx">
+      <DependentUpon>ListenerConfigurator.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\arrow_refresh.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

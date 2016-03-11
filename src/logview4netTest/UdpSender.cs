@@ -10,11 +10,12 @@ using System;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using logview4net.Listeners;
 
 namespace logview4net.test
 {
 	/// <summary>
-	/// This class was made to enable testing if the <see cref="Listeners.UdpListener"/>
+	/// This class was made to enable testing if the <see cref="UdpListenerBase"/>
 	/// </summary>
 	public class UdpSender
 	{

@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Xml;
 using logview4net.Listeners;
 using logview4net.Viewers;
@@ -16,15 +17,24 @@ namespace logview4net.test
 	/// <summary>
 	/// This listener is used only for testing <see cref="Session"/> and the objects implementing <see cref="Viewers.IViewer" />.
 	/// </summary>
-	public class MockListener : IListener
+	public class MockListener : ListenerBase
 	{
-        private string _hash = Guid.NewGuid().ToString();
-        public string Hash
-        {
-            get { return _hash; }
-        }
+	    public override Dictionary<string, ListenerConfigField> GetConfigValueFields()
+	    {
+	        throw new NotImplementedException();
+	    }
 
-        public bool IsStructured{ get{ return true;}}
+	    public override string SetConfigValue(string name, string value)
+	    {
+	        throw new NotImplementedException();
+	    }
+
+	    public override string GetConfigValue(string name)
+	    {
+	        throw new NotImplementedException();
+	    }
+
+	    public bool IsStructured{ get{ return true;}}
         public bool IsRestartable
         {
             get { return true; }
@@ -33,17 +43,9 @@ namespace logview4net.test
         public bool IsConfigured { get; set; }
 
         private bool _isRunning = false;
-		/// <summary>
-		/// A string that will preceed this listeners messages in the viewer.
-		/// </summary>
-		public string _messagePrefix="";
-		/// <summary>
-		/// The <see cref="Session"/> this listener belongs to.
-		/// </summary>
-		public Session _session;
 
 		/// <summary>
-		/// Creates a new <see cref="MockListener"/> instance.
+		/// Creates a new <see cref="MockListenerBase"/> instance.
 		/// </summary>
 		public MockListener()
 		{
@@ -55,7 +57,7 @@ namespace logview4net.test
 		/// Gets the configuration.
 		/// </summary>
 		/// <returns></returns>
-		public string GetConfiguration()
+		public override string GetConfiguration()
 		{
 			var doc = new XmlDocument();
 			XmlNode configuration;
@@ -75,7 +77,7 @@ namespace logview4net.test
 		/// <param name="message">Message.</param>
 		public void AddEvent(string message)
 		{
-			_session.AddEvent(this, _messagePrefix + message);
+			Session.AddEvent(this, MessagePrefix + message);
 		}
 
 		#region IListener Members
@@ -107,7 +109,7 @@ namespace logview4net.test
 		/// <summary>
 		/// Not implemented
 		/// </summary>
-		public void Stop()
+		public override void Stop()
 		{
             _isRunning = false;
 		}
@@ -115,33 +117,15 @@ namespace logview4net.test
 		/// <summary>
 		/// Not implemented.
 		/// </summary>
-		public void Start()
+		public override void Start()
 		{
             _isRunning = true;
 		}
 
 		/// <summary>
-		/// Sets the session.
-		/// </summary>
-		/// <value></value>
-		public Session Session
-		{
-            set { _session = value ; }
-		}
-		/// <summary>
-		/// Gets or sets the string that will preceed this listeners messages in the viewer.
-		/// </summary>
-		/// <value></value>
-		public string MessagePrefix
-		{
-			set{_messagePrefix = value;}
-			get{return _messagePrefix;}
-		}
-
-		/// <summary>
 		/// Disposes this instance.
 		/// </summary>
-		public void Dispose()
+		public override void Dispose()
 		{
 			Stop();
 		}

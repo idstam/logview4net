@@ -26,14 +26,18 @@ namespace logview4net.Viewers
         /// </summary>
         public List<Action> Actions = new List<Action>();
 
+        public string Structure{ get; set; }
         /// <summary>
         /// Contructor
         /// </summary>
         /// <param name="message"></param>
         /// <param name="actions"></param>
         /// <param name="getActions"></param>
-        public LogEvent(string message, List<Action> actions, bool getActions)
+        /// <param name="structure"></param>
+        public LogEvent(string message, List<Action> actions, bool getActions, string structure)
         {
+            Structure = structure;
+
             Message = message;
             if (getActions)
             {

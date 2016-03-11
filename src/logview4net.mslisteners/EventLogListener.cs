@@ -19,23 +19,8 @@ namespace logview4net.Listeners
     /// <summary>
     /// Montors an event log on any reachable machine.
     /// </summary>
-    public class EventLogListener : IListener
+    public class EventLogListener : ListenerBase
     {
-        private string _hash = Guid.NewGuid().ToString();
-        public string Hash
-        {
-            get { return _hash; }
-        }
-
-        public bool IsStructured{ get{ return true;}}
-        public bool IsRestartable
-        {
-            get { return true; }
-        }
-
-        public bool IsConfigured { get; set; }
-
-        private bool _isRunning = false;
         /// <summary>
         /// This is the thread that does the actual 'listening'.
         /// </summary>
@@ -76,12 +61,6 @@ namespace logview4net.Listeners
         /// </summary>
         protected bool _useEvents = false;
 
-        /// <summary>
-        /// A string that will preceed this listeners messages in the viewer.
-        /// </summary>
-        private string _messagePrefix;
-
-        private ILog _log;
 
         /// <summary>
         /// Whether or ot to preceed all data fields with their names when adding an event to the viewer.
@@ -89,11 +68,12 @@ namespace logview4net.Listeners
         protected bool _appendFieldNames = true;
 
         /// <summary>
-        /// Creates a new <see cref="EventLogListener"/> instance.
+        /// Creates a new <see cref="EventLogListenerBase"/> instance.
         /// </summary>
         public EventLogListener()
         {
             _log = Logger.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+            IsRestartable = true;
         }
 
         private EventLog CreateEventLog()
@@ -273,10 +253,25 @@ namespace logview4net.Listeners
             }
         }
 
+        public override Dictionary<string, ListenerConfigField> GetConfigValueFields()
+        {
+            return new Dictionary<string, ListenerConfigField>();
+        }
+
+        public override string SetConfigValue(string name, string value)
+        {
+            return null;
+        }
+
+        public override string GetConfigValue(string name)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Ends the monitoring of the event log.
         /// </summary>
-        public void Stop()
+        public override void Stop()
         {
             _log.Debug(GetHashCode(), "Stop");
 
@@ -295,14 +290,14 @@ namespace logview4net.Listeners
                     _log.Debug(GetHashCode(), "Failed to stop event log listener thread.", ex);
                 }
             }
-            _isRunning = false;
+            IsRunning = false;
             _log.Info(GetHashCode(), "Ended receiving/polling event entries for " + _logname + " on " + _host);
         }
 
         /// <summary>
         /// Starts monitoring of the event log.
         /// </summary>
-        public void Start()
+        public override void Start()
         {
             if (_log.Enabled) _log.Debug(GetHashCode(), "Start");
 
@@ -312,60 +307,27 @@ namespace logview4net.Listeners
             if (_useEvents)
             {
                 _log.Info(GetHashCode(), "Started receiving event entries for " + _logname + " on " + _host + " using prefix: " +
-                          _messagePrefix);
+                          MessagePrefix);
                 _eventLog.EntryWritten += new EntryWrittenEventHandler(_eventLog_EntryWritten);
                 _eventLog.EnableRaisingEvents = true;
             }
             else
             {
                 _log.Info(GetHashCode(), "Started polling event entries for " + _logname + " on " + _host + " using prefix: " +
-                          _messagePrefix);
+                          MessagePrefix);
                 var ts = new ThreadStart(Listen);
                 _listenerThread = new Thread(ts);
                 _listenerThread.Priority = ThreadPriority.BelowNormal;
                 _listenerThread.Start();
             }
 
-            _isRunning = true;
-        }
-
-        /// <summary>
-        /// Sets this listeners session.
-        /// </summary>
-        /// <value></value>
-        public Session Session
-        {
-            set { _session = value ; }
-        }
-
-        /// <summary>
-        /// Gets or sets the string that will preceed this listeners messages in the viewer.
-        /// </summary>
-        /// <value></value>
-        public string MessagePrefix
-        {
-            set { _messagePrefix = value;
-            }
-            get 
-            { 
-                return _messagePrefix;
-                
-            }
-        }
-
-        /// <summary>
-        /// Gets the configuration.
-        /// </summary>
-        /// <returns></returns>
-        public string GetConfiguration()
-        {
-            return ListenerHelper.SerializeListener(this);
+            IsRunning = true;
         }
 
         /// <summary>
         /// Disposes this instance.
         /// </summary>
-        public void Dispose()
+        public override void Dispose()
         {
             if (_log.Enabled) _log.Debug(GetHashCode(), "Dispose");
             Stop();
@@ -412,17 +374,6 @@ namespace logview4net.Listeners
         #region IListener Members
 
         /// <summary>
-        /// Gets a value indicating whether this instance is running.
-        /// </summary>
-        /// <value>
-        /// 	<c>true</c> if this instance is running; otherwise, <c>false</c>.
-        /// </value>
-        public bool IsRunning
-        {
-            get { return _isRunning; }
-        }
-
-        /// <summary>
         /// Gets a new configurator.
         /// </summary>
         /// <returns></returns>
@@ -440,9 +391,6 @@ namespace logview4net.Listeners
             get { return true; }
             set { }
         }
-        public bool ShowTimestamp { get; set; }
-        public string TimestampFormat { get; set; }
-
         #endregion
     }
 }

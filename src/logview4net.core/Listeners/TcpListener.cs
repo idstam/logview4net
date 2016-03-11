@@ -20,72 +20,45 @@ namespace logview4net.Listeners
     /// <summary>
     /// Description of TcpListener.	
     /// </summary>
-    public class TcpListener : IConfigurableListener
+    public class TcpListenerBase : ListenerBase
     {
         private bool _isRunning = false;
-
-        private string _hash = Guid.NewGuid().ToString();
-        public string Hash
-        {
-            get { return _hash; }
-        }
-
-        public bool IsStructured{ get{ return false;}}
-        public bool IsRestartable
-        {
-            get { return true; }
-        }
-
-        public bool IsConfigured { get; set; }
-
         private int _port;
         private string _endpoint;
-        private Session _session;
         private Thread _listenerThread = null;
-        private ILog _log;
         private System.Net.Sockets.TcpListener  _tcpListener = null;
         private string _encName ="Unicode";
         private HexEncoder _hexEncoder = new HexEncoder();
         /// <summary>
         /// A string that will preceed this listeners messages in the viewer.
         /// </summary>
-        private string _messagePrefix;
         private ulong _address;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TcpListener"/> class.
+        /// Initializes a new instance of the <see cref="TcpListenerBase"/> class.
         /// </summary>
-        public TcpListener()
+        public TcpListenerBase()
         {
             _log = Logger.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+            IsRestartable = true;
         }
 
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TcpListener"/> class.
+        /// Initializes a new instance of the <see cref="TcpListenerBase"/> class.
         /// </summary>
         /// <param name="endpoint">The endpoint.</param>
         /// <param name="port">The port.</param>
         /// <param name="messagePrefix">The message prefix.</param>
-        public TcpListener(string endpoint, int port, string messagePrefix)
+        public TcpListenerBase(string endpoint, int port, string messagePrefix)
         {
             _log = Logger.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
             _port = port;	
             _endpoint = endpoint;
-            _messagePrefix = messagePrefix;
+            MessagePrefix = messagePrefix;
         }
         
-        /// <summary>
-        /// Gets the configuration.
-        /// </summary>
-        /// <returns></returns>
-        public string GetConfiguration()
-        {
-            if (_log.Enabled) _log.Debug(GetHashCode(), "getConfiguration");
-            return ListenerHelper.SerializeListener(this);
-
-        }
 
         /// <summary>
         /// Gets or sets the endpoint.
@@ -118,7 +91,7 @@ namespace logview4net.Listeners
         protected void Listen()
         {
 
-            if(_session == null) throw new NullReferenceException("This IListener has no Session yet!");
+            if(Session == null) throw new NullReferenceException("This IListener has no Session yet!");
 
             IPEndPoint remoteEndPoint;
             if(_endpoint == "ANY")
@@ -137,14 +110,14 @@ namespace logview4net.Listeners
             {
                 _tcpListener = new System.Net.Sockets.TcpListener(remoteEndPoint);
                 _tcpListener.Start();
-                _log.Info(GetHashCode(), "Started listening for TCP on port " + _port.ToString() + " using prefix: " + _messagePrefix);
+                _log.Info(GetHashCode(), "Started listening for TCP on port " + _port.ToString() + " using prefix: " + MessagePrefix);
 
                 while (true)
                 {
                     var client = _tcpListener.AcceptTcpClient();
 
                     var sender = "";
-                    if (_session.Viewer.ShowListenerPrefix)
+                    if (Session.Viewer.ShowListenerPrefix)
                     {
                         sender = client.Client.RemoteEndPoint.ToString();
                     }
@@ -169,26 +142,26 @@ namespace logview4net.Listeners
                     // Shutdown and end connection
                     client.Close();
                     loggingEvent = sender + " " + data;
-                    _session.AddEvent(this, loggingEvent);
+                    Session.AddEvent(this, loggingEvent);
                 }
             }
             catch (SocketException ex)
             {
                 var foo = "(TCP ERROR) The TCP listener could not be started at port " + _port.ToString() + " " + Environment.NewLine + ex.Message;
                 _log.Error(GetHashCode(), foo);
-                _session.AddEvent(this, foo);
+                Session.AddEvent(this, foo);
             }
             catch (ThreadAbortException)
             {
                 var foo = "(TCP ERROR) TcpListener aborted.";
                 _log.Error(GetHashCode(), foo);
-                _session.AddEvent(this, foo);
+                Session.AddEvent(this, foo);
             }
             catch (Exception e)
             {
                 var foo = "(TCP ERROR) Internal error in TcpListener: " + e.Message + Environment.NewLine + e.StackTrace;
                 _log.Error(GetHashCode(), foo);
-                _session.AddEvent(this, foo);
+                Session.AddEvent(this, foo);
 
             }
             finally
@@ -205,7 +178,7 @@ namespace logview4net.Listeners
         /// <summary>
         /// Starts this instance.
         /// </summary>
-        public void Start()
+        public override void Start()
         {
             if (_log.Enabled) _log.Debug(GetHashCode(), "Start");
 
@@ -219,7 +192,7 @@ namespace logview4net.Listeners
         /// <summary>
         /// Stops this instance.
         /// </summary>
-        public void Stop()
+        public override void Stop()
         {
             if (_log.Enabled) _log.Debug(GetHashCode(), "Stop");
 
@@ -245,33 +218,9 @@ namespace logview4net.Listeners
         }
 
         /// <summary>
-        /// Sets the session.
-        /// </summary>
-        /// <value></value>
-        public Session Session
-        {
-            set
-            {
-                if (_log.Enabled) _log.Debug(GetHashCode(), "Session get");
-                _session = value as Session; 
-            }
-        }
-        /// <summary>
-        /// Gets or sets the string that will preceed this listeners messages in the viewer.
-        /// </summary>
-        /// <value></value>
-        public string MessagePrefix
-        {
-            set{_messagePrefix = value;}
-            get{
-                return _messagePrefix;
-            }
-        }
-
-        /// <summary>
         /// Disposes this instance.
         /// </summary>
-        public void Dispose()
+        public override void Dispose()
         {
             if (_log.Enabled) _log.Debug(GetHashCode(), "Dispose");
             if (_isRunning)
@@ -281,28 +230,6 @@ namespace logview4net.Listeners
         }
 
         #region IListener Members
-
-
-        /// <summary>
-        /// Gets a value indicating whether this instance is running.
-        /// </summary>
-        /// <value>
-        /// 	<c>true</c> if this instance is running; otherwise, <c>false</c>.
-        /// </value>
-        public bool IsRunning
-        {
-            get { return _isRunning; }
-        }
-
-        /// <summary>
-        /// Gets a new configurator.
-        /// </summary>
-        /// <returns></returns>
-        [Obsolete("This method is going to be removed from the IListener interface", true )]
-        public IListenerConfigurator GetNewConfigurator()
-        {
-            throw new NotImplementedException();
-        }
 
         /// <summary>
         /// True if this listener has no historic data.
@@ -317,7 +244,7 @@ namespace logview4net.Listeners
         #endregion
 
         
-        public Dictionary<string, ListenerConfigField> GetConfigValueFields()
+        public override Dictionary<string, ListenerConfigField> GetConfigValueFields()
         {
             var ret = new Dictionary<string, ListenerConfigField>();
 
@@ -349,25 +276,13 @@ namespace logview4net.Listeners
 
                 return ret;
         }
-        public List<string> GetMultiOptions(string name)
-        {
-            var ret = new List<string>();
-            ret.Add(HexEncoder.EncName);
 
-            foreach(var t in Encoding.GetEncodings())
-            {
-                ret.Add(t.Name);
-            }
-            ret.Add("Unicode");
-            
-            return ret;
-        }
-        public string GetConfigValue(string name)
+        public override string GetConfigValue(string name)
         {
             switch (name)
             {
                 case "prefix":
-                    return _messagePrefix;
+                    return MessagePrefix;
                 case "sender_ip":
                     return _endpoint;
                 case "port":
@@ -378,13 +293,13 @@ namespace logview4net.Listeners
                     throw new NotImplementedException("This listener has no field named: " + name);
             }
         }
-        public string SetConfigValue(string name, string value)
+        public override string SetConfigValue(string name, string value)
         {
             string ret = null;
             switch (name)
             {
                 case "prefix":
-                    _messagePrefix = value;
+                    MessagePrefix = value;
                     break;
                 case "sender_ip":
                     _endpoint = value;
@@ -404,7 +319,5 @@ namespace logview4net.Listeners
             }
             return ret;
         }
-        public bool ShowTimestamp { get; set; }
-        public string TimestampFormat { get; set; }
     }
 }

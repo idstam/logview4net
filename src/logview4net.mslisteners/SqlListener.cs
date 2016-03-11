@@ -16,9 +16,8 @@ namespace logview4net.Listeners
     /// <summary>
     /// This is the SQLListener it does a tail on a table in a SQL Server database table
     /// </summary>
-    public class SqlListener : IListener
+    public class SqlListener :ListenerBase
     {
-        private Session _session;
         private string _prefix = "MS-SQL";
         private bool _startAtEnd = true;
         private string _database;
@@ -29,39 +28,8 @@ namespace logview4net.Listeners
         private string _column;
         private bool _winAuthentication;
         private int _interval = 3000;
-        private ILog _log = Logger.GetLogger("logview4net.Listeners.SqlListener");
         private Thread _listenerThread;
-        private bool _isRunning = false;
 
-        private string _hash = Guid.NewGuid().ToString();
-        public string Hash
-        {
-            get
-            {
-                return _hash;
-            }
-        }
-
-        public bool IsStructured
-        {
-            get
-            {
-                return true;
-            }
-        }
-        public bool IsRestartable
-        {
-            get
-            {
-                return true;
-            }
-        }
-
-        public bool IsConfigured
-        {
-            get;
-            set;
-        }
 
         #region SqlListener Properties
 
@@ -214,38 +182,25 @@ namespace logview4net.Listeners
 
         #region IListener Members
 
-        /// <summary>
-        /// Sets the implementing objects <see cref="Session"/>
-        /// </summary>
-        /// <value></value>
-        public Session Session
+        public override Dictionary<string, ListenerConfigField> GetConfigValueFields()
         {
-            set
-            {
-                _session = value ;
-            }
+            return new Dictionary<string, ListenerConfigField>();
         }
 
-        /// <summary>
-        /// The string that will preceed the implementing listeners messages in the viewer.
-        /// </summary>
-        /// <value></value>
-        public string MessagePrefix
+        public override string SetConfigValue(string name, string value)
         {
-            get
-            {
-                return _prefix;
-            }
-            set
-            {
-                _prefix = value;
-            }
+            return null;
+        }
+
+        public override string GetConfigValue(string name)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
         /// Stops listening for the object implementing this interface.
         /// </summary>
-        public void Stop()
+        public override void Stop()
         {
             if (_log.Enabled) _log.Debug(GetHashCode(), "Stop");
             if (_listenerThread != null)
@@ -254,36 +209,26 @@ namespace logview4net.Listeners
                 _log.Info(GetHashCode(), "Stopped checking " + _table + " on " + _server + "/" + _database);
             }
 
-            _isRunning = false;
+            IsRunning = false;
         }
 
         /// <summary>
         /// Starts listening for the object implementing this interface.
         /// </summary>
-        public void Start()
+        public override void Start()
         {
             if (_log.Enabled) _log.Debug(GetHashCode(), "Start");
             var ts = new ThreadStart(tail);
             _listenerThread = new Thread(ts);
             _listenerThread.Start();
 
-            _isRunning = true;
-        }
-
-        /// <summary>
-        /// Gets the configuration node for this listener.
-        /// </summary>
-        /// <returns></returns>
-        public string GetConfiguration()
-        {
-            if (_log.Enabled) _log.Debug(GetHashCode(), "GetConfiguration");
-            return ListenerHelper.SerializeListener(this);
+            IsRunning = true;
         }
 
         /// <summary>
         /// Disposes this instance.
         /// </summary>
-        public void Dispose()
+        public override void Dispose()
         {
             _log.Debug(GetHashCode(), "Dispoding a SQL Listener (nothing to dispose)");
         }
@@ -394,7 +339,7 @@ namespace logview4net.Listeners
                             {
                                 message += dr.GetValue(i).ToString() + '\t';
                             }
-                            _session.AddEvent(this, message);
+                            Session.AddEvent(this, message);
                             tailValue = dr.GetValue(tailColumnID);
                         }
                     }
@@ -405,19 +350,6 @@ namespace logview4net.Listeners
 
         #region IListener Members
 
-        /// <summary>
-        /// Gets a value indicating whether this instance is running.
-        /// </summary>
-        /// <value>
-        ///     <c>true</c> if this instance is running; otherwise, <c>false</c>.
-        /// </value>
-        public bool IsRunning
-        {
-            get
-            {
-                return _isRunning;
-            }
-        }
         /// <summary>
         /// Gets a new configurator.
         /// </summary>
@@ -441,17 +373,6 @@ namespace logview4net.Listeners
             {
                 _startAtEnd = value;
             }
-        }
-
-        public bool ShowTimestamp
-        {
-            get;
-            set;
-        }
-        public string TimestampFormat
-        {
-            get;
-            set;
         }
 
         #endregion

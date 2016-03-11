@@ -20,26 +20,10 @@ namespace logview4net.Listeners
     /// FileListener monitors log files.
     /// </summary>
     [Serializable]
-    public class FolderListener : IConfigurableListener
+    public class FolderListener : ListenerBase
     {
         private FileSystemWatcher _watcher = null;
         private bool _isRunning = false;
-
-
-        private string _hash = Guid.NewGuid().ToString();
-        public string Hash
-        {
-            get { return _hash; }
-        }
-
-        public bool IsStructured{ get{return false;}}
-        public bool IsRestartable
-        {
-            get { return true; }
-        }
-
-        public bool IsConfigured { get; set; }
-
         /// <summary>
         /// This list (_fileLengths) is used for filenames that existed in the folder when the listener was started. This way I can 
         /// check if the length of the files has changed without having an open reader for each file. As soon as (if) 
@@ -48,16 +32,6 @@ namespace logview4net.Listeners
         private SortedList<string, long> _fileLengths = new SortedList<string, long>();
 
         private SortedList<string, StreamReader> _fileReaders = new SortedList<string, StreamReader>();
-
-        /// <summary>
-        /// The <see cref="Session"/> this listener belongs to.
-        /// </summary>
-        protected Session _session;
-
-        /// <summary>
-        /// A string that will preceed this listeners messages in the viewer.
-        /// </summary>
-        protected string _messagePrefix;
 
         /// <summary>
         /// Name of the file being monitored.
@@ -73,22 +47,19 @@ namespace logview4net.Listeners
         /// Whether or not to add the short file name to the message prefix
         /// </summary>
         private bool _shortFileNamePrefix;
-
-
-        private ILog _log = Logger.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
         private bool _showNoData;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FolderListener"/> class.
+        /// Initializes a new instance of the <see cref="FolderListenerBase"/> class.
         /// </summary>
         public FolderListener()
         {
             if (_log.Enabled) _log.Debug(GetHashCode(), "FolderListener()");
+            IsRestartable = true;
         }
 
         /// <summary>
-        /// Creates a new <see cref="FileListener"/> instance.
+        /// Creates a new <see cref="FileListenerBase"/> instance.
         /// </summary>
         /// <param name="folderName">Name of the folder to monitor.</param>
         /// <param name="messagePrefix">A string that will preceed this listeners messages in the viewer.</param>
@@ -98,7 +69,7 @@ namespace logview4net.Listeners
         {
             if (_log.Enabled) _log.Debug(GetHashCode(), "FolderListener(string, int, string, bool, bool)");
             _folderName = folderName;
-            _messagePrefix = messagePrefix;
+            MessagePrefix = messagePrefix;
             _fileNamePrefix = fileNamePrefix;
             _shortFileNamePrefix = shortFileNamePrefix;
         }
@@ -142,37 +113,6 @@ namespace logview4net.Listeners
         #region IListener Members
 
         /// <summary>
-        /// Sets the session for this listener.
-        /// </summary>
-        /// <value></value>
-        public Session Session
-        {
-            set { _session = value ; }
-        }
-
-        /// <summary>
-        /// Gets or sets the string that will preceed this listeners messages in the viewer.
-        /// </summary>
-        /// <value></value>
-        public string MessagePrefix
-        {
-            get { return _messagePrefix; }
-            set { 
-                _messagePrefix = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets the configuration.
-        /// </summary>
-        /// <returns></returns>
-        public string GetConfiguration()
-        {
-            if (_log.Enabled) _log.Debug(GetHashCode(), "GetConfiguration");
-            return ListenerHelper.SerializeListener(this);
-        }
-
-        /// <summary>
         /// Gets the reader.
         /// </summary>
         /// <param name="fileName">Name of the file.</param>
@@ -194,7 +134,7 @@ namespace logview4net.Listeners
                 }
                 catch (Exception ex)
                 {
-                    _session.AddEvent(this, "Error when opening: " + fileName + Environment.NewLine + ex.ToString());
+                    Session.AddEvent(this, "Error when opening: " + fileName + Environment.NewLine + ex.ToString());
                 }
                 return ret;
             }
@@ -213,7 +153,7 @@ namespace logview4net.Listeners
         /// <summary>
         /// Stops this instance.
         /// </summary>
-        public void Stop()
+        public override void Stop()
         {
             if (_log.Enabled) _log.Debug(GetHashCode(), "Stop");
 
@@ -230,7 +170,7 @@ namespace logview4net.Listeners
         /// <summary>
         /// Starts this instance.
         /// </summary>
-        public void Start()
+        public override void Start()
         {
             _log.Info(GetHashCode(), "Started polling log entries in " + _folderName );
 
@@ -260,7 +200,7 @@ namespace logview4net.Listeners
                     var fi = new FileInfo(f);
                     _fileLengths.Add(f, fi.Length);
                 }
-                _session.AddEvent(this, "File found: (" + GetShortFileName(f) + ")" + f);
+                Session.AddEvent(this, "File found: (" + GetShortFileName(f) + ")" + f);
             }
         }
 
@@ -271,7 +211,7 @@ namespace logview4net.Listeners
             var linePrefix = GetEventPrefix(e);
             if (_showNoData)
             {
-                _session.AddEvent(this, "File changed: (" + GetShortFileName(e.FullPath) + ")" + e.FullPath);
+                Session.AddEvent(this, "File changed: (" + GetShortFileName(e.FullPath) + ")" + e.FullPath);
             }
             else
             {
@@ -288,7 +228,7 @@ namespace logview4net.Listeners
                     lines.Add(line);
 
                 }
-                _session.AddEvent(this, lines);
+                Session.AddEvent(this, lines);
                 _fileLengths[e.FullPath] = r.BaseStream.Position;
             }
         }
@@ -318,7 +258,7 @@ namespace logview4net.Listeners
                 }
                 _fileLengths.Add(e.FullPath, 0);
 
-                _session.AddEvent(this, "File created: (" + GetShortFileName(e.FullPath) + ")" + e.FullPath);
+                Session.AddEvent(this, "File created: (" + GetShortFileName(e.FullPath) + ")" + e.FullPath);
             }
         }
 
@@ -327,7 +267,7 @@ namespace logview4net.Listeners
             if (_fileLengths.ContainsKey(e.FullPath))
             {
                 _fileLengths.Remove(e.FullPath);
-                _session.AddEvent(this, "File deleted: (" + GetShortFileName(e.FullPath) + ")" + e.FullPath);
+                Session.AddEvent(this, "File deleted: (" + GetShortFileName(e.FullPath) + ")" + e.FullPath);
             }
             
         }
@@ -335,24 +275,13 @@ namespace logview4net.Listeners
         /// <summary>
         /// Disposes this instance.
         /// </summary>
-        public void Dispose()
+        public override void Dispose()
         {
             if (_log.Enabled) _log.Debug(GetHashCode(), "Dispose");
             if (_isRunning)
             {
                 Stop(); 
             }
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether this instance is running.
-        /// </summary>
-        /// <value>
-        /// 	<c>true</c> if this instance is running; otherwise, <c>false</c>.
-        /// </value>
-        public bool IsRunning
-        {
-            get { return _isRunning; }
         }
 
         /// <summary>
@@ -365,22 +294,13 @@ namespace logview4net.Listeners
             set { }
         }
 
-        /// <summary>
-        /// Gets a new configurator.
-        /// </summary>
-        /// <returns></returns>
-        [Obsolete("This method is going to be removed from the IListener interface", true)]
-        public IListenerConfigurator GetNewConfigurator()
-        {
-            throw new NotImplementedException();
-        }
         #endregion  IListener Members
 
         /// <summary>
         /// Gets the config value fields.
         /// </summary>
         /// <returns></returns>
-        public Dictionary<string, ListenerConfigField> GetConfigValueFields()
+        public override Dictionary<string, ListenerConfigField> GetConfigValueFields()
         {
             var ret = new Dictionary<string, ListenerConfigField>();
 
@@ -428,21 +348,18 @@ namespace logview4net.Listeners
 
             return ret;
         }
-        public List<string> GetMultiOptions(string name)
-        {
-        	throw new NotImplementedException();
-        }        
+
         /// <summary>
         /// Gets the config value.
         /// </summary>
         /// <param name="name">The name.</param>
         /// <returns></returns>
-        public string GetConfigValue(string name)
+        public override string GetConfigValue(string name)
         {
             switch (name)
             {
                 case "prefix":
-                    return _messagePrefix;
+                    return MessagePrefix;
                 case "filename_prefix":
                     return _fileNamePrefix.ToString();
                 case "short_filename_prefix":
@@ -463,13 +380,13 @@ namespace logview4net.Listeners
         /// <param name="name">The name.</param>
         /// <param name="value">The value.</param>
         /// <returns></returns>
-        public string SetConfigValue(string name, string value)
+        public override string SetConfigValue(string name, string value)
         {
             string ret = null;
             switch (name)
             {
                 case "prefix":
-                    _messagePrefix = value;
+                    MessagePrefix = value;
                     break;
                 case "filename_prefix":
                     if (!bool.TryParse(value, out _fileNamePrefix))
@@ -509,7 +426,5 @@ namespace logview4net.Listeners
             GetShortPathName(fileName, shortPath, shortPath.Capacity);
             return Path.GetFileName(shortPath.ToString()).PadRight(12, ' ');
         }
-        public bool ShowTimestamp { get; set; }
-        public string TimestampFormat { get; set; }
     }
 }

@@ -194,7 +194,7 @@ namespace logview4net.Viewers
                 {
                     foreach (string msg in a.HideCache)
                     {
-                        var le = new LogEvent(msg, Actions, true);
+                        var le = new LogEvent(msg, Actions, true, "n/a");
                         InvokedAddEvent(le, true);
                     }
                     a.HideCache.Clear();
@@ -239,7 +239,7 @@ namespace logview4net.Viewers
                 _log.Debug(GetHashCode(), "Truncated viewer");
             }
             Txt.SelectionStart = int.MaxValue - 1;
-            ParentForm.Text = Txt.TextLength.ToString(CultureInfo.InvariantCulture);
+            if(ParentForm != null) ParentForm.Text = Txt.TextLength.ToString(CultureInfo.InvariantCulture);
         }
 
         private void SetPaused(bool paused)
@@ -250,7 +250,7 @@ namespace logview4net.Viewers
             {
                 var a = new List<Action>();
                 a.Add(Action.CreateHighlightAction("", Color.Silver));
-                AddEvent(new LogEvent("----- PAUSED -----", a, false));
+                AddEvent(new LogEvent("----- PAUSED -----", a, false, "n/a"));
             }
             _paused = paused;
 
@@ -269,7 +269,7 @@ namespace logview4net.Viewers
                 }
                 var a = new List<Action>();
                 a.Add(Action.CreateHighlightAction("", Color.Silver));
-                AddEvent(new LogEvent("----- UNPAUSED -----", a, false));
+                AddEvent(new LogEvent("----- UNPAUSED -----", a, false, "n/a"));
                 Txt.EndUpdate();
                 Refresh();
                 Application.DoEvents();
@@ -318,7 +318,7 @@ namespace logview4net.Viewers
             var a = (Action) itm.Tag;
             foreach (string msg in a.HideCache)
             {
-                var le = new LogEvent(msg, Actions, true);
+                var le = new LogEvent(msg, Actions, true, "n/a");
                 InvokedAddEvent(le, true);
             }
             a.HideCache.Clear();
@@ -390,7 +390,7 @@ namespace logview4net.Viewers
         {
             Session s = ((ViewerForm) ParentForm).Session;
 
-            foreach (IListener l in s.Listeners)
+            foreach (ListenerBase l in s.Listeners)
             {
                 l.Stop();
                 l.Start();
@@ -758,10 +758,18 @@ namespace logview4net.Viewers
         /// <summary>
         ///     Adds a list of events to this viewer
         /// </summary>
-        public void AddEvent(string prefix, List<string> lines, IListener listener)
+        public void AddEvent(string prefix, List<string> lines, ListenerBase listenerBase)
         {
-            var a = new AddEventsAsynch(InvokedAddEvents);
-            Invoke(a, new object[] {prefix, lines});
+            if (InvokeRequired)
+            {
+                var a = new AddEventsAsync(InvokedAddEvents);
+                Invoke(a, new object[] {prefix, lines});
+            }
+            else
+            {
+                InvokedAddEvents(prefix, lines);
+
+            }
         }
 
         /// <summary>
@@ -769,9 +777,10 @@ namespace logview4net.Viewers
         /// </summary>
         /// <param name="message">The message to show.</param>
         /// <param name="listener">The listener that received the data</param>
-        public void AddEvent(string message, IListener listener)
+        public void AddEvent(string message, ListenerBase listener)
         {
-            var le = new LogEvent(message, _actions, true);
+            string structure = listener.IsStructured ? listener.GetConfigValue("structured") : "n/a";
+            var le = new LogEvent(message, _actions, true, structure);
             try
             {
                 AddEvent(le);
@@ -907,8 +916,15 @@ namespace logview4net.Viewers
 
         private void AddEvent(LogEvent le)
         {
-            var a = new AddEventAsynch(InvokedAddEvent);
-            Invoke(a, new object[] {le, false});
+            if (InvokeRequired)
+            {
+                var a = new AddEventAsync(InvokedAddEvent);
+                Invoke(a, new object[] {le, false});
+            }
+            else
+            {
+                InvokedAddEvent(le, false);
+            }
         }
 
         /// <summary>
@@ -930,7 +946,7 @@ namespace logview4net.Viewers
 
             foreach (var line in lines)
             {
-                var le = new LogEvent(prefix + line, _actions, true);
+                var le = new LogEvent(prefix + line, _actions, true, "n/a");
                 pos++;
                 SetProgress(pos, lines.Count);
                 try
@@ -991,14 +1007,7 @@ namespace logview4net.Viewers
                 le.Message = le.Message.Trim();
             }
 
-            if (_paused)
-            {
-                if (_cacheOnPause)
-                {
-                    PauseCache.Enqueue(le);
-                }
-                return;
-            }
+            if (CacheIfPuased(le)) return;
 
             try
             {
@@ -1009,53 +1018,12 @@ namespace logview4net.Viewers
                     ignoreMessage = ViewerUtils.IgnoreEvent(le, out reason);
                 }
 
-                if (ignoreMessage)
-                {
-                    switch (reason)
-                    {
-                        case ViewerUtils.IgnoreReasons.StartedBlock:
-                            Txt.AppendText("----- STARTED IGNORING -----" + Environment.NewLine);
-                            break;
-                        case ViewerUtils.IgnoreReasons.EndedBlock:
-                            Txt.AppendText("----- ENDED IGNORING -----" + Environment.NewLine);
-                            break;
-                        case ViewerUtils.IgnoreReasons.Hide:
-                            //The message was cached in ViewerUtils.IgnoreEvent
-                            RaiseHasHiddenMessages(HasHiddenMessages());
-                            break;
-                    }
-                }
+                if (AddIgnoreMessage(ignoreMessage, reason)) return;
 
-                if (ignoreMessage) return;
                 
                 if (le.Actions.Count > 0)
                 {
-                    Txt.SelectionStart = int.MaxValue - 1;
-                    int selectionStart = Txt.SelectionStart;
-                    Txt.SelectedText = le.Message + Environment.NewLine;
-                    //txt.AppendText(le.Message + Environment.NewLine);
-
-                    foreach (Action action in le.Actions)
-                    {
-                        switch (action.ActionType)
-                        {
-                            case ActionTypes.Highlight:
-                                ExecHighlight(action, le, selectionStart);
-                                break;
-                            case ActionTypes.HighlightMatch:
-                                ExecHighlightMatch(action, le, selectionStart);
-                                break;
-                            case ActionTypes.PopUp:
-                                ViewerUtils.ExecuteNonViewerAction(action, le.Message);
-                                break;
-                            case ActionTypes.PlaySound:
-                                ViewerUtils.ExecuteNonViewerAction(action, le.Message);
-                                break;
-                            case ActionTypes.Execute:
-                                ViewerUtils.ExecuteNonViewerAction(action, le.Message);
-                                break;
-                        }
-                    }
+                    ExecuteActions(le);
                 }
                 else
                 {
@@ -1075,6 +1043,71 @@ namespace logview4net.Viewers
             {
                 throw ExceptionManager.HandleException(GetHashCode(), ex);
             }
+        }
+
+        private void ExecuteActions(LogEvent le)
+        {
+            Txt.SelectionStart = int.MaxValue - 1;
+            int selectionStart = Txt.SelectionStart;
+            Txt.SelectedText = le.Message + Environment.NewLine;
+            //txt.AppendText(le.Message + Environment.NewLine);
+            
+            foreach (Action action in le.Actions)
+            {
+                switch (action.ActionType)
+                {
+                    case ActionTypes.Highlight:
+                        ExecHighlight(action, le, selectionStart);
+                        break;
+                    case ActionTypes.HighlightMatch:
+                        ExecHighlightMatch(action, le, selectionStart);
+                        break;
+                    case ActionTypes.PopUp:
+                        ViewerUtils.ExecuteNonViewerAction(action, le.Message);
+                        break;
+                    case ActionTypes.PlaySound:
+                        ViewerUtils.ExecuteNonViewerAction(action, le.Message);
+                        break;
+                    case ActionTypes.Execute:
+                        ViewerUtils.ExecuteNonViewerAction(action, le.Message);
+                        break;
+                }
+            }
+        }
+
+        private bool AddIgnoreMessage(bool ignoreMessage, ViewerUtils.IgnoreReasons reason)
+        {
+            if (ignoreMessage)
+            {
+                switch (reason)
+                {
+                    case ViewerUtils.IgnoreReasons.StartedBlock:
+                        Txt.AppendText("----- STARTED IGNORING -----" + Environment.NewLine);
+                        break;
+                    case ViewerUtils.IgnoreReasons.EndedBlock:
+                        Txt.AppendText("----- ENDED IGNORING -----" + Environment.NewLine);
+                        break;
+                    case ViewerUtils.IgnoreReasons.Hide:
+                        //The message was cached in ViewerUtils.IgnoreEvent
+                        RaiseHasHiddenMessages(HasHiddenMessages());
+                        break;
+                }
+                return true;
+            }
+            return false;
+        }
+
+        private bool CacheIfPuased(LogEvent le)
+        {
+            if (_paused)
+            {
+                if (_cacheOnPause)
+                {
+                    PauseCache.Enqueue(le);
+                }
+                return true;
+            }
+            return false;
         }
 
         private void ExecHighlightMatch(Action action, LogEvent le, int selectionStart)
@@ -1197,8 +1230,8 @@ namespace logview4net.Viewers
 
         #endregion
 
-        private delegate void AddEventAsynch(LogEvent le, bool forceShow);
+        private delegate void AddEventAsync(LogEvent le, bool forceShow);
 
-        private delegate void AddEventsAsynch(string prefix, List<string> lines);
+        private delegate void AddEventsAsync(string prefix, List<string> lines);
     }
 }

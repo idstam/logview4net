@@ -17,29 +17,13 @@ namespace logview4net.Listeners
     /// <summary>
     /// A listener for MySQL database tables
     /// </summary>
-    public class MySqlListener : IListener
+    public class MySqlListener : ListenerBase
     {
         /// <summary>
         /// The thread the listener function (tail()) will run on
         /// </summary>
         private Thread _listenerThread;
-
-        /// <summary>
-        /// The log this listener will use if logging is enabled
-        /// </summary>
-        private ILog _log = Logger.GetLogger("logview4net.Listeners.MySqlListener");
-
-        
-        /// <summary>
-        /// Indicates whether the listener is running
-        /// </summary>
-        private bool _isRunning = false;
-
-        /// <summary>
-        /// Indicates whether the listener has column headers that the viewer can ask for.
-        /// </summary>
-        public bool IsStructured{ get{ return true;}}
-        
+                
         /// <summary>
         /// Gets or sets the name of the MySQL host the listener connects to
         /// </summary>        
@@ -85,52 +69,6 @@ namespace logview4net.Listeners
             get { return _startAtEnd; }
             set { _startAtEnd = value; }
         }
-
-
-        /// <summary>
-        /// Gets or sets the prefix to be attached to messages from this listener
-        /// when displaying them
-        /// </summary>
-        public string MessagePrefix { get; set; }
-
-        /// <summary>
-        /// Gets a value determining whether the listener can be restarted
-        /// </summary>
-        public bool IsRestartable 
-        {
-            get { return true; } 
-        }
-
-        private Session _session;
-        /// <summary>
-        /// Sets the <see cref="Session"/> this listener belongs to
-        /// </summary>
-        public Session Session 
-        {
-            set { _session = value; } 
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether the listener is running
-        /// </summary>
-        public bool IsRunning 
-        {
-            get { return _isRunning; }
-        }
-
-        private string _hash = Guid.NewGuid().ToString();
-        /// <summary>
-        /// Gets a value that uniquely identifies this listener instance
-        /// </summary>
-        public string Hash 
-        { 
-            get { return _hash; } 
-        }
-
-        /// <summary>
-        /// Gets or sets a value determining whether the listener has been configured
-        /// </summary>
-        public bool IsConfigured { get; set; }
 
         private int _pollInterval = 3000;
         /// <summary>
@@ -196,7 +134,7 @@ namespace logview4net.Listeners
                             {
                                 sb.AppendFormat(string.Format("{0} = {1} ", reader.GetName(i), reader.GetString(i)));
                             }
-                            _session.AddEvent(this, sb.ToString());
+                            Session.AddEvent(this, sb.ToString());
                             
                         }
 
@@ -236,20 +174,25 @@ namespace logview4net.Listeners
             return csb.ConnectionString;
         }
 
-        /// <summary>
-        /// Gets the configuration node for this listener.
-        /// </summary>
-        /// <returns></returns>
-        public string GetConfiguration()
+        public override Dictionary<string, ListenerConfigField> GetConfigValueFields()
         {
-            if (_log.Enabled) _log.Debug(GetHashCode(), "GetConfiguration");
-            return ListenerHelper.SerializeListener(this);
+            return new Dictionary<string, ListenerConfigField>();
+        }
+
+        public override string SetConfigValue(string name, string value)
+        {
+            return null;
+        }
+
+        public override string GetConfigValue(string name)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
         /// Stops the listener
         /// </summary>
-        public void Stop()
+        public override void Stop()
         {
             if (_log.Enabled) _log.Debug(GetHashCode(), "Stop");
             if (_listenerThread != null)
@@ -258,20 +201,20 @@ namespace logview4net.Listeners
                 _log.Info(GetHashCode(), "Stopped checking " + Table + " on " + Server + "/" + Database);
             }
 
-            _isRunning = false;
+            IsRunning = false;
         }
 
         /// <summary>
         /// Starts the listener
         /// </summary>
-        public void Start()
+        public override void Start()
         {
             if (_log.Enabled) _log.Debug(GetHashCode(), "Start");
             var ts = new ThreadStart(tail);
             _listenerThread = new Thread(ts);
             _listenerThread.Start();
 
-            _isRunning = true;
+            IsRunning = true;
         }
 
         /// <summary>
@@ -286,12 +229,10 @@ namespace logview4net.Listeners
         /// <summary>
         /// Disposes of the listener
         /// </summary>
-        public void Dispose()
+        public override void Dispose()
         {
             _log.Debug(GetHashCode(), "Disposing a MySQL Listener (nothing to dispose)");
         }
-        public bool ShowTimestamp { get; set; }
-        public string TimestampFormat { get; set; }
 
     }
 }

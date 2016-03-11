@@ -58,7 +58,7 @@ namespace logview4net
             if (_log.Enabled) _log.Debug(GetHashCode(), "ConfigureSession(Session)");
 
             InitializeComponent();
-            BackColor = (Color)Logview4netSettings.Instance["BaseColor"];
+            BackColor =  Logview4netSettings.Instance == null ? Color.Black : (Color)Logview4netSettings.Instance["BaseColor"];
             stacked.Controls.Clear();
             stacked.Controls.Add(headerPanel1);
             stacked.Controls.Add(hpActions);
@@ -108,7 +108,7 @@ namespace logview4net
             if (c != null)
             {
                 AddListenerConfiguratorControl(c);
-                _session.AddListener(((IListenerConfigurator) c).Listener);
+                _session.AddListener(((IListenerConfigurator) c).ListenerBase);
             }
 
             if (stacked.HorizontalScroll.Visible)
@@ -161,31 +161,31 @@ namespace logview4net
                 case "":
                     break;
                 case "UdpListener":
-                    ret = new ListenerConfigurator((IConfigurableListener)new UdpListener(), _session);
+                    ret = new ListenerConfigurator((ListenerBase)new UdpListener(), _session);
                     break;
                 case "TcpListener":
-                    ret = new ListenerConfigurator((IConfigurableListener)new TcpListener(), _session);
+                    ret = new ListenerConfigurator((ListenerBase)new TcpListenerBase(), _session);
                     break;
                 case "EventLogListener":
                     ret = new EventLogListenerConfigurator();
                     break;
                 case "FileListener":
-                    ret = new ListenerConfigurator((IConfigurableListener)new FileListener(), _session);
+                    ret = new ListenerConfigurator(new FileListener(), _session);
                     break;
                 case "FolderListener":
-                    ret = new ListenerConfigurator((IConfigurableListener)new FolderListener(), _session);
+                    ret = new ListenerConfigurator(new FolderListener(), _session);
                     break;
                 case "SqlListener":
                     ret = new SqlListenerConfigurator();
                     break;
                 case "RssListener":
-                    ret = new ListenerConfigurator((IConfigurableListener)new RssListener(), _session);
+                    ret = new ListenerConfigurator(new RssListener(), _session);
                     break;
                 case "StdOutListener":
-                    ret = new ListenerConfigurator((IConfigurableListener)new StdOutListener(), _session);
+                    ret = new ListenerConfigurator(new StdOutListener(), _session);
                     break;
                 case "ComPortListener":
-                    ret = new ListenerConfigurator((IConfigurableListener)new ComPortListener(), _session);
+                    ret = new ListenerConfigurator(new ComPortListener(), _session);
                     break;
                 case "MySqlListener":
                     ret = new MySqlListenerConfigurator();
@@ -224,15 +224,7 @@ namespace logview4net
             {
                 if (_log.Enabled) _log.Debug(GetHashCode(), "Loading listener: " + listener.GetType().ToString());
                 
-                IListenerConfigurator lc;
-                if (listener is IConfigurableListener)
-                {
-                    lc = new ListenerConfigurator((IConfigurableListener)listener, _session);
-                }
-                else
-                {
-                    lc = listener.GetNewConfigurator();
-                }
+                IListenerConfigurator lc = listener.GetNewConfigurator();
 
                 if (listener.IsConfigured)
                 {
@@ -291,7 +283,7 @@ namespace logview4net
                 var lc = getListenerConfigurator(node.FirstChild.Name);
                 lc.Configuration = node.InnerXml;
                 AddListenerConfiguratorControl((Control) lc);
-                _session.AddListener(lc.Listener);
+                _session.AddListener(lc.ListenerBase);
             }
             
             _actionManager.LoadConfiguration(_viewerConfigurator.Viewer); 
@@ -350,7 +342,7 @@ namespace logview4net
                     var ilc = c as IListenerConfigurator;
                     if (ilc != null)
                     {
-                        _session.RemoveListener(ilc.Listener);
+                        _session.RemoveListener(ilc.ListenerBase);
                     }
                 }
             }

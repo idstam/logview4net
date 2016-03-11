@@ -192,12 +192,6 @@
       <DependentUpon>StackedPanel.cs</DependentUpon>
     </Compile>
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Listeners\ListenerConfigurator.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Listeners\ListenerConfigurator.Designer.cs">
-      <DependentUpon>ListenerConfigurator.cs</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -293,10 +287,6 @@
     <EmbeddedResource Include="Controls\StackedPanel.resx">
       <SubType>Designer</SubType>
       <DependentUpon>StackedPanel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Listeners\ListenerConfigurator.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>ListenerConfigurator.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <SubType>Designer</SubType>

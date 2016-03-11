@@ -62,7 +62,7 @@ namespace logview4net.test
 		/// Adds an event to this viewer
 		/// </summary>
 		/// <param name="message">Message.</param>
-		public void AddEvent(string message, IListener listener)
+		public void AddEvent(string message, ListenerBase listener)
 		{
             _log.Debug(GetHashCode(), message);
 
@@ -72,7 +72,7 @@ namespace logview4net.test
         /// <summary>
         /// Adds a list of events to this viewer
         /// </summary>
-        public void AddEvent(string prefix, List<string> lines, IListener listener)
+        public void AddEvent(string prefix, List<string> lines, ListenerBase listenerBase)
         {
             ReceivedData.AddRange(lines);
         }
@@ -196,14 +196,7 @@ namespace logview4net.test
             throw new NotImplementedException();
         }
 		
-		public bool ShowListenerPrefix {
-			get {
-				throw new NotImplementedException();
-			}
-			set {
-				throw new NotImplementedException();
-			}
-		}
+		public bool ShowListenerPrefix { get; set; }
 		
 		public string LogFile {get; set;}
 		public string LogRolling {get; set;}

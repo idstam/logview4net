@@ -6,12 +6,10 @@
  * This source code is released under the Artistic License 2.0.
  */
 
-using System;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 using System.Xml.Serialization;
-using logview4net.Viewers;
 using logview4net.Listeners;
 using System.Diagnostics;
 using NUnit.Framework;
@@ -28,21 +26,10 @@ namespace logview4net.test
 
 		string _source = "logview4netSource";
 		string _logName = "logview4netLog";
-		IListener _listener;
+		ListenerBase _listenerBase;
 		MockViewer _viewer;
 		Session _session;
 		private EventLog _eventLog;
-
-		/// <summary>
-		/// Creates a new <see cref="EventLogListenerTest"/> instance.
-		/// </summary>
-		public EventLogListenerTest()
-		{
-			//
-			// TODO: Add constructor logic here
-			//
-		}
-
 		
 
 		/// <summary>
@@ -60,8 +47,8 @@ namespace logview4net.test
 			_eventLog = new EventLog(_logName, ".");
 			_eventLog.Clear();
 			_viewer = new MockViewer();
-			_listener = new EventLogListenerMonitor(".", _logName, interval, true);
-			_session = new Session(_listener, _viewer);
+			_listenerBase = new EventLogListenerMonitor(".", _logName, interval, true);
+			_session = new Session(_listenerBase, _viewer);
 		}
 
 		/// <summary>
@@ -80,7 +67,7 @@ namespace logview4net.test
 		[Test]
 		public void ListenTestWithNoActivity()
 		{
-			((EventLogListenerMonitor)_listener).useEvent(false);
+			((EventLogListenerMonitor)_listenerBase).useEvent(false);
 			var numOfEntries = 5;
 			for(var i = 0; i < numOfEntries; i++)
 			{
@@ -104,7 +91,7 @@ namespace logview4net.test
 		[Test]
 		public void ListenTestWithActivity()
 		{
-			((EventLogListenerMonitor)_listener).useEvent(false);
+			((EventLogListenerMonitor)_listenerBase).useEvent(false);
 
 			_session.Start();
 			Thread.Sleep(200);
@@ -131,7 +118,7 @@ namespace logview4net.test
 		[Test]
 		public void EventsTestWithNoActivity()
 		{
-			((EventLogListenerMonitor)_listener).useEvent(true);
+			((EventLogListenerMonitor)_listenerBase).useEvent(true);
 			var numOfEntries = 5;
 			for(var i = 0; i < numOfEntries; i++)
 			{
@@ -159,7 +146,7 @@ namespace logview4net.test
 		[Test]
 		public void EventsTestWithActivity()
 		{
-			((EventLogListenerMonitor)_listener).useEvent(true);
+			((EventLogListenerMonitor)_listenerBase).useEvent(true);
 			_session.Start();
 			Thread.Sleep(200);
 
