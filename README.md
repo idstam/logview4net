@@ -21,7 +21,9 @@ Atom and RSS feeds.
   * The viewer configurator is not loaded with the right settings
 
 ## CHANGELOG:
-XXX
+
+
+### 16.08
   * Using Nuget to get the correct verson of MySql.Data
   * Fix: The button to restart a listener went out of sight
 
