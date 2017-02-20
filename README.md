@@ -2,7 +2,7 @@
 It can monitor files, directories, incomming UDP/TCP traffic, the EventLog, SQL tables, 
 Atom and RSS feeds.
 
-**logview4net needs the .Net 2.0 Runtime to execute.**
+**logview4net needs the .Net 4.5.2 Runtime to execute.**
 
 ## FEATURES:
   * Listens to a UDP port either in broadcast or single endpoint mode.
@@ -22,8 +22,13 @@ Atom and RSS feeds.
 
 ## CHANGELOG:
 
+### 17.08
+  * Change .Net version to 4.5.2
+
 
 ### 16.08
+  * Fix Bug: #33 Log window is not displayed
+  * Rewrote build pipeline in Python
   * Using Nuget to get the correct verson of MySql.Data
   * Fix: The button to restart a listener went out of sight
 

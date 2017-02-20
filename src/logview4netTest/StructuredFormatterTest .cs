@@ -25,7 +25,6 @@ namespace logview4net.test
     [TestFixture]
     public class StructuredFormatterTest
     {
-        private static List<string> _tempFiles = null;
 
         /// <summary>
         /// Creates a new <see cref="StructuredFormatterTest "/> instance.
