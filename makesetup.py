@@ -30,9 +30,16 @@ def build_solution(msbuild_path):
     print("Build solution")
     call(msbuild_path + r" /t:Clean,Build /property:Configuration=Release /fileLogger src\logview4net.sln")
 
-def write_auto_update_version_file(version):
-    print("Creating version file " + version)
+def write_auto_update_version(version):
     version_file = r".\src\Deployment\logview4net.version"
+    write_auto_update_version_file(version, version_file):
+
+    version_file = r".\site_hugo\static\dlfolder\logview4net.version"
+    write_auto_update_version_file(version, version_file):
+
+def write_auto_update_version_file(version, version_file):
+    print("Creating version file " + version_file)
+
     delete_file(version_file)
 
     f2 = open(version_file, 'w')
@@ -44,6 +51,7 @@ def write_auto_update_version_file(version):
     f2.write("File url\n")
     f2.write("http://logview4net.com/dlfolder/logview4net_setup.exe")
     f2.close()
+
 
 def replace_solution_version(old_version, new_version):
     solution_file = r".\src\Deployment\SolutionVersionInfo.cs"
@@ -70,8 +78,14 @@ def get_new_version_long_form():
     return version
 
 def update_pad():
-    print("Update PAD")
     pad_file = r".\src\Deployment\logview4net.pad.xml"
+    update_pad_file(pad_file)
+
+    pad_file = r".\site_hugo\static\dlfolder\logview4net.pad.xml"
+    update_pad_file(pad_file)
+
+def update_pad_file(pad_file):
+    print("Update PAD " + pad_file)
     pad_old = pad_file + ".old"
     delete_file(pad_old)
     os.rename(pad_file, pad_old)
@@ -164,7 +178,7 @@ version_info = "logview4net " + long_version + " installer"
 exe_file = r".\src\setup\logview4net_setup.exe"
 sign_exe(sign_tool_path, cert_path, password, version_info,  exe_file,  sign_log_file)
 
-write_auto_update_version_file(short_version)
+write_auto_update_version(short_version)
 update_pad()
 
 copy_files_to_site()
