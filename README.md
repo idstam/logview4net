@@ -24,7 +24,7 @@ Atom and RSS feeds.
 
 ### 17.08
   * Change .Net version to 4.5.2
-
+  * Fix: An exception when loading configurations from file.
 
 ### 16.08
   * Fix Bug: #33 Log window is not displayed
