@@ -480,7 +480,7 @@ namespace logview4net.Viewers
 						intFoo /= 1000;
 						if (udBufferSize.Maximum >= intFoo && udBufferSize.Minimum <= intFoo)
 						{
-							udBufferSize.Value = intFoo / 1000;
+							udBufferSize.Value = intFoo;
 						}
 						else
 						{
