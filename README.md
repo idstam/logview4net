@@ -16,6 +16,12 @@ Atom and RSS feeds.
   * Supports multiple simultaneous listeners in each session.
   * Supports several simultaneous sessions (MDI).
 
+## File hashes
+  * Sha256 hash of installer:
+  * Sha256 hash of logview4net.exe:
+
+  To calculate the hash yourself in Windows execure the following: certutil -hashfile logview4net.exe sha256
+
 
 ## KNOWN BUGS:
   * The viewer configurator is not loaded with the right settings
