@@ -13,21 +13,21 @@ def main():
     old_version = get_old_version_from_SolutionVersionInfo()
     replace_solution_version(old_version, long_version)
 
-    msbuild_path = r"C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe"
-    nsis_path = r"C:\Program Files (x86)\NSIS\makensis"
+    ##msbuild_path = r"C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe"
+    nsis_path = r"C:\Program Files\NSIS\makensis.exe"
     exe_file = r".\src\App\bin\release\logview4net.exe"
     setup_file = r".\src\setup\logview4net_setup.exe"
 
-    clean_solution()
-    build_solution(msbuild_path)
-    ###make_installer(nsis_path)
+    ##clean_solution()
+    ##build_solution(msbuild_path)
+    make_installer(nsis_path)
     
     update_file_hash(exe_file, setup_file)
 
     write_auto_update_version(short_version)
     update_pad()
 
-    ###copy_files_to_site()
+    copy_files_to_site()
 
     input("Press Enter to continue...")
 
@@ -117,7 +117,7 @@ def replace_hash_md(exe_hash, setup_hash):
     temp_handle = open('tmp.cs', 'w')
     for line in readme_handle:
         if 'Sha256 hash of installer:' in line:
-            temp_handle.write('  * Sha256 hash of installer: ' + setup_hash + '\n')
+            temp_handle.write('  * Sha256 hash of installer: ' + setup_hash.decode('utf-8') + '\n')
         elif 'Sha256 hash of logview4net.exe:' in line:
             temp_handle.write('  * Sha256 hash of logview4net.exe: ' + exe_hash + '\n')
         else:
@@ -141,7 +141,7 @@ def replace_hash_html(exe_hash, setup_hash):
     temp_handle = open('tmp.cs', 'w')
     for line in readme_handle:
         if 'Sha256 hash of installer:' in line:
-            temp_handle.write('<p>Sha256 hash of installer: ' + setup_hash + '</p>\n')
+            temp_handle.write('<p>Sha256 hash of installer: ' + setup_hash.decode('utf-8') + '</p>\n')
         elif 'Sha256 hash of logview4net.exe:' in line:
             temp_handle.write('<p>Sha256 hash of logview4net.exe: ' + exe_hash + '</p>\n')
         else:
