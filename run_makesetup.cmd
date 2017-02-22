@@ -1,1 +1,1 @@
-c:\Python35\python.exe makesetup.py
+python.exe makesetup.py

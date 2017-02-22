@@ -16,29 +16,38 @@ def main():
     msbuild_path = r"C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe"
     nsis_path = r"C:\Program Files (x86)\NSIS\makensis"
     exe_file = r".\src\App\bin\release\logview4net.exe"
+    setup_file = r".\src\setup\logview4net_setup.exe"
 
     clean_solution()
     build_solution(msbuild_path)
-    make_file_hash(exe_file)
-    make_installer(nsis_path)
-
-    exe_file = r".\src\setup\logview4net_setup.exe"
-    make_file_hash(exe_file)
+    ###make_installer(nsis_path)
+    
+    update_file_hash(exe_file, setup_file)
 
     write_auto_update_version(short_version)
     update_pad()
 
-    copy_files_to_site()
+    ###copy_files_to_site()
 
     input("Press Enter to continue...")
 
-def make_file_hash(source):
+def update_file_hash(exe_file, setup_file):
+    exe_hash = get_file_hash(exe_file).decode("utf-8") 
+    print('Exe Hash:' + exe_hash)
+
+    setup_hash = get_file_hash(setup_file)
+    print('Setup Hash:' + exe_hash)
+
+    replace_hash_md(exe_hash, setup_hash)
+    replace_hash_html(exe_hash, setup_hash)
+
+def get_file_hash(source):
     """Calculate the Sha256 hash of a file. """
 
     output = subprocess.Popen(['certutil', "-hashfile", source, "sha256"], stdout=subprocess.PIPE).communicate()[0]
-    hash_file = open(source + '.sha256', 'wb')
-    hash_file.write(output)
+    file_hash = output.split(b'\r\n')[1]
 
+    return file_hash
 
 def make_installer(nsis_path):
     """ Create the Nsis installer package. """
@@ -96,6 +105,53 @@ def replace_solution_version(old_version, new_version):
     os.rename(solution_file, old_solution_file)
     os.rename(tmp_file, solution_file)
 
+def replace_hash_md(exe_hash, setup_hash):
+    print('Relace file hashes in README.md')
+    readme_file = r".\README.md"
+    old_readme_file = readme_file + ".old"
+    tmp_file = "tmp.cs"
+    delete_file(old_readme_file)
+    delete_file(tmp_file)
+
+    readme_handle = open(readme_file, "r")
+    temp_handle = open('tmp.cs', 'w')
+    for line in readme_handle:
+        if 'Sha256 hash of installer:' in line:
+            temp_handle.write('  * Sha256 hash of installer: ' + setup_hash + '\n')
+        elif 'Sha256 hash of logview4net.exe:' in line:
+            temp_handle.write('  * Sha256 hash of logview4net.exe: ' + exe_hash + '\n')
+        else:
+            temp_handle.write(line)
+
+    readme_handle.close()
+    temp_handle.close()
+
+    os.rename(readme_file, old_readme_file)
+    os.rename(tmp_file, readme_file)
+
+def replace_hash_html(exe_hash, setup_hash):
+    print('Relace file hashes in index.html')
+    readme_file = r".\site_hugo\layouts\index.html"
+    old_readme_file = readme_file + ".old"
+    tmp_file = "tmp.cs"
+    delete_file(old_readme_file)
+    delete_file(tmp_file)
+
+    readme_handle = open(readme_file, "r")
+    temp_handle = open('tmp.cs', 'w')
+    for line in readme_handle:
+        if 'Sha256 hash of installer:' in line:
+            temp_handle.write('<p>Sha256 hash of installer: ' + setup_hash + '</p>\n')
+        elif 'Sha256 hash of logview4net.exe:' in line:
+            temp_handle.write('<p>Sha256 hash of logview4net.exe: ' + exe_hash + '</p>\n')
+        else:
+            temp_handle.write(line)
+
+    readme_handle.close()
+    temp_handle.close()
+
+    os.rename(readme_file, old_readme_file)
+    os.rename(tmp_file, readme_file)
 
 def get_new_version_long_form():
     year = datetime.date.today().isocalendar()[0] - 2000
