@@ -42,9 +42,7 @@ Section "logview4net (required)"
 
 	 
   SectionIn RO
-  
-  !insertmacro CheckDotNET "2.0.50727"
-  
+    
   ; Set output path to the installation directory.
   SetOutPath $INSTDIR
   
@@ -54,7 +52,7 @@ Section "logview4net (required)"
   File "..\App\bin\release\logview4net.mslisteners.dll"
   File "..\App\bin\release\logview4net.mysqllistener.dll"
   File "..\App\DefaultSession.xml"
-  File "..\Deployment\README.TXT"
+  File "..\..\README.md"
   File "..\Deployment\LICENSE.RTF"
   File "..\App\bin\release\MySql.data.dll"
   
@@ -94,7 +92,7 @@ Section "Uninstall"
   Delete $INSTDIR\logview4net.core.dll"
   Delete $INSTDIR\logview4net.mslisteners.dll"  
   Delete $INSTDIR\logview4net.mysqllistener.dll"  
-  Delete $INSTDIR\README.TXT
+  Delete $INSTDIR\README.md
   Delete $INSTDIR\LICENSE.RTF
   Delete $INSTDIR\DefaultSession.xml
   Delete $INSTDIR\uninstall.exe
