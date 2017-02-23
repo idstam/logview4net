@@ -1,3 +1,4 @@
 baseurl = "http://logview4net.com"
 languageCode = "en-us"
 title = "logview4net"
+theme = "logview4net"
