@@ -29,6 +29,8 @@ def main():
 
     copy_files_to_site()
 
+    create_site()
+
     input("Press Enter to continue...")
 
 def update_file_hash(exe_file, setup_file):
@@ -53,6 +55,11 @@ def make_installer(nsis_path):
     """ Create the Nsis installer package. """
     print("Making installer")
     call(nsis_path + r" .\src\setup\logview4net.nsi")
+
+def create_site():
+    """ Create the site using Hugo. """
+    print("Create the site using Hugo.")
+    call(r"./site_hugo/hugo")
 
 def clean_solution():
     print("Clean solution")
