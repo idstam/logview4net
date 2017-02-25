@@ -14,7 +14,7 @@ def main():
     replace_solution_version(old_version, long_version)
 
     ##msbuild_path = r"C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe"
-    nsis_path = r"C:\Program Files\NSIS\makensis.exe"
+    nsis_path = r"C:\Program Files (x86)\NSIS\makensis.exe"
     exe_file = r".\src\App\bin\release\logview4net.exe"
     setup_file = r".\src\setup\logview4net_setup.exe"
 

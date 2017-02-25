@@ -17,8 +17,8 @@ Atom and RSS feeds.
   * Supports several simultaneous sessions (MDI).
 
 ## File hashes
-  * Sha256 hash of installer: 1d 0d b4 5b ed fe f2 db a5 c5 1e 3a 88 9f 70 81 e5 ae 15 d6 dd 43 f0 9c 86 e4 17 d9 15 9b eb fa
-  * Sha256 hash of logview4net.exe: 00 a3 48 9c 66 19 8f b7 45 1f e1 ef 7e aa 20 88 1e d5 ec 4f 99 32 83 af 34 90 d4 7f 7c d8 4e 6a
+  * Sha256 hash of installer: 0f 66 30 c9 ea 0b 1f f5 ab 57 6b d9 d8 7f 8c ee 86 b4 52 b3 16 60 2b 12 f7 40 1c a6 18 45 49 40
+  * Sha256 hash of logview4net.exe: bc af 91 50 7a 0c 3c d6 86 30 38 fa 45 12 a7 7b 80 24 b3 50 b8 57 46 62 78 87 36 dd 66 00 06 5f
 
   To calculate the hash yourself in Windows execute the following: certutil -hashfile logview4net.exe sha256
 

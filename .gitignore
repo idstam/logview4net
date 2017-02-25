@@ -209,3 +209,6 @@ src/sign_log_installer.txt
 /src/Deployment/SolutionVersionInfo.cs.old
 /src/Deployment/logview4net.pad - Copy.xml
 /site_hugo/hugo.exe
+/*.old
+/site_hugo/layouts/*.old
+/site_hugo/static/dlfolder/*.old
