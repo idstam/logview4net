@@ -21,7 +21,7 @@ def main():
     ##clean_solution()
     ##build_solution(msbuild_path)
     make_installer(nsis_path)
-    
+
     update_file_hash(exe_file, setup_file)
 
     write_auto_update_version(short_version)
@@ -29,7 +29,7 @@ def main():
 
     copy_files_to_site()
 
-    create_site()
+    ###create_site()
 
     input("Press Enter to continue...")
 
