@@ -630,12 +630,17 @@
         </member>
         <member name="F:logview4net.Viewers.ActionTypes.Hide">
             <summary>
-            Executes whatever commandline is in the action config
+            Stores a message in a cache that can be shown later, but doesn't display it right away.
             </summary>        
         </member>
         <member name="F:logview4net.Viewers.ActionTypes.Execute">
             <summary>
-            Stores a message in a cache that can be shown later, but doesn't display it right away.
+            Executes whatever commandline is in the action config
+            </summary>
+        </member>
+        <member name="F:logview4net.Viewers.ActionTypes.IgnoreNoMatch">
+            <summary>
+            Ignores all messages that are not matched by an action
             </summary>
         </member>
         <member name="T:logview4net.Viewers.Action">
@@ -688,6 +693,13 @@
             </summary>
             <param name="pattern">The pattern.</param>
             <param name="color">The color.</param>
+            <returns></returns>
+        </member>
+        <member name="M:logview4net.Viewers.Action.CreateIgnoreNoMatchAction">
+            <summary>
+            Creates an ignore no match action.
+            </summary>
+            <param name="pattern">The pattern.</param>
             <returns></returns>
         </member>
         <member name="M:logview4net.Viewers.Action.CreateGenericEventAction(System.Xml.XmlNode)">

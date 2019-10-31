@@ -49,13 +49,17 @@ namespace logview4net.Viewers
         /// </summary>
         PlaySound,
         /// <summary>
-        /// Executes whatever commandline is in the action config
+        /// Stores a message in a cache that can be shown later, but doesn't display it right away.
         /// </summary>        
         Hide,
         /// <summary>
-        /// Stores a message in a cache that can be shown later, but doesn't display it right away.
+        /// Executes whatever commandline is in the action config
         /// </summary>
-        Execute
+        Execute,
+        /// <summary>
+        /// Ignores all messages that are not matched by an action
+        /// </summary>
+        IgnoreNoMatch
     }
 
     /// <summary>
@@ -136,6 +140,16 @@ namespace logview4net.Viewers
         public static Action CreateHighlightMatchAction(string pattern, Color color)
         {
             return CreateGenericEventAction(pattern, color, ActionTypes.HighlightMatch);
+        }
+
+        /// <summary>
+        /// Creates an ignore no match action.
+        /// </summary>
+        /// <param name="pattern">The pattern.</param>
+        /// <returns></returns>
+        public static Action CreateIgnoreNoMatchAction()
+        {
+            return CreateGenericEventAction("", ActionTypes.IgnoreNoMatch);
         }
 
         private static Action CreateGenericEventAction(string pattern, Color color, ActionTypes type)

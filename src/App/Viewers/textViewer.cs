@@ -781,6 +781,11 @@ namespace logview4net.Viewers
         {
             string structure = listener.IsStructured ? listener.GetConfigValue("structured") : "n/a";
             var le = new LogEvent(message, _actions, true, structure);
+            if(le.Actions.Count == 1 && le.Actions[0].ActionType == ActionTypes.IgnoreNoMatch)
+            {
+                //If the only action we have is to ignore no match then we should ignore this message
+                return;
+            }
             try
             {
                 AddEvent(le);
@@ -1012,6 +1017,7 @@ namespace logview4net.Viewers
             try
             {
                 var reason = ViewerUtils.IgnoreReasons.DoNotIgnore;
+                var hasMatch = false;
                 var ignoreMessage = false;
                 if (!forceShow)
                 {
@@ -1051,7 +1057,8 @@ namespace logview4net.Viewers
             int selectionStart = Txt.SelectionStart;
             Txt.SelectedText = le.Message + Environment.NewLine;
             //txt.AppendText(le.Message + Environment.NewLine);
-            
+
+    
             foreach (Action action in le.Actions)
             {
                 switch (action.ActionType)

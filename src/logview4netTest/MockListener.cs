@@ -34,13 +34,6 @@ namespace logview4net.test
 	        throw new NotImplementedException();
 	    }
 
-	    public bool IsStructured{ get{ return true;}}
-        public bool IsRestartable
-        {
-            get { return true; }
-        }
-
-        public bool IsConfigured { get; set; }
 
         private bool _isRunning = false;
 

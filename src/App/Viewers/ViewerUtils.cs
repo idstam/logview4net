@@ -79,7 +79,7 @@ namespace logview4net.Viewers
 
                 foreach (var a in actions)
                 {
-                    if (a.IsMatch(data))
+                    if (a.IsMatch(data) || a.ActionType == ActionTypes.IgnoreNoMatch)
                     {
                         ret.Add(a);
                     }

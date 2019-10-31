@@ -26,7 +26,7 @@ namespace logview4net.Viewers
         /// </summary>
         public List<Action> Actions = new List<Action>();
 
-        public string Structure{ get; set; }
+        public string Structure { get; set; }
         /// <summary>
         /// Contructor
         /// </summary>

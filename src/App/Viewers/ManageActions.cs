@@ -44,5 +44,15 @@ namespace logview4net.Viewers
                 Width += foo;
             }
         }
+
+        private void btnOK_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void chkIgnoreNomatch_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -221,7 +221,7 @@ namespace logview4net.Listeners
         /// Gets a new configurator.
         /// </summary>
         /// <returns></returns>
-        public IListenerConfigurator GetNewConfigurator()
+        public new IListenerConfigurator GetNewConfigurator()
         {
             return new MySqlListenerConfigurator(this);
         }
