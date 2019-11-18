@@ -4,6 +4,8 @@ Atom and RSS feeds.
 
 **logview4net needs the .Net 4.5.2 Runtime to execute.**
 
+### Download binaries: [Releases](https://github.com/idstam/logview4net/releases)
+
 ## FEATURES:
   * Listens to a UDP port either in broadcast or single endpoint mode.
   * Monitors an eventlog, uses events on the local machine and polling on remote machines.
