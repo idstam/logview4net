@@ -30,6 +30,8 @@ Atom and RSS feeds.
 
 ## CHANGELOG:
 
+### 19.47
+  * Made a portable release here on GitHub.
 ### 17.08
   * Change .Net version to 4.5.2
   * Fix: An exception when loading configurations from file.
