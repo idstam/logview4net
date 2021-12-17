@@ -19,13 +19,13 @@ namespace logview4net.Listeners
     public partial class ListenerConfigurator : UserControl, IListenerConfigurator
     {
         private ListenerBase _listener;
-        private int _rowHeight = 23;
+        private int _rowHeight = 38;
         private int _rowCount = 0;
         private int _nextLeft = 3;
         private int _nextTop = 0;
         private Session _session;
 
-        
+
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ListenerConfigurator"/> class.
@@ -275,21 +275,21 @@ namespace logview4net.Listeners
         }
         void t_DragEnter(object sender, DragEventArgs e)
         {
-        	if(e.Data.GetDataPresent(DataFormats.FileDrop))
-        	{
-        		e.Effect = DragDropEffects.Copy;
-        	}
-        	else
-        	{
-        		e.Effect = DragDropEffects.None;
-        		
-        	}
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                e.Effect = DragDropEffects.Copy;
+            }
+            else
+            {
+                e.Effect = DragDropEffects.None;
+
+            }
         }
-		
+
         void t_DragDrop(object sender, DragEventArgs e)
         {
-        	var FileList = (string[])e.Data.GetData(DataFormats.FileDrop, false);
-        	((TextBox)sender).Text = FileList[0];
+            var FileList = (string[])e.Data.GetData(DataFormats.FileDrop, false);
+            ((TextBox)sender).Text = FileList[0];
 
         }
         void setChangedValue(Control ctl, string value)
