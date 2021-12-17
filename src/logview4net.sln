@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deployment", "Deployment", "{9EEC8DD1-1ECF-440C-988C-0A2E2184235A}"
 	ProjectSection(SolutionItems) = preProject
@@ -13,15 +13,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deployment", "Deployment", 
 		Deployment\SolutionVersionInfo.cs = Deployment\SolutionVersionInfo.cs
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "logview4net", "App\logview4net.csproj", "{17ED17E8-BE14-40C5-930C-7C74161CAE75}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "logview4net", "App\logview4net.csproj", "{17ED17E8-BE14-40C5-930C-7C74161CAE75}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "logview4net.core", "logview4net.core\logview4net.core.csproj", "{A7341CBC-91AD-4046-BB92-5DB51F282E1A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "logview4net.core", "logview4net.core\logview4net.core.csproj", "{A7341CBC-91AD-4046-BB92-5DB51F282E1A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "logview4netTest", "logview4netTest\logview4netTest.csproj", "{DEEBAC54-3569-4955-97C7-395BEB8F4420}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "logview4net.mslisteners", "logview4net.mslisteners\logview4net.mslisteners.csproj", "{89826B9C-6230-479B-9130-B0B90FF0D3AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "logview4net.mslisteners", "logview4net.mslisteners\logview4net.mslisteners.csproj", "{89826B9C-6230-479B-9130-B0B90FF0D3AB}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "logview4net.mysqllistener", "logview4net.mysqllistener\logview4net.mysqllistener.csproj", "{BF77AF0C-9D8E-4C39-B275-CAAC2AFF14AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "logview4net.mysqllistener", "logview4net.mysqllistener\logview4net.mysqllistener.csproj", "{BF77AF0C-9D8E-4C39-B275-CAAC2AFF14AF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,14 +45,6 @@ Global
 		{A7341CBC-91AD-4046-BB92-5DB51F282E1A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A7341CBC-91AD-4046-BB92-5DB51F282E1A}.Release|x86.ActiveCfg = Release|Any CPU
 		{A7341CBC-91AD-4046-BB92-5DB51F282E1A}.Release|x86.Build.0 = Release|Any CPU
-		{DEEBAC54-3569-4955-97C7-395BEB8F4420}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DEEBAC54-3569-4955-97C7-395BEB8F4420}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DEEBAC54-3569-4955-97C7-395BEB8F4420}.Debug|x86.ActiveCfg = Debug|x86
-		{DEEBAC54-3569-4955-97C7-395BEB8F4420}.Debug|x86.Build.0 = Debug|x86
-		{DEEBAC54-3569-4955-97C7-395BEB8F4420}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DEEBAC54-3569-4955-97C7-395BEB8F4420}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DEEBAC54-3569-4955-97C7-395BEB8F4420}.Release|x86.ActiveCfg = Release|Any CPU
-		{DEEBAC54-3569-4955-97C7-395BEB8F4420}.Release|x86.Build.0 = Release|Any CPU
 		{89826B9C-6230-479B-9130-B0B90FF0D3AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{89826B9C-6230-479B-9130-B0B90FF0D3AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{89826B9C-6230-479B-9130-B0B90FF0D3AB}.Debug|x86.ActiveCfg = Debug|x86
@@ -74,6 +64,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {78E0D8C3-9EEE-40D3-BC5A-6FAADDC4DE8C}
 	EndGlobalSection
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True

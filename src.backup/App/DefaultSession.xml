@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<session title="Default">
+  <listener>
+    <UdpListener xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+      <Endpoint>127.0.0.1</Endpoint>
+      <Port>8080</Port>
+      <MessagePrefix>UDP8080</MessagePrefix>
+    </UdpListener>
+  </listener>
+  <viewer>
+    <viewer type="Text" buffer="500000000" forecolor="Lime" backcolor="Black" font="Courier New" fontsize="9">
+      <action type="Highlight" pattern="Error" color="Orange" font-name="Courier New" font-size="9" font-style="Regular" />
+      <action type="Highlight" pattern="Exception" color="OrangeRed" font-name="Courier New" font-size="9" font-style="Regular" />
+      <action type="Highlight" pattern="Fel" color="Orange" font-name="Courier New" font-size="9" font-style="Regular" />
+      <action type="Highlight" pattern="Warn" color="Yellow" font-name="Courier New" font-size="9" font-style="Regular" />
+    </viewer>
+  </viewer>
+</session>

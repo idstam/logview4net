@@ -15,6 +15,7 @@ namespace logview4net
         {
         	Logview4netSettings.Instance = Settings1.Default;
             Application.EnableVisualStyles();
+            Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.DoEvents();
             	
             Application.Run(new App(args));

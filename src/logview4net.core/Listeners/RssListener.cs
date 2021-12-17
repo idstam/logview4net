@@ -11,9 +11,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Reflection;
+using System.Text.Encodings.Web;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Web;
 using System.Xml;
 
 namespace logview4net.Listeners
@@ -328,7 +328,8 @@ namespace logview4net.Listeners
 
         private string wordWrap(string text)
         {
-            return HttpUtility.HtmlDecode(text);
+            return System.Net.WebUtility.HtmlDecode(text);
+
         }
 
         #region IListener Members
