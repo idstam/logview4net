@@ -2,7 +2,7 @@
 It can monitor files, directories, incomming UDP/TCP traffic, the EventLog, SQL tables, 
 Atom and RSS feeds.
 
-**logview4net needs the .Net 4.5.2 Runtime to execute.**
+**logview4net needs the .NetFramework 4.8 Runtime to execute.**
 
 ### Download binaries: [Releases](https://github.com/idstam/logview4net/releases)
 
@@ -14,24 +14,23 @@ Atom and RSS feeds.
   * Monitors RSS and Atom feeds. Strips most of HTML formatting from content.
   * Listens to a TCP port.
   * Monitors StdOut/StdErr of external application.
+  * Monitors a Kafka topic
   * Can highlight or hide messages depending on content.
   * Supports multiple simultaneous listeners in each session.
   * Supports several simultaneous sessions (MDI).
-
-## File hashes
-  * Sha256 hash of installer: 89 b5 fb a6 90 41 f8 92 f5 87 03 77 48 51 8e 65 1a c9 1b 1e b4 5b 51 c6 2f 8a e5 32 66 48 92 ab
-  * Sha256 hash of logview4net.exe: b7 e5 55 8b c5 bd 92 5b 85 6d 29 bd 31 15 67 5c 0d 70 20 ce b1 db 0a 45 05 05 a7 bc 77 43 72 5a
-
-  To calculate the hash yourself in Windows execute the following: certutil -hashfile logview4net.exe sha256
-
 
 ## KNOWN BUGS:
   * The viewer configurator is not loaded with the right settings
 
 ## CHANGELOG:
 
+### 24.XX
+  * Change .NetFramework version to 4.8
+  * Kafka Listener
+
 ### 19.47
   * Made a portable release here on GitHub.
+
 ### 17.08
   * Change .Net version to 4.5.2
   * Fix: An exception when loading configurations from file.

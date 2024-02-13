@@ -34,7 +34,7 @@ namespace logview4netTest
             var a =  Action.CreateGenericEventAction(n);
 
             var s = 8f;
-            Assert.AreEqual(s, a.Font.Size);
+            Assert.That(s,Is.EqualTo( a.Font.Size));
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace logview4netTest
             var a = Action.CreateGenericEventAction(n);
 
             var s = 8.25f;
-            Assert.AreEqual(s, a.Font.Size);
+            Assert.That(s,Is.EqualTo( a.Font.Size));
         }
     }
 }

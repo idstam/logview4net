@@ -13,6 +13,7 @@ using System.Text;
 using System.Xml.Serialization;
 using NUnit.Framework;
 using logview4net.Listeners;
+using NUnit.Framework.Legacy;
 
 namespace logview4net.test
 {
@@ -51,16 +52,16 @@ namespace logview4net.test
 
             var copy = (SqlListener)xs.Deserialize(sr);
 
-            Assert.AreEqual(original.MessagePrefix , copy.MessagePrefix);
-            Assert.AreEqual(original.Column , copy.Column);
-            Assert.AreEqual(original.Database , copy.Database);
-            Assert.AreEqual(original.Interval , copy.Interval);
-            Assert.AreEqual(original.Password , copy.Password);
-            Assert.AreEqual(original.Server , copy.Server);
-            Assert.AreEqual(original.StartAtEnd , copy.StartAtEnd);
-            Assert.AreEqual(original.Table , copy.Table);
-            Assert.AreEqual(original.User , copy.User);
-            Assert.AreEqual(original.WinAuthentication, copy.WinAuthentication);
+            ClassicAssert.AreEqual(original.MessagePrefix , copy.MessagePrefix);
+            ClassicAssert.AreEqual(original.Column , copy.Column);
+            ClassicAssert.AreEqual(original.Database , copy.Database);
+            ClassicAssert.AreEqual(original.Interval , copy.Interval);
+            ClassicAssert.AreEqual(original.Password , copy.Password);
+            ClassicAssert.AreEqual(original.Server , copy.Server);
+            ClassicAssert.AreEqual(original.StartAtEnd , copy.StartAtEnd);
+            ClassicAssert.AreEqual(original.Table , copy.Table);
+            ClassicAssert.AreEqual(original.User , copy.User);
+            ClassicAssert.AreEqual(original.WinAuthentication, copy.WinAuthentication);
 
             original.Dispose();
             copy.Dispose();

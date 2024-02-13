@@ -16,6 +16,7 @@ using logview4net.Listeners;
 using logview4net.Viewers;
 using NUnit.Framework;
 using System.Text;
+using NUnit.Framework.Legacy;
 
 namespace logview4net.test
 {
@@ -51,7 +52,7 @@ namespace logview4net.test
             var f = new StructuredMessageFormatter(msg, listener);
             var foo = f.Message();
 
-            Assert.AreEqual(formattedMsg, foo);
+            ClassicAssert.AreEqual(formattedMsg, foo);
 
 
         }

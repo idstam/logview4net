@@ -14,6 +14,7 @@ using logview4net.Listeners;
 using logview4net.Viewers;
 using NUnit.Framework;
 using System.Text;
+using NUnit.Framework.Legacy;
 
 namespace logview4net.test
 {
@@ -75,12 +76,12 @@ namespace logview4net.test
 			us.Start();
 			
 			Thread.Sleep(500); //To let the message go through the network stack
-	
-			Assert.AreEqual(2, _viewer.ReceivedData.Count );
+
+            ClassicAssert.AreEqual(2, _viewer.ReceivedData.Count );
 
 			for(var i = 0; i < messages.Length; i++)
 			{
-				Assert.AreEqual(" - 127.0.0.1 " + messages[i], _viewer.ReceivedData[i].ToString(), "Messages diff at no: " + i.ToString());
+                ClassicAssert.AreEqual(" - 127.0.0.1 " + messages[i], _viewer.ReceivedData[i].ToString(), "Messages diff at no: " + i.ToString());
 			}
 			
 
@@ -104,9 +105,9 @@ namespace logview4net.test
 
             var copy = (UdpListener)xs.Deserialize(sr);
 
-            Assert.AreEqual(original.Endpoint, copy.Endpoint);
-            Assert.AreEqual(original.MessagePrefix, copy.MessagePrefix);
-            Assert.AreEqual(original.Port, copy.Port);
+            ClassicAssert.AreEqual(original.Endpoint, copy.Endpoint);
+            ClassicAssert.AreEqual(original.MessagePrefix, copy.MessagePrefix);
+            ClassicAssert.AreEqual(original.Port, copy.Port);
 
             original.Dispose();
             copy.Dispose();

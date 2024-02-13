@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using System.IO;
+using NUnit.Framework.Legacy;
 
 namespace logview4net.test
 {
@@ -23,7 +24,7 @@ namespace logview4net.test
 
             var ret = he.GetHex(0, b);
 
-            Assert.AreEqual("00000000h: 41 41 41 41 41 41 41 41 42 42 42 42 42 42 42 42 ; AAAAAAAABBBBBBBB", ret);
+            ClassicAssert.AreEqual("00000000h: 41 41 41 41 41 41 41 41 42 42 42 42 42 42 42 42 ; AAAAAAAABBBBBBBB", ret);
         }
         [Test]
         public void HexTest_TwoLines()
@@ -35,7 +36,7 @@ namespace logview4net.test
             var hex = he.GetHex(0, b);
             var ret = getLines(hex);
             //Assert.AreEqual("00000000h: 41 41 41 41 41 41 41 41 42 42 42 42 42 42 42 42 ; AAAAAAAABBBBBBBB", ret[0]);
-            Assert.AreEqual("00000010h: 41 41 41 41 41 41 41 41 42 42 42 42 42 42 42 42 ; AAAAAAAABBBBBBBB", ret[1]);
+            ClassicAssert.AreEqual("00000010h: 41 41 41 41 41 41 41 41 42 42 42 42 42 42 42 42 ; AAAAAAAABBBBBBBB", ret[1]);
         }
 
         [Test]
@@ -48,7 +49,7 @@ namespace logview4net.test
             var hex = he.GetHex(0, b);
             var ret = getLines(hex);
             //Assert.AreEqual("00000000h: 41 41 41 41 41 41 41 41 42 42 42 42 42 42 42 42 ; AAAAAAAABBBBBBBB", ret[0]);
-            Assert.AreEqual("00000010h: 41 41 41 41 41 41 41 41                         ; AAAAAAAA", ret[1]);
+            ClassicAssert.AreEqual("00000010h: 41 41 41 41 41 41 41 41                         ; AAAAAAAA", ret[1]);
         }
 
         private List<string> getLines(string s)
@@ -77,7 +78,7 @@ namespace logview4net.test
             string notPrintable2 = new string((char)176, 2);
             string expeted = "0000000Ah: 0F 19 20 21 05 05 05 05 06 06 06 06 06 06 06 06 ; " + notPrintable2 + " !" +
                              notPrintable12;
-            Assert.AreEqual(expeted, ret);
+            ClassicAssert.AreEqual(expeted, ret);
         }
     }
 }

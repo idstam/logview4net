@@ -16,6 +16,7 @@ using logview4net.Listeners;
 using logview4net.Viewers;
 using NUnit.Framework;
 using System.Text;
+using NUnit.Framework.Legacy;
 
 namespace logview4net.test
 {
@@ -41,7 +42,7 @@ namespace logview4net.test
         /// <summary>
         /// Setups the fixture.
         /// </summary>
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void SetupFixture()
         {
             _tempFiles = new List<string>();
@@ -50,7 +51,7 @@ namespace logview4net.test
         /// <summary>
         /// Cleans this instance.
         /// </summary>
-        [TestFixtureTearDown]
+        [OneTimeTearDown]
         public void Clean()
         {
             foreach (var f in _tempFiles)
@@ -106,7 +107,7 @@ namespace logview4net.test
             Application.DoEvents();
             Thread.Sleep(200);
             Application.DoEvents();
-            Assert.IsTrue(v.ReceivedData.Count > 0);
+            Assert.That(v.ReceivedData.Count > 0);
 
             s.Stop();
         }
@@ -127,7 +128,7 @@ namespace logview4net.test
             Thread.Sleep(200);
             Application.DoEvents();
 
-            Assert.AreEqual(0, v.ReceivedData.Count);
+            ClassicAssert.AreEqual(0, v.ReceivedData.Count);
 
             s.Stop();
         }
@@ -152,7 +153,7 @@ namespace logview4net.test
 
             Application.DoEvents();
 
-            Assert.AreEqual(1, v.ReceivedData.Count);
+            ClassicAssert.AreEqual(1, v.ReceivedData.Count);
 
             s.Stop();
         }
@@ -178,7 +179,7 @@ namespace logview4net.test
             Thread.Sleep(200); //If this is to short the test will fail.
             Application.DoEvents();
 
-            Assert.AreEqual(2,v.ReceivedData.Count);
+            ClassicAssert.AreEqual(2,v.ReceivedData.Count);
 
             s.Stop();
         }

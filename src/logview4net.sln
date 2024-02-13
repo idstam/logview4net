@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deployment", "Deployment", "{9EEC8DD1-1ECF-440C-988C-0A2E2184235A}"
 	ProjectSection(SolutionItems) = preProject
@@ -22,6 +22,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "logview4net.mslisteners", "logview4net.mslisteners\logview4net.mslisteners.csproj", "{89826B9C-6230-479B-9130-B0B90FF0D3AB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "logview4net.mysqllistener", "logview4net.mysqllistener\logview4net.mysqllistener.csproj", "{BF77AF0C-9D8E-4C39-B275-CAAC2AFF14AF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "logview4net.kafkalistener", "logview4net.kafkalistener\logview4net.kafkalistener.csproj", "{19663D1E-8D58-4DB3-A646-F507F042C912}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,9 +73,20 @@ Global
 		{BF77AF0C-9D8E-4C39-B275-CAAC2AFF14AF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BF77AF0C-9D8E-4C39-B275-CAAC2AFF14AF}.Release|x86.ActiveCfg = Release|Any CPU
 		{BF77AF0C-9D8E-4C39-B275-CAAC2AFF14AF}.Release|x86.Build.0 = Release|Any CPU
+		{19663D1E-8D58-4DB3-A646-F507F042C912}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19663D1E-8D58-4DB3-A646-F507F042C912}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19663D1E-8D58-4DB3-A646-F507F042C912}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{19663D1E-8D58-4DB3-A646-F507F042C912}.Debug|x86.Build.0 = Debug|Any CPU
+		{19663D1E-8D58-4DB3-A646-F507F042C912}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19663D1E-8D58-4DB3-A646-F507F042C912}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19663D1E-8D58-4DB3-A646-F507F042C912}.Release|x86.ActiveCfg = Release|Any CPU
+		{19663D1E-8D58-4DB3-A646-F507F042C912}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D9CF74F8-49F2-48A9-BED8-72E918121820}
 	EndGlobalSection
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True

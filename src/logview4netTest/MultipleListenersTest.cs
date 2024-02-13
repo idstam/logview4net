@@ -12,6 +12,7 @@ using logview4net.Listeners;
 using logview4net.Viewers;
 using System.IO;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace logview4net.test
 {
@@ -74,8 +75,8 @@ namespace logview4net.test
 			_listenerBaseA.AddEvent("a_2");
 			_listenerBaseA.AddEvent("b_2");
 
-				
-			Assert.AreEqual(4, _viewer.ReceivedData.Count );
+
+            ClassicAssert.AreEqual(4, _viewer.ReceivedData.Count );
 			
 
 			_session.Stop();

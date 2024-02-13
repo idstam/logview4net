@@ -1,11 +1,3 @@
-/*
- * This file is part of logview4net (logview4net.sourceforge.net)
- * Copyright 2011 Botond B. Balazs
- * 
- * 
- * This source code is released under the Artistic License 2.0.
- */
-
 using System;
 using System.Collections.Generic;
 using System.Text;

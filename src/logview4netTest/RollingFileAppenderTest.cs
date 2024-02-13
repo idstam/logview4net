@@ -11,6 +11,7 @@ using System.IO;
 using logview4net;
 using logview4net.test;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace logview4netTest
 {
@@ -58,7 +59,7 @@ namespace logview4netTest
 			
 			s.AddEvent(l, "store log test");
 			
-			Assert.IsFalse(File.Exists(v.LogFile));	
+			ClassicAssert.IsFalse(File.Exists(v.LogFile));	
 			
 		}
 
@@ -76,7 +77,7 @@ namespace logview4netTest
 			
 			s.AddEvent(l, "store log test");
 			
-			Assert.IsTrue(File.Exists(v.LogFile));	
+			Assert.That(File.Exists(v.LogFile));	
 			
 		}		
 
@@ -93,22 +94,22 @@ namespace logview4netTest
 			
 			s.AddEvent(l, "store log test");
 			
-			Assert.IsTrue(File.Exists(v.LogFile), "SizeRollingTest A");	
-			Assert.IsFalse(File.Exists(v.LogFile + ".1"), "SizeRollingTest B");	
+			Assert.That(File.Exists(v.LogFile), "SizeRollingTest A");	
+			ClassicAssert.IsFalse(File.Exists(v.LogFile + ".1"), "SizeRollingTest B");	
 			
 			s.AddEvent(l, new String('X', 100 * 1024));
 
-			Assert.IsTrue(File.Exists(v.LogFile), "SizeRollingTest D");	
-			Assert.IsFalse(File.Exists(v.LogFile + ".1"), "SizeRollingTest E");	
+			Assert.That(File.Exists(v.LogFile), "SizeRollingTest D");	
+			ClassicAssert.IsFalse(File.Exists(v.LogFile + ".1"), "SizeRollingTest E");	
 
 			s.AddEvent(l, new String('X', 10 * 1024));
 
-			Assert.IsTrue(File.Exists(v.LogFile), "SizeRollingTest G");	
-			Assert.IsTrue(File.Exists(v.LogFile + ".1"), "SizeRollingTest H");	
+			Assert.That(File.Exists(v.LogFile), "SizeRollingTest G");	
+			Assert.That(File.Exists(v.LogFile + ".1"), "SizeRollingTest H");	
 
 			s.AddEvent(l, new String('X', 100 * 1024));
 			s.AddEvent(l, new String('X', 10 * 1024));
-			Assert.IsTrue(File.Exists(v.LogFile + ".2"), "SizeRollingTest I");	
+			Assert.That(File.Exists(v.LogFile + ".2"), "SizeRollingTest I");	
 		}		
 
 		[Test]
@@ -126,11 +127,11 @@ namespace logview4netTest
 			
 			s._rollingStorage._lastDatePart = "foo";
 			s.AddEvent(l, "store log test");
-			Assert.IsTrue(File.Exists(v.LogFile + "." + DateTime.Now.ToString("yyyyMMdd")));
+			Assert.That(File.Exists(v.LogFile + "." + DateTime.Now.ToString("yyyyMMdd")));
 
 			s._rollingStorage._lastDatePart = "foo";
 			s.AddEvent(l, "store log test");
-			Assert.IsTrue(File.Exists(v.LogFile + "." + DateTime.Now.ToString("yyyyMMdd") + ".1"));
+			Assert.That(File.Exists(v.LogFile + "." + DateTime.Now.ToString("yyyyMMdd") + ".1"));
 		}		
 
 

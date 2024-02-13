@@ -10,6 +10,7 @@ using logview4net.Viewers;
 using NUnit.Framework;
 using Action = logview4net.Viewers.Action;
 using logview4net.Listeners;
+using NUnit.Framework.Legacy;
 
 namespace logview4net.test
 {
@@ -46,7 +47,7 @@ namespace logview4net.test
             {
                 tv.AddEvent(i.ToString(), new FileListener());
                 //It seems that there is an empty line att the end if the 'last' line ends with a NewLine
-                Assert.Less(tv.Txt.Lines.Length, 7,
+                ClassicAssert.Less(tv.Txt.Lines.Length, 7,
                     "There should be less than seven lines since the buffer is 10 characters");
             }
         }
@@ -67,7 +68,7 @@ namespace logview4net.test
 				tv.AddEvent(i.ToString(), new FileListener());
 			}
 			//It seems that there is an empty line att the end if the 'last' line ends with a NewLine
-			Assert.LessOrEqual(tv.Txt.TextLength, bs , "There should be less or equal amount characters ass the buffer size. With an occational newline to much.");
+			ClassicAssert.LessOrEqual(tv.Txt.TextLength, bs , "There should be less or equal amount characters ass the buffer size. With an occational newline to much.");
 			
 		}
 
@@ -83,11 +84,11 @@ namespace logview4net.test
             tv.Actions.Add(Action.CreateIgnoreAction("foo"));
 
             tv.AddEvent("bar", new FileListener());
-            Assert.AreEqual("bar\n", tv.Txt.Text);
+            Assert.That("bar\n", Is.EqualTo(tv.Txt.Text));
             tv.AddEvent("foo", new FileListener());
-            Assert.AreEqual("bar\n", tv.Txt.Text);
+            Assert.That("bar\n", Is.EqualTo(tv.Txt.Text));
             tv.AddEvent("bar", new FileListener());
-            Assert.AreEqual("bar\nbar\n", tv.Txt.Text);
+            Assert.That("bar\nbar\n", Is.EqualTo(tv.Txt.Text));
             
         }
     }

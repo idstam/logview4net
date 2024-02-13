@@ -14,6 +14,7 @@ using logview4net.Listeners;
 using System.Diagnostics;
 using NUnit.Framework;
 using System.Text;
+using NUnit.Framework.Legacy;
 
 namespace logview4net.test
 {
@@ -81,8 +82,8 @@ namespace logview4net.test
 
 			_session.Stop();
 			
-			Assert.AreEqual(numOfEntries, _eventLog.Entries.Count);
-			Assert.AreEqual(0, ((MockViewer)_session.Viewer).ReceivedData.Count);
+			Assert.That(numOfEntries,Is.EqualTo( _eventLog.Entries.Count));
+			Assert.That(0,Is.EqualTo(((MockViewer)_session.Viewer).ReceivedData.Count));
 		}
 
 		/// <summary>
@@ -107,9 +108,9 @@ namespace logview4net.test
 			Thread.Sleep(8000);	
 
 			_session.Stop();
-			
-			Assert.AreEqual(numOfEntries, _eventLog.Entries.Count);
-			Assert.AreEqual(numOfEntries, ((MockViewer)_session.Viewer).ReceivedData.Count);
+
+            ClassicAssert.AreEqual(numOfEntries, _eventLog.Entries.Count);
+            ClassicAssert.AreEqual(numOfEntries, ((MockViewer)_session.Viewer).ReceivedData.Count);
 		}
 		
 		/// <summary>
@@ -135,9 +136,9 @@ namespace logview4net.test
 			}
 
 			_session.Stop();
-			
-			Assert.AreEqual(numOfEntries, _eventLog.Entries.Count);
-			Assert.AreEqual(0, ((MockViewer)_session.Viewer).ReceivedData.Count);
+
+            ClassicAssert.AreEqual(numOfEntries, _eventLog.Entries.Count);
+            ClassicAssert.AreEqual(0, ((MockViewer)_session.Viewer).ReceivedData.Count);
 		}
 
 		/// <summary>
@@ -162,9 +163,9 @@ namespace logview4net.test
 			Application.DoEvents();
 
 			_session.Stop();
-			
-			Assert.AreEqual(numOfEntries, _eventLog.Entries.Count);
-			Assert.AreEqual(numOfEntries, ((MockViewer)_session.Viewer).ReceivedData.Count);
+
+            ClassicAssert.AreEqual(numOfEntries, _eventLog.Entries.Count);
+            ClassicAssert.AreEqual(numOfEntries, ((MockViewer)_session.Viewer).ReceivedData.Count);
 		}
 
         /// <summary>
@@ -189,11 +190,11 @@ namespace logview4net.test
 
             var copy = (EventLogListener)xs.Deserialize(sr);
 
-            Assert.AreEqual(original.MessagePrefix, copy.MessagePrefix);
-            Assert.AreEqual(original.AppendFieldNames, copy.AppendFieldNames);
-            Assert.AreEqual(original.Host, copy.Host);
-            Assert.AreEqual(original.LogName, copy.LogName);
-            Assert.AreEqual(original.PollInterval, copy.PollInterval);
+            ClassicAssert.AreEqual(original.MessagePrefix, copy.MessagePrefix);
+            ClassicAssert.AreEqual(original.AppendFieldNames, copy.AppendFieldNames);
+            ClassicAssert.AreEqual(original.Host, copy.Host);
+            ClassicAssert.AreEqual(original.LogName, copy.LogName);
+            ClassicAssert.AreEqual(original.PollInterval, copy.PollInterval);
 
             original.Dispose();
             copy.Dispose();

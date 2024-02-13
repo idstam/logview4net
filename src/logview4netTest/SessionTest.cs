@@ -12,6 +12,7 @@ using System.Threading;
 using logview4net.Listeners;
 using logview4net.Viewers;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace logview4net.test
 {
@@ -38,8 +39,8 @@ namespace logview4net.test
 		public void Contructor_aTest()
 		{
 			var s = new Session();
-			Assert.IsNull(s.Viewer);
-			Assert.AreEqual("", s.Title);
+            ClassicAssert.IsNull(s.Viewer);
+            ClassicAssert.AreEqual("", s.Title);
 		}
 
 		/// <summary>
@@ -52,8 +53,8 @@ namespace logview4net.test
 			ListenerBase listenerBase = new MockListener();
 			var s = new Session(listenerBase, viewer);
 			
-			Assert.AreEqual("", s.Title);
-			Assert.AreSame(viewer, s.Viewer);
+			ClassicAssert.AreEqual("", s.Title);
+			ClassicAssert.AreSame(viewer, s.Viewer);
 			
 		}
 
@@ -66,7 +67,7 @@ namespace logview4net.test
 			var s = new Session();
 			var title = "Foo";
 			s.Title = title;
-			Assert.AreEqual(title, s.Title);
+			ClassicAssert.AreEqual(title, s.Title);
 		}
 		/// <summary>
 		/// Try to add a viewer to the session.
@@ -78,7 +79,7 @@ namespace logview4net.test
 			var s = new Session();
 			s.Viewer = viewer;
 			
-			Assert.AreSame(viewer, s.Viewer);
+			ClassicAssert.AreSame(viewer, s.Viewer);
 		}
 
 		/// <summary>
@@ -91,7 +92,7 @@ namespace logview4net.test
 			var s = new Session();
 			
 			s.AddListener(listenerBase);
-			Assert.AreEqual(1, s.Listeners.Count);
+			ClassicAssert.AreEqual(1, s.Listeners.Count);
 		}
 
 
@@ -113,7 +114,7 @@ namespace logview4net.test
 			var xml_a = a.ToXml().InnerXml;
 			var xml_b = b.ToXml().InnerXml;
 
-			Assert.AreEqual(xml_a, xml_b);
+			ClassicAssert.AreEqual(xml_a, xml_b);
 			
 		}
 		
