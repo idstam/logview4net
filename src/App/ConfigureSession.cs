@@ -16,6 +16,7 @@ using System.Xml;
 
 using logview4net.Controls;
 using logview4net.core;
+using logview4net.kafkalistener;
 using logview4net.Listeners;
 using logview4net.Viewers;
 
@@ -177,6 +178,9 @@ namespace logview4net
                     break;
                 case "SqlListener":
                     ret = new SqlListenerConfigurator();
+                    break;
+                case "KafkaListener":
+                    ret = new KafkaListenerConfigurator();
                     break;
                 case "RssListener":
                     ret = new ListenerConfigurator(new RssListener(), _session);

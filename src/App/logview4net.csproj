@@ -430,6 +430,10 @@
       <Project>{A7341CBC-91AD-4046-BB92-5DB51F282E1A}</Project>
       <Name>logview4net.core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\logview4net.kafkalistener\logview4net.kafkalistener.csproj">
+      <Project>{19663D1E-8D58-4DB3-A646-F507F042C912}</Project>
+      <Name>logview4net.kafkalistener</Name>
+    </ProjectReference>
     <ProjectReference Include="..\logview4net.mslisteners\logview4net.mslisteners.csproj">
       <Project>{89826B9C-6230-479B-9130-B0B90FF0D3AB}</Project>
       <Name>logview4net.mslisteners</Name>

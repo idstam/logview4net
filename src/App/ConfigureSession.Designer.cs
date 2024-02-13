@@ -113,14 +113,15 @@ namespace logview4net
             this.cboListenerType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboListenerType.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboListenerType.Items.AddRange(new object[] {
+            "ComPortListener",
             "EventLogListener",
             "FileListener",
             "FolderListener",
+            "KafkaListener",
             "MySqlListener",
             "RssListener",
             "SqlListener",
             "StdOutListener",
-            "ComPortListener",
             "TcpListener",
             "UdpListener"});
             this.cboListenerType.Location = new System.Drawing.Point(496, 11);

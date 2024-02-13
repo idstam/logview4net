@@ -255,5 +255,10 @@ namespace logview4net.Listeners
         {
             _listener.TimestampFormat = txtFormat.Text;
         }
+
+        private void SqlListenerConfigurator_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
